@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.RecipeType;
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.activities.EditRecipeActivity;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
@@ -118,6 +119,8 @@ public class RecipesFragment extends Fragment {
             rv_recipes.setLayoutManager(new LinearLayoutManager(getContext()));
             rec_type.getListAdapter().recipes_fragment = this;
             rv_recipes.setAdapter(rec_type.getListAdapter());
+            rv_recipes.setAnimationCacheEnabled(false);
+            //rec_type.getListAdapter().overall_view = rv_recipes;
 
             headers.add(header);
             lists.add(rv_recipes);
@@ -135,18 +138,22 @@ public class RecipesFragment extends Fragment {
     {
         if(expanded_value == -1)
         {
-            lists.get(pos).setVisibility(View.VISIBLE);
+            //lists.get(pos).setVisibility(View.VISIBLE);
+            Util.expand(lists.get(pos));
             expanded_value = pos;
         }
         else if(expanded_value == pos)
         {
-            lists.get(expanded_value).setVisibility(View.GONE);
+            //lists.get(expanded_value).setVisibility(View.GONE);
+            Util.collapse(lists.get(pos));
             expanded_value = -1;
         }
         else
         {
-            lists.get(pos).setVisibility(View.VISIBLE);
-            lists.get(expanded_value).setVisibility(View.GONE);
+            Util.collapse(lists.get(expanded_value));
+            Util.expand(lists.get(pos));
+            //lists.get(pos).setVisibility(View.VISIBLE);
+            //lists.get(expanded_value).setVisibility(View.GONE);
             expanded_value = pos;
         }
     }

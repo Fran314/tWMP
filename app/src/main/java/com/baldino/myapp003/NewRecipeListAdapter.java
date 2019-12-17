@@ -106,8 +106,13 @@ public class NewRecipeListAdapter extends RecyclerView.Adapter<NewRecipeListAdap
             IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
 
             if(pos == expanded_value)
+            {
                 subItem.setVisibility(View.VISIBLE);
-            else subItem.setVisibility(View.GONE);
+            }
+            else
+            {
+                subItem.setVisibility(View.GONE);
+            }
 
             name.setText(recipe.getName());
 

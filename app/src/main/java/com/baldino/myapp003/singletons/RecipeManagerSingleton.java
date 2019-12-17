@@ -116,8 +116,7 @@ public class RecipeManagerSingleton {
 
             new_recipe_type = new RecipeType(name, context);
             new_recipe_type.createFakeData();
-            new_recipe_type.saveRecipes();
-            new_recipe_type.loadRecipes();
+            //new_recipe_type.loadRecipes();
             recipe_types.add(new_recipe_type);
         }
     }

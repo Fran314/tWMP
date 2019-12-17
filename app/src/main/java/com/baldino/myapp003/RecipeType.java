@@ -47,13 +47,16 @@ public class RecipeType
     public void createFakeData()
     {
         recipes = new ArrayList<>();
-        Recipe recipeOne = new Recipe();
-        recipeOne.setName("Paninazzo");
-        recipeOne.ingredients.add(new RecIngredient("Pasta", 0.125f));
-        recipeOne.ingredients.add(new RecIngredient("Passata Di Pomodoro", 0.240f));
-        recipeOne.ingredients.add(new RecIngredient("Pancetta", 0.200f));
-        recipeOne.ingredients.add(new RecIngredient("Cipolla", 0.5f));
-        addRecipe(recipeOne);
+        for(int i = 0; i < 10; i++)
+        {
+            Recipe recipeOne = new Recipe();
+            recipeOne.setName("Paninazzo " + Integer.toString(i));
+            recipeOne.ingredients.add(new RecIngredient("Pasta", 0.125f));
+            recipeOne.ingredients.add(new RecIngredient("Passata Di Pomodoro", 0.240f));
+            recipeOne.ingredients.add(new RecIngredient("Pancetta", 0.200f));
+            recipeOne.ingredients.add(new RecIngredient("Cipolla", 0.5f));
+            addRecipe(recipeOne);
+        }
     }
 
     public void loadRecipes()
