@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="ingredient_names">
+        <item>Pasta</item>
+        <item>Tonno</item>
+        <item>Uova</item>
+    </array>
+    <array name="ingredient_amounts">
+        <item>0.5f</item>
+        <item>12f</item>
+        <item>7f</item>
+    </array>
+    <array name="ingredient_units">
+        <item>kg</item>
+        <item>pz</item>
+        <item>pz</item>
+    </array>
+    <array name="ingredient_prices">
+        <item>0.55f</item>
+        <item>8.49f</item>
+        <item>1.75f</item>
+    </array>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_settings">Impostazioni</string>
+    <string name="menu_home">Pasti</string>
+    <string name="menu_recipes">Ricette</string>
+    <string name="menu_ingredients">Ingredienti</string>
+    <string name="menu_day_format">Formato Giorno</string>
+    <string name="menu_tools">Tag</string>
+
+    <string name="edit_ingredient_label">Modifica Ingrediente</string>
+    <string name="new_ingredient_label">Nuovo Ingrediente</string>
+    <string name="edit_recipe_label">Modifica Ricetta</string>
+    <string name="new_recipe_label">Nuova Ricetta</string>
+    <string name="edit_week_activity_name">Modifica Settimana</string>
+    <string name="shopping_list_activity_name">Lista Della Spesa</string>
+
+    <string name="standard_day_name">[Lunedì]</string>
+    <string name="standard_dish">[Pasto Noioso]</string>
+    <string name="standard_side_dish">[Contorno Noioso]</string>
+
+    <string name="meals_lunch">Pranzo:</string>
+    <string name="meals_dinner">Cena:</string>
+    <string name="meals_side_dish">- Contorno:</string>
+    <string name="meals_monday">Lunedì</string>
+    <string name="meals_tuesday">Martedì</string>
+    <string name="meals_wednesday">Mercoledì</string>
+    <string name="meals_thursday">Giovedì</string>
+    <string name="meals_friday">Venerdì</string>
+    <string name="meals_saturday">Sabato</string>
+    <string name="meals_sunday">Domenica</string>
+
+    <string name="ingredients_amount_text">Quantità:</string>
+    <string name="ingredients_price_text">Prezzo:</string>
+    <string name="ingredients_ratio_text">Rapporto:</string>
+    <string name="ingredients_name_text">Nome:</string>
+    <string name="ingredients_unit_text">Unità di misura:</string>
+
+    <string name="recipe_first_courses">Primi</string>
+    <string name="recipe_second_courses">Secondi</string>
+    <string name="recipe_side_dishes">Contorni</string>
+
+    <string name="label_ingredients_list">Lista Degli Ingredienti</string>
+    <string name="label_daily_meals">Pasti Giornalieri</string>
+</resources>

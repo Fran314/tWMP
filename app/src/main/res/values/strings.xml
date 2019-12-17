@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">MyApp003</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="edit_ingredient_label">Edit Ingredient</string>
+    <string name="new_ingredient_label">New Ingredient</string>
+    <string name="edit_recipe_label">Edit Recipe</string>
+    <string name="new_recipe_label">New Recipe</string>
+    <string name="edit_week_activity_name">Edit Week</string>
+    <string name="shopping_list_activity_name">Shopping List</string>
+
+    <string name="menu_settings">Settings</string>
+    <string name="menu_home">Meals</string>
+    <string name="menu_recipes">Recipes</string>
+    <string name="menu_ingredients">Ingredients</string>
+    <string name="menu_day_format">Day Format</string>
+    <string name="menu_tools">Tags</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string name="standard_day_name">[Monday]</string>
+    <string name="standard_dish">[Boring Dish]</string>
+    <string name="standard_side_dish">[Boring Side Dish]</string>
+
+    <string name="meals_lunch">Lunch:</string>
+    <string name="meals_dinner">Dinner:</string>
+    <string name="meals_side_dish">- Side dish:</string>
+    <string name="meals_monday">Monday</string>
+    <string name="meals_tuesday">Tuesday</string>
+    <string name="meals_wednesday">Wednesday</string>
+    <string name="meals_thursday">Thursday</string>
+    <string name="meals_friday">Friday</string>
+    <string name="meals_saturday">Saturday</string>
+    <string name="meals_sunday">Sunday</string>
+
+    <string name="ingredients_amount_text">Amount:</string>
+    <string name="ingredients_price_text">Price:</string>
+    <string name="ingredients_ratio_text">Ratio:</string>
+    <string name="ingredients_name_text">Name:</string>
+    <string name="ingredients_unit_text">Unit:</string>
+
+    <string name="recipe_first_courses">First Courses</string>
+    <string name="recipe_second_courses">Second Courses</string>
+    <string name="recipe_side_dishes">Side Dishes</string>
+
+    <string name="label_ingredients_list">Ingredients List</string>
+    <string name="label_daily_meals">Daily Meals</string>
+
+    <string-array name="meals">
+        <item>[Nessun Piatto Predefinito]</item>
+        <item>Pizza Kebab</item>
+        <item>Pasta All\'Amatriciana</item>
+        <item>Pasta Al Tonno</item>
+        <item>Carne Con Fagiolini</item>
+    </string-array>
+    <string-array name="types">
+        <item>Primo</item>
+        <item>Secondo</item>
+        <item>Contorno</item>
+    </string-array>
+</resources>
