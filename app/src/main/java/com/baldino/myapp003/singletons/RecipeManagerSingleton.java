@@ -34,6 +34,8 @@ public class RecipeManagerSingleton {
     private static final String SIDE_D_PATH = "side_dishes.txt";
 
     public List<RecipeType> recipe_types;
+    public List<String> type_names;
+    public ArrayAdapter<String> type_names_adapter = null;
 
     private List<Recipe> first_courses;
     public RecipeListAdapter fc_adapter;
@@ -67,6 +69,7 @@ public class RecipeManagerSingleton {
         sd_adapter = new RecipeListAdapter(2);
 
         recipe_types = new ArrayList<>();
+        type_names = new ArrayList<>();
     }
 
     public static RecipeManagerSingleton getInstance()
@@ -115,10 +118,20 @@ public class RecipeManagerSingleton {
             String name = getRecTypeName(lines.get(i));
 
             new_recipe_type = new RecipeType(name, context);
-            new_recipe_type.createFakeData();
-            //new_recipe_type.loadRecipes();
+            //new_recipe_type.createFakeData();
+            new_recipe_type.loadRecipes();
             recipe_types.add(new_recipe_type);
         }
+
+        type_names = new ArrayList<>();
+        //type_names.add("-");
+        for(RecipeType rec_type : recipe_types)
+        {
+            type_names.add(rec_type.getName());
+        }
+
+        type_names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, type_names);
+        type_names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
     public void saveTypeNames()
     {

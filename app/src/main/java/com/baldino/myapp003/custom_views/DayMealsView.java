@@ -1,4 +1,4 @@
-package com.baldino.myapp003;
+package com.baldino.myapp003.custom_views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,19 +7,21 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DayMeals extends LinearLayout {
+import com.baldino.myapp003.R;
+
+public class DayMealsView extends LinearLayout {
 
     public TextView header, lunch, dinner, side_dish;
     String mDayName;
 
-    public DayMeals(Context context)
+    public DayMealsView(Context context)
     {
         super(context);
         mDayName = getResources().getString(R.string.standard_day_name);
         initializeViews(context);
     }
 
-    public DayMeals(Context context, AttributeSet attrs)
+    public DayMealsView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         initializeViews(context);
@@ -27,7 +29,7 @@ public class DayMeals extends LinearLayout {
         applyCustomAttrs(context, attrs);
     }
 
-    public DayMeals(Context context, AttributeSet attrs, int defStyle)
+    public DayMealsView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         initializeViews(context);
@@ -43,9 +45,9 @@ public class DayMeals extends LinearLayout {
 
     private void applyCustomAttrs(Context context, AttributeSet attrs)
     {
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DayMeals, 0, 0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DayMealsView, 0, 0);
         try {
-            mDayName = a.getString(R.styleable.DayMeals_day);
+            mDayName = a.getString(R.styleable.DayMealsView_day);
         } finally {
             a.recycle();
         }

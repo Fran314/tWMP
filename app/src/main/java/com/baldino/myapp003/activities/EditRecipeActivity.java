@@ -68,8 +68,11 @@ public class EditRecipeActivity extends AppCompatActivity
         rec_ingredients = new ArrayList<>();
         if(rec_pos != -1)
         {
-            name.setText(sRecipeManager.getRecipe(rec_pos, rec_type).getName());
-            rec_ingredients = sRecipeManager.getRecipe(rec_pos, rec_type).ingredients;
+            //name.setText(sRecipeManager.getRecipe(rec_pos, rec_type).getName());
+            //rec_ingredients = sRecipeManager.getRecipe(rec_pos, rec_type).ingredients;
+
+            name.setText(sRecipeManager.recipe_types.get(rec_type).getRecipe(rec_pos).getName());
+            rec_ingredients = sRecipeManager.recipe_types.get(rec_type).getRecipe(rec_pos).ingredients;
             updateTable();
         }
         else
@@ -92,12 +95,15 @@ public class EditRecipeActivity extends AppCompatActivity
 
         if(!rec_new && rec_pos != -1)
         {
-            sRecipeManager.removeRecipe(rec_pos, rec_type);
+            //sRecipeManager.removeRecipe(rec_pos, rec_type);
+            sRecipeManager.recipe_types.get(rec_type).removeRecipe(rec_pos);
         }
 
-        sRecipeManager.addRecipe(new_recipe, rec_type);
-        sRecipeManager.saveData(rec_type);
-        sRecipeManager.update();
+        //sRecipeManager.addRecipe(new_recipe, rec_type);
+        //sRecipeManager.saveData(rec_type);
+        sRecipeManager.recipe_types.get(rec_type).addRecipe(new_recipe);
+        sRecipeManager.recipe_types.get(rec_type).saveRecipes();
+        //sRecipeManager.update();
 
         finish();
     }

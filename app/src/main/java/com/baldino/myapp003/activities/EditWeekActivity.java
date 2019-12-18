@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.baldino.myapp003.EditableDayMeals;
+import com.baldino.myapp003.custom_views.EditableDayMealsView;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
@@ -18,7 +18,7 @@ import java.util.Calendar;
 public class EditWeekActivity extends AppCompatActivity
 {
     private int meals_index[];
-    private EditableDayMeals[] days;
+    private EditableDayMealsView[] days;
     private int year, month, day_of_month;
 
     @Override
@@ -41,7 +41,7 @@ public class EditWeekActivity extends AppCompatActivity
 
         c.set(Calendar.WEEK_OF_YEAR, c.get(Calendar.WEEK_OF_YEAR));
 
-        days = new EditableDayMeals[7];
+        days = new EditableDayMealsView[7];
 
         days[0] = findViewById(R.id.editable_monday);
         days[1] = findViewById(R.id.editable_tuesday);

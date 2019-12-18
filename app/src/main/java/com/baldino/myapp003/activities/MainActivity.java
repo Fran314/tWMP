@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         sRecipeManager.loadSideDishes();
 
         sWeekManager.loadWeeks();
+        sWeekManager.loadDailyMeals();
         sWeekManager.loadData();
     }
 

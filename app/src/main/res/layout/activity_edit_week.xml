@@ -21,31 +21,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <com.baldino.myapp003.EditableDayMeals
+                    <com.baldino.myapp003.custom_views.EditableDayMealsView
                         android:id="@+id/editable_monday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <com.baldino.myapp003.EditableDayMeals
+                    <com.baldino.myapp003.custom_views.EditableDayMealsView
                         android:id="@+id/editable_tuesday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <com.baldino.myapp003.EditableDayMeals
+                    <com.baldino.myapp003.custom_views.EditableDayMealsView
                         android:id="@+id/editable_wednesday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <com.baldino.myapp003.EditableDayMeals
+                    <com.baldino.myapp003.custom_views.EditableDayMealsView
                         android:id="@+id/editable_thursday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <com.baldino.myapp003.EditableDayMeals
+                    <com.baldino.myapp003.custom_views.EditableDayMealsView
                         android:id="@+id/editable_friday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <com.baldino.myapp003.EditableDayMeals
+                    <com.baldino.myapp003.custom_views.EditableDayMealsView
                         android:id="@+id/editable_saturday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <com.baldino.myapp003.EditableDayMeals
+                    <com.baldino.myapp003.custom_views.EditableDayMealsView
                         android:id="@+id/editable_sunday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>

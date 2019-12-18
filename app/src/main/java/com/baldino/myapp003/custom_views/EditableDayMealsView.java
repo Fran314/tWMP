@@ -1,4 +1,4 @@
-package com.baldino.myapp003;
+package com.baldino.myapp003.custom_views;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,20 +7,21 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 
-public class EditableDayMeals extends LinearLayout {
+public class EditableDayMealsView extends LinearLayout {
 
     public Spinner lunch_spinner, dinner_spinner, dinner_side_spinner;
     public TextView header;
 
-    public EditableDayMeals(Context context)
+    public EditableDayMealsView(Context context)
     {
         super(context);
         initializeViews(context);
     }
 
-    public EditableDayMeals(Context context, AttributeSet attrs)
+    public EditableDayMealsView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         initializeViews(context);
@@ -28,7 +29,7 @@ public class EditableDayMeals extends LinearLayout {
         //applyCustomAttrs(context, attrs);
     }
 
-    public EditableDayMeals(Context context, AttributeSet attrs, int defStyle)
+    public EditableDayMealsView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         initializeViews(context);

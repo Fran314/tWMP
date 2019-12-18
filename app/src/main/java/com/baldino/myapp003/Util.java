@@ -31,6 +31,27 @@ public class Util {
 
     public static final String STD_CHARSET = "UTF-16";
 
+    public static String getMealFormatName(String line)
+    {
+        int pos[] = isValidAndGetPos(line, 1);
+        if(pos[0] == -1) return "ERROR_NAME";
+        else return line.substring(pos[0]+1, pos[1]);
+    }
+
+    public static int getDim(String line)
+    {
+        int pos[] = isValidAndGetPos(line, 1);
+        if(pos[0] == -1) return 0;
+        else return stringToInt(line.substring(pos[0]+1, pos[1]));
+    }
+
+    public static int[] getTypeAndStd(String line)
+    {
+        int pos[] = isValidAndGetPos(line, 2);
+        if(pos[0] == -1) return new int[]{0, 0};
+        else return new int[]{stringToInt(line.substring(pos[0]+1, pos[2])), stringToInt(line.substring(pos[1]+1, pos[2+1]))};
+    }
+
     public static String getRecTypeName(String line)
     {
         int pos[] = isValidAndGetPos(line, 1);
@@ -179,6 +200,19 @@ public class Util {
         return name.toLowerCase().replaceAll("/[^A-Za-z0-9 ]/", "").replace(" ", "_");
     }
 
+    public static int stringToInt(String arg)
+    {
+        int to_return = 0;
+        try
+        {
+            to_return = Integer.parseInt(arg);
+        }
+        catch(NumberFormatException nfe)
+        {
+        }
+
+        return to_return;
+    }
     public static Float stringToFloat(String arg)
     {
         Float to_return = 0f;

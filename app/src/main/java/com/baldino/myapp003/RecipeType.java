@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,6 @@ public class RecipeType
 
     private List<Recipe> recipes;
     private NewRecipeListAdapter recipe_list_adapter;
-    private List<String> recipe_names;
     private ArrayAdapter<String> names_adapter = null;
 
     public RecipeType(String name, Context context)
@@ -201,6 +201,22 @@ public class RecipeType
     }
 
     public NewRecipeListAdapter getListAdapter() { return recipe_list_adapter; }
+
+    public ArrayAdapter<String> getNamesAdapter()
+    {
+
+        List<String> recipe_names = new ArrayList<>();
+        recipe_names.add("-");
+        for(Recipe rec : recipes)
+        {
+            recipe_names.add(rec.getName());
+        }
+
+        names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, recipe_names);
+        names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        return names_adapter;
+    }
 
     public int getSize()
     {

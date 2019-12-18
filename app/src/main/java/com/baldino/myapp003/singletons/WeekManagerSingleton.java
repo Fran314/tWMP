@@ -1,8 +1,10 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
+import android.widget.ArrayAdapter;
 
 import com.baldino.myapp003.Day;
+import com.baldino.myapp003.MealFormat;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,16 +28,20 @@ public class WeekManagerSingleton
 
     private static final String SUBFOLDER_PATH = "weeks_data";
     private static final String WEEKS_LIST_PATH = "weeks_list.txt";
+    private static final String DAILY_MEALS_PATH = "daily_meals.txt";
 
     public int year = 1970, month = 0, day_of_month = 1;
 
     private List<String> existing_files;
+
+    public List<MealFormat> daily_meals;
 
     public Day days[] = new Day[7];
 
     private WeekManagerSingleton()
     {
         existing_files = new ArrayList<>();
+        daily_meals = new ArrayList<>();
 
         Calendar c = Calendar.getInstance();
         int curr_year = c.get(Calendar.YEAR);
@@ -66,6 +72,106 @@ public class WeekManagerSingleton
         for(int i = 0; i < 7; i++)
         {
             days[i] = new Day("Pasta Al Sugo", "Carne", "Purè");
+        }
+    }
+
+    public void createFakeDailyMeals()
+    {
+        MealFormat pranzo = new MealFormat("Pranzo");
+        pranzo.add(0, 0);
+
+        MealFormat cena = new MealFormat("Cena");
+        cena.add(1, 0);
+        cena.add(2, 0);
+
+        daily_meals.add(pranzo);
+        daily_meals.add(cena);
+    }
+
+    public void saveDailyMeals()
+    {
+        StringBuilder output_string = new StringBuilder("");
+        for(int i = 0; i < daily_meals.size(); i++)
+        {
+            output_string.append("[");
+            output_string.append(daily_meals.get(i).getName());
+            output_string.append("]\n[");
+            output_string.append(daily_meals.get(i).getDim());
+            output_string.append("]\n");
+
+            for(int j = 0; j < daily_meals.get(i).getDim(); j++)
+            {
+                output_string.append("[");
+                output_string.append(daily_meals.get(i).getType(j));
+                output_string.append("][");
+                output_string.append(daily_meals.get(i).getStd(j));
+                output_string.append("]\n");
+            }
+        }
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), DAILY_MEALS_PATH));
+            fos.write(output_string.toString().getBytes(STD_CHARSET));
+            fos.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public void loadDailyMeals()
+    {
+        daily_meals = new ArrayList<>();
+        List<String> lines = new ArrayList<>();
+        try
+        {
+            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), DAILY_MEALS_PATH));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
+            String line = null;
+
+            while((line = reader.readLine()) != null)
+            {
+                if(line.length() > 0 && line.charAt(0) != '%')
+                {
+                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
+                    else lines.add(line);
+                }
+            }
+        }
+        catch (FileNotFoundException | UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < lines.size(); i++)
+        {
+            String name = getMealFormatName(lines.get(i));
+            MealFormat new_meal_format = new MealFormat(name);
+
+            i++;
+            int dim = 0;
+            if(i < lines.size()) dim = getDim(lines.get(i));
+
+            for(int iter = 0; iter < dim; iter++)
+            {
+                i++;
+                if(i < lines.size())
+                {
+                    int vals[] = getTypeAndStd(lines.get(i));
+                    new_meal_format.add(vals[0], vals[1]);
+                }
+            }
+
+            daily_meals.add(new_meal_format);
         }
     }
 
@@ -121,7 +227,6 @@ public class WeekManagerSingleton
 
         return 0;
     }
-
     public int loadData()
     {
         Calendar c = Calendar.getInstance();
@@ -232,7 +337,6 @@ public class WeekManagerSingleton
 
         return 0;
     }
-
     public int loadWeeks()
     {
         List<String> lines = new ArrayList<>();

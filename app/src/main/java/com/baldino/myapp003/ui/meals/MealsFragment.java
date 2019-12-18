@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.baldino.myapp003.DayMeals;
+import com.baldino.myapp003.custom_views.DayMealsView;
 import com.baldino.myapp003.activities.EditWeekActivity;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.activities.ShoppingListActivity;
@@ -28,7 +28,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
 
     private MealsViewModel mealsViewModel;
 
-    private DayMeals[] days = new DayMeals[7];
+    private DayMealsView[] days = new DayMealsView[7];
     private ImageButton buttonShopList, buttonEdit, buttonCalendar;
     private TextView week_indicator;
     DatePickerDialog datePickerDialog;
