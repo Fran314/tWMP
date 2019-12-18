@@ -43,6 +43,8 @@ public class EditableMealFormatView extends LinearLayout
     public List<Spinner> stds;
     public List<ImageButton> delete_buttons;
 
+    public boolean start_working = false;
+
     public EditableMealFormatView(Context context, int i)
     {
         super(context);
@@ -75,17 +77,21 @@ public class EditableMealFormatView extends LinearLayout
         {
             @Override
             public void onClick(View view) {
-                addRow(sWeekManager.daily_meals.get(meal).getDim());
+                int pos = sWeekManager.daily_meals.get(meal).getDim();
+                addRow(pos);
                 sWeekManager.daily_meals.get(meal).addMeal(0, 0);
-                readRow(sWeekManager.daily_meals.get(meal).getDim()-1);
-                sWeekManager.saveDailyMeals();
+                readRow(pos);
+                setListeners(pos);
+                //sWeekManager.saveDailyMeals();
             }
         });
 
+
         for(int j = 0; j < sWeekManager.daily_meals.get(meal).getDim(); j++)
         {
-            if(j>0) addRow(j);
+            if(j > 0) addRow(j);
             readRow(j);
+            setListeners(j);
         }
     }
 
@@ -99,46 +105,37 @@ public class EditableMealFormatView extends LinearLayout
         delete_buttons.remove(pos-1);
         for(int i = 0; i < types.size(); i++)
         {
-            final int curr_pos = i;
-            types.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
-                {
-                    sWeekManager.daily_meals.get(meal).setType(curr_pos, selected_index);
-                    stds.get(curr_pos).setAdapter(sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(meal).getType(curr_pos)).getNamesAdapter());
-                    sWeekManager.saveDailyMeals();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-
-            stds.get(i).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
-                {
-                    sWeekManager.daily_meals.get(meal).setStd(curr_pos, selected_index);
-                    sWeekManager.saveDailyMeals();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-            if(i>0)
-            {
-                delete_buttons.get(i-1).setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        removeRow(curr_pos);
-                        sWeekManager.saveDailyMeals();
-                    }
-                });
-            }
+            setListeners(i);
         }
+    }
+
+    public void setListeners(final int pos)
+    {
+        types.get(pos).setSelection(types.get(pos).getSelectedItemPosition(),false);
+        types.get(pos).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
+            {
+                stds.get(pos).setAdapter(sRecipeManager.recipe_types.get(selected_index).getNamesAdapter());
+                stds.get(pos).setSelection(0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        if(pos>0)
+        {
+            delete_buttons.get(pos-1).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    removeRow(pos);
+                    sWeekManager.saveDailyMeals();
+                }
+            });
+        }
+
     }
 
     public void readRow(int pos)
@@ -164,15 +161,6 @@ public class EditableMealFormatView extends LinearLayout
         TableRow.LayoutParams button_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         button_params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
         button_delete.setLayoutParams(button_params);
-        button_delete.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                removeRow(pos);
-                sWeekManager.saveDailyMeals();
-            }
-        });
         delete_buttons.add(button_delete);
 
         Spinner spinner_type = new Spinner(getContext());
@@ -180,21 +168,6 @@ public class EditableMealFormatView extends LinearLayout
         type_params.gravity = Gravity.CENTER_VERTICAL;
         spinner_type.setLayoutParams(type_params);
         types.add(spinner_type);
-
-        spinner_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
-            {
-                sWeekManager.daily_meals.get(meal).setType(pos, selected_index);
-                stds.get(pos).setAdapter(sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(meal).getType(pos)).getNamesAdapter());
-                sWeekManager.saveDailyMeals();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         row_one.addView(filler_one);
         row_one.addView(button_delete);
@@ -217,28 +190,18 @@ public class EditableMealFormatView extends LinearLayout
         spinner_std.setLayoutParams(std_params);
         stds.add(spinner_std);
 
-        spinner_std.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
-            {
-                if(selected_index != sWeekManager.daily_meals.get(meal).getStd(pos))
-                {
-                    sWeekManager.daily_meals.get(meal).setStd(pos, selected_index);
-                    sWeekManager.saveDailyMeals();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         row_two.addView(filler_two);
         row_two.addView(filler_three);
         row_two.addView(spinner_std);
 
         table_container.addView(row_one, 2*pos);
         table_container.addView(row_two, 2*pos + 1);
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+        start_working = true;
     }
 }

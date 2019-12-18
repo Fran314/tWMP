@@ -35,6 +35,14 @@
                 android:background="@null"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_button_info"/>
+            <ImageButton
+                android:id="@+id/button_save_daily_meals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@null"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_button_save_32dp"/>
         </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
