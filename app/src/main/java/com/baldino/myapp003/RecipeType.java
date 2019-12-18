@@ -111,7 +111,6 @@ public class RecipeType
                 }
             }
             addRecipe(new_recipe);
-            Log.w("AAA", new_recipe.getName());
         }
     }
     public void saveRecipes()

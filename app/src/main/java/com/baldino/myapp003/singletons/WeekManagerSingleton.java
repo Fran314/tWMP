@@ -1,7 +1,6 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
 import com.baldino.myapp003.Day;
 import com.baldino.myapp003.MealFormat;
@@ -75,18 +74,21 @@ public class WeekManagerSingleton
         }
     }
 
+    /*
     public void createFakeDailyMeals()
     {
         MealFormat pranzo = new MealFormat("Pranzo");
-        pranzo.add(0, 0);
+        pranzo.addMeal(0, 0);
 
         MealFormat cena = new MealFormat("Cena");
-        cena.add(1, 0);
-        cena.add(2, 0);
+        cena.addMeal(1, 0);
+        cena.addMeal(2, 0);
 
         daily_meals.add(pranzo);
         daily_meals.add(cena);
     }
+
+     */
 
     public void saveDailyMeals()
     {
@@ -167,7 +169,7 @@ public class WeekManagerSingleton
                 if(i < lines.size())
                 {
                     int vals[] = getTypeAndStd(lines.get(i));
-                    new_meal_format.add(vals[0], vals[1]);
+                    new_meal_format.addMeal(vals[0], vals[1]);
                 }
             }
 

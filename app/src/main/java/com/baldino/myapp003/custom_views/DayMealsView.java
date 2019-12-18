@@ -59,7 +59,7 @@ public class DayMealsView extends LinearLayout {
         super.onFinishInflate();
 
         // Sets the images for the previous and next buttons. Uses
-        // built-in images so you don't need to add images, but in
+        // built-in images so you don't need to addMeal images, but in
         // a real application your images should be in the
         // application package so they are always available.
 

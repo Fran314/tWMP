@@ -124,7 +124,7 @@ public class RecipeManagerSingleton {
         }
 
         type_names = new ArrayList<>();
-        //type_names.add("-");
+        //type_names.addMeal("-");
         for(RecipeType rec_type : recipe_types)
         {
             type_names.add(rec_type.getName());
