@@ -43,8 +43,6 @@ public class EditableMealFormatView extends LinearLayout
     public List<Spinner> stds;
     public List<ImageButton> delete_buttons;
 
-    public boolean start_working = false;
-
     public EditableMealFormatView(Context context, int i)
     {
         super(context);
@@ -65,6 +63,7 @@ public class EditableMealFormatView extends LinearLayout
         name = this.findViewById(R.id.edit_main_name);
         type = this.findViewById(R.id.spinner_main_type);
         std = this.findViewById(R.id.spinner_main_std);
+        delete_whole_button = this.findViewById(R.id.button_delete_whole_meal_format);
 
         name.setText(sWeekManager.daily_meals.get(meal).getName());
 
@@ -82,7 +81,6 @@ public class EditableMealFormatView extends LinearLayout
                 sWeekManager.daily_meals.get(meal).addMeal(0, 0);
                 readRow(pos);
                 setListeners(pos);
-                //sWeekManager.saveDailyMeals();
             }
         });
 
@@ -111,6 +109,18 @@ public class EditableMealFormatView extends LinearLayout
 
     public void setListeners(final int pos)
     {
+        /*
+            ... Listen, I have no idea why I have to put this setSelection(..., false) here but
+            if I do, it works. If I don't put it here, for some reason the onItemSelected() function
+            gets called (EVEN THOUGH IT'S DEFINED __AFTER__ I DEFINE THE ADAPTER?!?) and the
+            correspondent standard recipe (std) spinner gets initialized to the value 0, no matter
+            what value was saved and loaded... I tried in many ways, this works, so just, eh...
+
+            Thanks to Dayanand Waghmare over StackOverflow for helping someone else with an issue
+            similar to mine
+            [https://stackoverflow.com/questions/13397933/android-spinner-avoid-onitemselected-calls-during-initialization]
+         */
+
         types.get(pos).setSelection(types.get(pos).getSelectedItemPosition(),false);
         types.get(pos).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -131,7 +141,6 @@ public class EditableMealFormatView extends LinearLayout
                 @Override
                 public void onClick(View view) {
                     removeRow(pos);
-                    sWeekManager.saveDailyMeals();
                 }
             });
         }
@@ -196,12 +205,5 @@ public class EditableMealFormatView extends LinearLayout
 
         table_container.addView(row_one, 2*pos);
         table_container.addView(row_two, 2*pos + 1);
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
-        start_working = true;
     }
 }

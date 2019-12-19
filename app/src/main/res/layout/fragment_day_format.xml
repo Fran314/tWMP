@@ -51,7 +51,17 @@
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/button_add_meal_format"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_button_add_black_32dp"/>
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

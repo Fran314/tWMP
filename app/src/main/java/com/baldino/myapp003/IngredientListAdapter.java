@@ -131,7 +131,10 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
             delete.setOnClickListener(new View.OnClickListener()
             {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
+                    //TODO: change this text to something that makes more sense and is based on
+                    // the device language
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                     builder.setTitle("Confirm");
                     builder.setMessage("Are you sure?");

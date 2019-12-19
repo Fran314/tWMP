@@ -171,6 +171,8 @@ public class NewRecipeListAdapter extends RecyclerView.Adapter<NewRecipeListAdap
             {
                 @Override
                 public void onClick(View view) {
+                    //TODO: change this text to something that makes more sense and is based on
+                    // the device language
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                     builder.setTitle("Confirm");
                     builder.setMessage("Are you sure?");

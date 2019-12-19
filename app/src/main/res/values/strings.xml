@@ -50,6 +50,10 @@
     <string name="label_ingredients_list">Ingredients List</string>
     <string name="label_daily_meals">Daily Meals</string>
 
+    <string name="menu_add_recipe">Add Recipe</string>
+    <string name="menu_edit_list">Edit List</string>
+    <string name="menu_delete_list">Delete List</string>
+
     <string-array name="meals">
         <item>[Nessun Piatto Predefinito]</item>
         <item>Pizza Kebab</item>

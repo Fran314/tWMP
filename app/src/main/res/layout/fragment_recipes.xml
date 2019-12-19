@@ -11,5 +11,15 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:id="@+id/button_add_recipe_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_button_add_black_32dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

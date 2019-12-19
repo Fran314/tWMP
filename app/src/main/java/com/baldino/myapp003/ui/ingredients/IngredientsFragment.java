@@ -44,6 +44,7 @@ public class IngredientsFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditIngredientActivity.class);
                 intent.putExtra("Ingredient_Position", -1);
+                intent.putExtra("Ingredient_New", true);
 
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);

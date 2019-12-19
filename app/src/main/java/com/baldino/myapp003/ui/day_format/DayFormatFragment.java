@@ -35,6 +35,8 @@ public class DayFormatFragment extends Fragment {
 
     private DayFormatViewModel dayFormatViewModel;
 
+    WeekManagerSingleton sWeekManager;
+
     private LinearLayout days_container;
     private List<EditableMealFormatView> emfv_list;
 
@@ -52,39 +54,74 @@ public class DayFormatFragment extends Fragment {
             }
         });
 
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+        sWeekManager = WeekManagerSingleton.getInstance();
 
         emfv_list = new ArrayList<>();
         for (int i = 0; i < sWeekManager.daily_meals.size(); i++) {
-            EditableMealFormatView emfv = new EditableMealFormatView(getContext(), i);
-
-            View separator = new View(getContext());
-            LinearLayout.LayoutParams separator_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
-            separator_params.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-            separator_params.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-            separator_params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-            separator_params.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-            separator.setLayoutParams(separator_params);
-            separator.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
-
-            emfv_list.add(emfv);
-
-            emfv.start_working = true;
-
-            days_container.addView(emfv);
-            days_container.addView(separator);
+            addMealFormat(i);
+            setDeleteButton(i);
         }
 
-        ImageButton button_add = new ImageButton(getContext());
-        button_add.setImageDrawable(getResources().getDrawable(R.drawable.ic_button_add_black_32dp));
-        button_add.setBackgroundColor(Color.TRANSPARENT);
-        TableRow.LayoutParams button_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-        button_params.gravity = Gravity.CENTER;
-        button_add.setLayoutParams(button_params);
-
-        days_container.addView(button_add);
+        ImageButton button_add = root.findViewById(R.id.button_add_meal_format);
+        button_add.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                int pos = sWeekManager.daily_meals.size();
+                //TODO: change New Meal to a string based on the device language
+                MealFormat new_meal = new MealFormat("New Meal");
+                new_meal.addMeal(0, 0);
+                sWeekManager.daily_meals.add(new_meal);
+                addMealFormat(pos);
+                setDeleteButton(pos);
+            }
+        });
 
         return root;
+    }
+
+    public void addMealFormat(int pos)
+    {
+        EditableMealFormatView emfv = new EditableMealFormatView(getContext(), pos);
+
+        View separator = new View(getContext());
+        LinearLayout.LayoutParams separator_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
+        separator_params.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+        separator_params.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+        separator_params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+        separator_params.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+        separator.setLayoutParams(separator_params);
+        separator.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
+
+        emfv_list.add(emfv);
+
+        days_container.addView(emfv, 2*pos);
+        days_container.addView(separator, 2*pos + 1);
+    }
+
+    public void removeMealFormat(int pos)
+    {
+        sWeekManager.daily_meals.remove(pos);
+
+        days_container.removeViewAt(2*pos + 1);
+        days_container.removeViewAt(2*pos);
+
+        emfv_list.remove(pos);
+
+        for(int i = 0; i < emfv_list.size(); i++)
+        {
+            setDeleteButton(i);
+        }
+    }
+
+    public void setDeleteButton(final int pos)
+    {
+        emfv_list.get(pos).delete_whole_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeMealFormat(pos);
+            }
+        });
     }
 
     public void saveDailyMeals()
