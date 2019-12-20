@@ -33,13 +33,6 @@ public class Day
         setSideDinner(side_dinner);
     }
 
-    public Day(Recipe lunch, Recipe dinner, Recipe side_dinner)
-    {
-        setLunch(lunch.getName());
-        setDinner(dinner.getName());
-        setSideDinner(side_dinner.getName());
-    }
-
     public String getLunch() { return lunch; }
     public String getDinner() { return dinner; }
     public String getSideDinner() { return side_dinner; }
