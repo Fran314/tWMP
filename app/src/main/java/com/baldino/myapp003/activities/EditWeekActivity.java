@@ -4,22 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Spinner;
+import android.widget.TableRow;
+import android.widget.TextView;
 
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableDayMealsView;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class EditWeekActivity extends AppCompatActivity
 {
-    private int meals_index[];
     private EditableDayMealsView[] days;
     private int year, month, day_of_month;
+
+    private List<List<List<Spinner>>> spinners;
+
+    WeekManagerSingleton sWeekManager;
+    RecipeManagerSingleton sRecipeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,12 +39,12 @@ public class EditWeekActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_week);
 
-        Intent intent = getIntent();
+        sWeekManager = WeekManagerSingleton.getInstance();
+        sRecipeManager = RecipeManagerSingleton.getInstance();
 
-        meals_index = intent.getIntArrayExtra("Meals_Index");
-        year = intent.getIntExtra("Year", 1970);
-        month = intent.getIntExtra("Month", 0);
-        day_of_month = intent.getIntExtra("Day_Of_Month", 1);
+        year = sWeekManager.year;
+        month = sWeekManager.month;
+        day_of_month = sWeekManager.day_of_month;
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
@@ -51,12 +63,81 @@ public class EditWeekActivity extends AppCompatActivity
         days[5] = findViewById(R.id.editable_saturday);
         days[6] = findViewById(R.id.editable_sunday);
 
+        spinners = new ArrayList<>();
+
         for(int i = 0; i < 7; i++)
         {
-            days[i].lunch_spinner.setSelection(meals_index[i]);
-            days[i].dinner_spinner.setSelection(meals_index[7+i]);
-            days[i].dinner_side_spinner.setSelection(meals_index[14+i]);
+            List<List<Spinner>> daily_spinners = new ArrayList<>();
+            for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+            {
+                List<Spinner> meal_spinners = new ArrayList<>();
+                //  Add first
+                TableRow first_row = new TableRow(this);
+                first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                TextView meal_name = new TextView(this);
+                meal_name.setText(sWeekManager.daily_meals.get(j).getName());
+                TableRow.LayoutParams name_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                name_params.gravity = Gravity.CENTER_VERTICAL;
+                meal_name.setLayoutParams(name_params);
+
+                TextView first_type_name = new TextView(this);
+                first_type_name.setText("[" + sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(0)).getName() + "]");
+                TableRow.LayoutParams first_type_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                first_type_params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+                first_type_params.leftMargin = Util.intToDp(4);
+                first_type_params.rightMargin = Util.intToDp(4);
+                first_type_name.setLayoutParams(first_type_params);
+
+                Spinner first_course_spinner = new Spinner(this);
+                first_course_spinner.setAdapter(sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(0)).getNamesAdapter());
+                TableRow.LayoutParams first_spinner_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                first_spinner_params.gravity = Gravity.CENTER_VERTICAL;
+                first_course_spinner.setLayoutParams(first_spinner_params);
+
+                first_row.addView(meal_name);
+                first_row.addView(first_type_name);
+                first_row.addView(first_course_spinner);
+                days[i].editable_meals_container.addView(first_row);
+
+                meal_spinners.add(first_course_spinner);
+
+                for(int k = 1; k < sWeekManager.daily_meals.get(j).getDim(); k++)
+                {
+                    //  Add other rows
+                    TableRow row = new TableRow(this);
+                    first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                    View filler = new View(this);
+                    filler.setLayoutParams(new TableRow.LayoutParams(0, 0));
+
+                    TextView type_name = new TextView(this);
+                    type_name.setText("[" + sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(k)).getName() + "]");
+                    TableRow.LayoutParams type_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                    type_params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+                    type_params.leftMargin = Util.intToDp(4);
+                    type_params.rightMargin = Util.intToDp(4);
+                    type_name.setLayoutParams(type_params);
+
+                    Spinner course_spinner = new Spinner(this);
+                    course_spinner.setAdapter(sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(k)).getNamesAdapter());
+                    TableRow.LayoutParams spinner_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                    spinner_params.gravity = Gravity.CENTER_VERTICAL;
+                    course_spinner.setLayoutParams(spinner_params);
+
+                    row.addView(filler);
+                    row.addView(type_name);
+                    row.addView(course_spinner);
+                    days[i].editable_meals_container.addView(row);
+
+                    meal_spinners.add(course_spinner);
+                }
+
+                daily_spinners.add(meal_spinners);
+            }
+            spinners.add(daily_spinners);
         }
+
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         days[0].header.setText(getResources().getString(R.string.meals_monday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
@@ -87,6 +168,7 @@ public class EditWeekActivity extends AppCompatActivity
 
         for(int i = 0; i < 7; i++)
         {
+            /*
             if(days[i].lunch_spinner.getSelectedItemPosition() != 0)
                 sWeekManager.days[i].setLunch(sRecipeManager.getRecipe(days[i].lunch_spinner.getSelectedItemPosition()-1, 0).getName());
             else
@@ -101,9 +183,11 @@ public class EditWeekActivity extends AppCompatActivity
                 sWeekManager.days[i].setSideDinner(sRecipeManager.getRecipe(days[i].dinner_side_spinner.getSelectedItemPosition()-1, 2).getName());
             else
                 sWeekManager.days[i].setSideDinner("-");
+
+             */
         }
 
-        sWeekManager.saveData();
+        sWeekManager.saveNewData();
 
         finish();
     }

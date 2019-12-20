@@ -3,6 +3,7 @@ package com.baldino.myapp003.activities;
 import android.os.Bundle;
 
 import com.baldino.myapp003.R;
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         //----//
+
+        Util.context = this;
 
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
         RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();

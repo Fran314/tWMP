@@ -3,17 +3,22 @@ package com.baldino.myapp003.ui.meals;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.DayMealsView;
 import com.baldino.myapp003.activities.EditWeekActivity;
 import com.baldino.myapp003.R;
@@ -22,7 +27,9 @@ import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
 
@@ -67,20 +74,9 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         {
             @Override
             public void onClick(View view) {
-                RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
                 WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
                 Intent intent = new Intent(getActivity(), EditWeekActivity.class);
-                int meals_index[] = new int[21];
-                for(int i = 0; i < 7; i++)
-                {
-                    //meals_index[i] = sRecipeManager.binaryFindIndex(days[i].lunch.getText().toString(), 0) + 1;
-                    //meals_index[7+i] = sRecipeManager.binaryFindIndex(days[i].dinner.getText().toString(), 1) + 1;
-                    //meals_index[14+i] = sRecipeManager.binaryFindIndex(days[i].side_dish.getText().toString(), 2) + 1;
-                }
-                intent.putExtra("Meals_Index", meals_index);
-                intent.putExtra("Year", sWeekManager.year);
-                intent.putExtra("Month", sWeekManager.month);
-                intent.putExtra("Day_Of_Month", sWeekManager.day_of_month);
+
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
@@ -168,6 +164,55 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
             days[i].lunch.setText(sWeekManager.days[i].getLunch());
             days[i].dinner.setText(sWeekManager.days[i].getDinner());
             days[i].side_dish.setText(sWeekManager.days[i].getSideDinner());
+        }
+         */
+
+
+        /*
+        for(int i = 0; i < 7; i++)
+        {
+            for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+            {
+                //  Add first
+                TableRow first_row = new TableRow(getContext());
+                first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                TextView meal_name = new TextView(getContext());
+                meal_name.setText(sWeekManager.daily_meals.get(j).getName());
+                TableRow.LayoutParams name_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                name_params.gravity = Gravity.CENTER_VERTICAL;
+                meal_name.setLayoutParams(name_params);
+
+                TextView first_course = new TextView(getContext());
+                first_course.setText(sWeekManager.days[i].getCourseOfmeal(0, j));
+                TableRow.LayoutParams first_course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                first_course_params.gravity = Gravity.CENTER_VERTICAL;
+                first_course.setLayoutParams(first_course_params);
+
+                first_row.addView(meal_name);
+                first_row.addView(first_course);
+                days[i].meals_container.addView(first_row);
+
+                for(int k = 1; k < sWeekManager.daily_meals.get(j).getDim(); k++)
+                {
+                    //  Add other rows
+                    TableRow row = new TableRow(getContext());
+                    first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                    View filler = new View(getContext());
+                    filler.setLayoutParams(new TableRow.LayoutParams(0, 0));
+
+                    TextView course = new TextView(getContext());
+                    course.setText(sWeekManager.days[i].getCourseOfmeal(k, j));
+                    TableRow.LayoutParams course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                    course_params.gravity = Gravity.CENTER_VERTICAL;
+                    course.setLayoutParams(course_params);
+
+                    row.addView(filler);
+                    row.addView(course);
+                    days[i].meals_container.addView(row);
+                }
+            }
         }
          */
 

@@ -1,5 +1,7 @@
 package com.baldino.myapp003;
 
+import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -33,6 +35,8 @@ public class Util {
     public static final char NULL_CHAR = '\uFFFF';
 
     public static final String STD_CHARSET = "UTF-16";
+
+    public static Context context;
 
     public static String getMealFormatName(String line)
     {
@@ -270,6 +274,11 @@ public class Util {
         if(arg0.equals(arg1)) return 0;
         else if(arg0.compareTo(arg1) < 0 ) return -1;
         else return 1;
+    }
+
+    public static int intToDp(int arg)
+    {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, arg, context.getResources().getDisplayMetrics());
     }
 
     /*

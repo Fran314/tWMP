@@ -35,7 +35,7 @@ public class ShoppingListActivity extends AppCompatActivity
 
         shopping_list = new ArrayList<>();
 
-
+        /*
         for(int i = 0; i < 7; i++)
         {
             Recipe lunch = sRecipeManager.binaryFind(sWeekManager.days[i].getLunch(), 0);
@@ -72,6 +72,8 @@ public class ShoppingListActivity extends AppCompatActivity
             new_item.setText(rec_ingr.getName() + " x" + rec_ingr.getAmount());
             container.addView(new_item);
         }
+
+         */
     }
 
     private void addItem(String name, float amount)

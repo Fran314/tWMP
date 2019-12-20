@@ -181,6 +181,7 @@ public class WeekManagerSingleton
         }
     }
 
+    /*
     public int saveData()
     {
         File folder = new File(context.getFilesDir(), SUBFOLDER_PATH);
@@ -233,6 +234,8 @@ public class WeekManagerSingleton
 
         return 0;
     }
+
+     */
     public int loadData()
     {
         Calendar c = Calendar.getInstance();

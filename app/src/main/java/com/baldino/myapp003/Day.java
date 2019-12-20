@@ -6,36 +6,25 @@ import static com.baldino.myapp003.Util.normalizeString;
 
 public class Day
 {
-    private String lunch, dinner, side_dinner;
-
     private List<List<String>> meals;
 
     public Day(boolean error)
     {
         if(error)
         {
-            lunch = "NULL_LUNCH";
-            dinner = "NULL_DINNER";
-            side_dinner = "NULL_SIDE";
+            //  TODO
+            //  do something in case of error
         }
         else
         {
-            lunch = "-";
-            dinner = "-";
-            side_dinner = "-";
+            //  TODO
+            //  do some "standard format" stuff
         }
     }
 
     public Day(String lunch, String dinner, String side_dinner)
     {
-        setLunch(lunch);
-        setDinner(dinner);
-        setSideDinner(side_dinner);
     }
-
-    public String getLunch() { return lunch; }
-    public String getDinner() { return dinner; }
-    public String getSideDinner() { return side_dinner; }
 
     public String getCourseOfmeal(int course, int meal)
     {
@@ -45,8 +34,4 @@ public class Day
     {
         meals.set(meal, courses);
     }
-
-    public void setLunch(String lunch) { this.lunch = normalizeString(lunch); }
-    public void setDinner(String dinner) { this.dinner = normalizeString(dinner); }
-    public void setSideDinner(String side_dinner) { this.side_dinner = normalizeString(side_dinner); }
 }
