@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.baldino.myapp003.Ingredient;
 import com.baldino.myapp003.IngredientListAdapter;
+import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -88,8 +89,8 @@ public class IngredientManagerSingleton {
         if(left  > right) return null;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(ingredients.get(mid).getName())) return ingredients.get(mid);
-        else if(name.compareTo(ingredients.get(mid).getName()) < 0) return binaryFind(name, left, mid-1);
+        if(Util.compareStrings(name, ingredients.get(mid).getName()) == 0) return ingredients.get(mid);
+        else if(Util.compareStrings(name, ingredients.get(mid).getName()) < 0) return binaryFind(name, left, mid-1);
         else return binaryFind(name, mid+1, right);
     }
 

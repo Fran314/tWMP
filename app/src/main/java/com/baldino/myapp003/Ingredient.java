@@ -31,7 +31,7 @@ public class Ingredient
 
     public static boolean alphabFirst(Ingredient arg0, Ingredient arg1)
     {
-        if(arg0.getName().compareTo(arg1.getName())<0) //"a".compareTo("b") := -1
+        if(Util.compareStrings(arg0.getName(), arg1.getName())<0) //"a".compareTo("b") := -1
             return true;
         else return false;
     }
@@ -42,7 +42,7 @@ public class Ingredient
         //        arg0.getAmount() == arg1.getAmount() &&
         //        arg0.getUnit().equals(arg1.getUnit()) &&
         //        arg0.getPrice() == arg1.getPrice())
-        if(arg0.getName().equals(arg1.getName()))
+        if(Util.compareStrings(arg0.getName(), arg1.getName()) == 0)
             return true;
         else return false;
     }

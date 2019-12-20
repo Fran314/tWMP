@@ -21,6 +21,7 @@ import android.widget.TableRow;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.RecIngredient;
 import com.baldino.myapp003.Recipe;
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.databinding.ActivityEditRecipeBinding;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 
@@ -87,7 +88,7 @@ public class EditRecipeActivity extends AppCompatActivity
         new_recipe.setName(name.getText().toString());
         for(int i = rec_ingredients.size()-1; i >= 0; i--)
         {
-            if(rec_ingredients.get(i).getName().equals("") || rec_ingredients.get(i).getAmount() == 0f) rec_ingredients.remove(i);
+            if(Util.compareStrings(rec_ingredients.get(i).getName(), "") == 0 || rec_ingredients.get(i).getAmount() == 0f) rec_ingredients.remove(i);
         }
         new_recipe.ingredients = rec_ingredients;
 

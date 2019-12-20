@@ -7,6 +7,7 @@ import com.baldino.myapp003.RecIngredient;
 import com.baldino.myapp003.Recipe;
 import com.baldino.myapp003.RecipeListAdapter;
 import com.baldino.myapp003.RecipeType;
+import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -183,13 +184,6 @@ public class RecipeManagerSingleton {
         recipeTwo.ingredients.add(new RecIngredient("Soffritto", 0.150f));
         addSideDish(recipeTwo);
     }
-
-    public int addRecipe(Recipe recipe, int meal_type)
-    {
-        if(meal_type == 0) return addFirstCourse(recipe);
-        else if(meal_type == 1) return  addSecondCourse(recipe);
-        else return addSideDish(recipe);
-    }
     public int addFirstCourse(Recipe recipe)
     {
         boolean exists = false, found_place = false;
@@ -319,39 +313,6 @@ public class RecipeManagerSingleton {
         else return (side_dishes == null ? 0 : side_dishes.size());
     }
 
-    public void update()
-    {
-        fc_names = new ArrayList<>();
-        fc_names.add("-");
-        for(Recipe rec : first_courses)
-        {
-            fc_names.add(rec.getName());
-        }
-
-        fc_names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, fc_names);
-        fc_names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        sc_names = new ArrayList<>();
-        sc_names.add("-");
-        for(Recipe rec : second_courses)
-        {
-            sc_names.add(rec.getName());
-        }
-
-        sc_names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, sc_names);
-        sc_names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        sd_names = new ArrayList<>();
-        sd_names.add("-");
-        for(Recipe rec : side_dishes)
-        {
-            sd_names.add(rec.getName());
-        }
-
-        sd_names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, sd_names);
-        sd_names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    }
-
     public Recipe binaryFind(String name, int meal_type)
     {
         if(meal_type == 0) return binaryFindFC(name, 0, first_courses.size()-1);
@@ -371,8 +332,8 @@ public class RecipeManagerSingleton {
         if(left  > right) return null;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(first_courses.get(mid).getName())) return first_courses.get(mid);
-        else if(name.compareTo(first_courses.get(mid).getName()) < 0) return binaryFindFC(name, left, mid-1);
+        if(Util.compareStrings(name, first_courses.get(mid).getName()) == 0) return first_courses.get(mid);
+        else if(Util.compareStrings(name, first_courses.get(mid).getName()) < 0) return binaryFindFC(name, left, mid-1);
         else return binaryFindFC(name, mid+1, right);
     }
     public int binaryFindIndexFC(String name, int left, int right)
@@ -380,8 +341,8 @@ public class RecipeManagerSingleton {
         if(left  > right) return -1;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(first_courses.get(mid).getName())) return mid;
-        else if(name.compareTo(first_courses.get(mid).getName()) < 0) return binaryFindIndexFC(name, left, mid-1);
+        if(Util.compareStrings(name, first_courses.get(mid).getName()) == 0) return mid;
+        else if(Util.compareStrings(name, first_courses.get(mid).getName()) < 0) return binaryFindIndexFC(name, left, mid-1);
         else return binaryFindIndexFC(name, mid+1, right);
     }
 
@@ -390,8 +351,8 @@ public class RecipeManagerSingleton {
         if(left  > right) return null;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(second_courses.get(mid).getName())) return second_courses.get(mid);
-        else if(name.compareTo(second_courses.get(mid).getName()) < 0) return binaryFindSC(name, left, mid-1);
+        if(Util.compareStrings(name, second_courses.get(mid).getName()) == 0) return second_courses.get(mid);
+        else if(Util.compareStrings(name, second_courses.get(mid).getName()) < 0) return binaryFindSC(name, left, mid-1);
         else return binaryFindSC(name, mid+1, right);
     }
     public int binaryFindIndexSC(String name, int left, int right)
@@ -399,8 +360,8 @@ public class RecipeManagerSingleton {
         if(left  > right) return -1;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(second_courses.get(mid).getName())) return mid;
-        else if(name.compareTo(second_courses.get(mid).getName()) < 0) return binaryFindIndexSC(name, left, mid-1);
+        if(Util.compareStrings(name, second_courses.get(mid).getName()) == 0) return mid;
+        else if(Util.compareStrings(name, second_courses.get(mid).getName()) < 0) return binaryFindIndexSC(name, left, mid-1);
         else return binaryFindIndexSC(name, mid+1, right);
     }
 
@@ -409,8 +370,8 @@ public class RecipeManagerSingleton {
         if(left  > right) return null;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(side_dishes.get(mid).getName())) return side_dishes.get(mid);
-        else if(name.compareTo(side_dishes.get(mid).getName()) < 0) return binaryFindSD(name, left, mid-1);
+        if(Util.compareStrings(name, side_dishes.get(mid).getName()) == 0) return side_dishes.get(mid);
+        else if(Util.compareStrings(name, side_dishes.get(mid).getName()) < 0) return binaryFindSD(name, left, mid-1);
         else return binaryFindSD(name, mid+1, right);
     }
     public int binaryFindIndexSD(String name, int left, int right)
@@ -418,320 +379,9 @@ public class RecipeManagerSingleton {
         if(left  > right) return -1;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(side_dishes.get(mid).getName())) return mid;
-        else if(name.compareTo(side_dishes.get(mid).getName()) < 0) return binaryFindIndexSD(name, left, mid-1);
+        if(Util.compareStrings(name, side_dishes.get(mid).getName()) == 0) return mid;
+        else if(Util.compareStrings(name, side_dishes.get(mid).getName()) < 0) return binaryFindIndexSD(name, left, mid-1);
         else return binaryFindIndexSD(name, mid+1, right);
-    }
-
-    public int saveData(int meal_type)
-    {
-        if(meal_type == 0) return saveFirstCourses();
-        else if(meal_type == 1) return saveSecondCourses();
-        else return saveSideDishes();
-    }
-
-    public int saveFirstCourses()
-    {
-        StringBuilder output_string = new StringBuilder("");
-        for(int i = 0; i < first_courses.size(); i++)
-        {
-            output_string.append("[");
-            output_string.append(first_courses.get(i).getName());
-            output_string.append("]\n[");
-            output_string.append(first_courses.get(i).ingredients.size());
-            output_string.append("]\n");
-            for(int j = 0; j < first_courses.get(i).ingredients.size(); j++)
-            {
-                output_string.append('[');
-                output_string.append(first_courses.get(i).ingredients.get(j).getName());
-                output_string.append("][");
-                output_string.append(first_courses.get(i).ingredients.get(j).getAmount());
-                output_string.append("]\n");
-            }
-        }
-
-        //File folder = new File(context.getFilesDir(), "recipes_data");
-        //folder.mkdirs();
-
-        try
-        {
-            //FileOutputStream fos = new FileOutputStream(new File(folder, "secondi.txt"));
-            FileOutputStream fos = context.openFileOutput(FIRST_C_PATH, Context.MODE_PRIVATE);
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
-            fos.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return -1;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return -2;
-        }
-
-        return 0;
-    }
-    public int loadFirstCourses()
-    {
-        first_courses = new ArrayList<>();
-        List<String> lines = new ArrayList<>();
-
-        try
-        {
-            FileInputStream fis = context.openFileInput(FIRST_C_PATH);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
-            String line = null;
-
-            while((line = reader.readLine()) != null)
-            {
-                if(line.length() > 0 && line.charAt(0) != '%')
-                {
-                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
-                    else lines.add(line);
-                }
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return -1;
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-            return -2;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return -3;
-        }
-
-        for(int i = 0; i < lines.size(); i++)
-        {
-            Recipe new_recipe = new Recipe();
-            new_recipe.setName(getRecipeName(lines.get(i)));
-            i++;
-
-            int ingredients_amount = -1;
-            if(i < lines.size()) ingredients_amount = getRecipeIngredientsAmount(lines.get(i));
-            for(int iter = 0; iter < ingredients_amount; iter++)
-            {
-                i++;
-                if(i < lines.size())
-                {
-                    RecIngredient rec_ingredient = getRecipeIngredient(lines.get(i));
-                    new_recipe.ingredients.add(rec_ingredient);
-                }
-            }
-            addFirstCourse(new_recipe);
-        }
-
-        update();
-
-        return 0;
-    }
-
-    public int saveSecondCourses()
-    {
-        StringBuilder output_string = new StringBuilder("");
-        for(int i = 0; i < second_courses.size(); i++)
-        {
-            output_string.append("[");
-            output_string.append(second_courses.get(i).getName());
-            output_string.append("]\n[");
-            output_string.append(second_courses.get(i).ingredients.size());
-            output_string.append("]\n");
-            for(int j = 0; j < second_courses.get(i).ingredients.size(); j++)
-            {
-                output_string.append('[');
-                output_string.append(second_courses.get(i).ingredients.get(j).getName());
-                output_string.append("][");
-                output_string.append(second_courses.get(i).ingredients.get(j).getAmount());
-                output_string.append("]\n");
-            }
-        }
-
-        try
-        {
-            FileOutputStream fos = context.openFileOutput(SECOND_C_PATH, Context.MODE_PRIVATE);
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
-            fos.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return -1;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return -2;
-        }
-
-        return 0;
-    }
-    public int loadSecondCourses()
-    {
-        second_courses = new ArrayList<>();
-        List<String> lines = new ArrayList<>();
-
-        try
-        {
-            FileInputStream fis = context.openFileInput(SECOND_C_PATH);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
-            String line = null;
-
-            while((line = reader.readLine()) != null)
-            {
-                if(line.length() > 0 && line.charAt(0) != '%')
-                {
-                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
-                    else lines.add(line);
-                }
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return -1;
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-            return -2;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return -3;
-        }
-
-        for(int i = 0; i < lines.size(); i++)
-        {
-            Recipe new_recipe = new Recipe();
-            new_recipe.setName(getRecipeName(lines.get(i)));
-            i++;
-
-            int ingredients_amount = -1;
-            if(i < lines.size()) ingredients_amount = getRecipeIngredientsAmount(lines.get(i));
-            for(int iter = 0; iter < ingredients_amount; iter++)
-            {
-                i++;
-                if(i < lines.size())
-                {
-                    RecIngredient rec_ingredient = getRecipeIngredient(lines.get(i));
-                    new_recipe.ingredients.add(rec_ingredient);
-                }
-            }
-            addSecondCourse(new_recipe);
-        }
-
-        update();
-
-        return 0;
-    }
-
-    public int saveSideDishes()
-    {
-        StringBuilder output_string = new StringBuilder("");
-        for(int i = 0; i < side_dishes.size(); i++)
-        {
-            output_string.append("[");
-            output_string.append(side_dishes.get(i).getName());
-            output_string.append("]\n[");
-            output_string.append(side_dishes.get(i).ingredients.size());
-            output_string.append("]\n");
-            for(int j = 0; j < side_dishes.get(i).ingredients.size(); j++)
-            {
-                output_string.append('[');
-                output_string.append(side_dishes.get(i).ingredients.get(j).getName());
-                output_string.append("][");
-                output_string.append(side_dishes.get(i).ingredients.get(j).getAmount());
-                output_string.append("]\n");
-            }
-        }
-
-        try
-        {
-            FileOutputStream fos = context.openFileOutput(SIDE_D_PATH, Context.MODE_PRIVATE);
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
-            fos.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return -1;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return -2;
-        }
-
-        return 0;
-    }
-    public int loadSideDishes()
-    {
-        side_dishes = new ArrayList<>();
-        List<String> lines = new ArrayList<>();
-
-        try
-        {
-            FileInputStream fis = context.openFileInput(SIDE_D_PATH);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
-            String line = null;
-
-            while((line = reader.readLine()) != null)
-            {
-                if(line.length() > 0 && line.charAt(0) != '%')
-                {
-                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
-                    else lines.add(line);
-                }
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return -1;
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-            return -2;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return -3;
-        }
-
-        for(int i = 0; i < lines.size(); i++)
-        {
-            Recipe new_recipe = new Recipe();
-            new_recipe.setName(getRecipeName(lines.get(i)));
-            i++;
-
-            int ingredients_amount = -1;
-            if(i < lines.size()) ingredients_amount = getRecipeIngredientsAmount(lines.get(i));
-            for(int iter = 0; iter < ingredients_amount; iter++)
-            {
-                i++;
-                if(i < lines.size())
-                {
-                    RecIngredient rec_ingredient = getRecipeIngredient(lines.get(i));
-                    new_recipe.ingredients.add(rec_ingredient);
-                }
-            }
-            addSideDish(new_recipe);
-        }
-
-        update();
-
-        return 0;
     }
 
     public int notifyItemChanged(int pos, int meal_type)

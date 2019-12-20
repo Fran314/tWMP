@@ -4,88 +4,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_day_name"
+            android:textColor="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical"
-            android:background="@color/colorPrimaryDark">
-            <TextView
-                android:id="@+id/text_day_name"
-                android:textColor="#FFFFFF"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:textStyle="bold"
-                android:text="@string/standard_day_name"
-                android:textSize="@dimen/meals_day_textSize"/>
-        </LinearLayout>
+            android:padding="4dp"
+            android:background="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:textSize="@dimen/meals_day_textSize"/>
         <TableLayout
+            android:id="@+id/meals_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1">
-            <TableRow>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/meals_dish_marginStart"
-                    android:layout_marginLeft="@dimen/meals_dish_marginStart"
-                    android:layout_marginTop="@dimen/meals_dish_marginTop"
-                    android:layout_marginEnd="@dimen/meals_dish_marginEnd"
-                    android:layout_marginRight="@dimen/meals_dish_marginEnd"
-                    android:textSize="@dimen/meals_dish_textSize"
-                    android:textStyle="bold"
-                    android:text="@string/meals_lunch"/>
-                <TextView
-                    android:id="@+id/text_lunch_meal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/meals_dish_marginTop"
-                    android:textSize="@dimen/meals_dish_textSize"
-                    android:textColor="#000000"
-                    android:text="@string/standard_dish"/>
-            </TableRow>
-            <TableRow>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/meals_dish_marginStart"
-                    android:layout_marginLeft="@dimen/meals_dish_marginStart"
-                    android:layout_marginTop="@dimen/meals_dish_marginTop"
-                    android:layout_marginEnd="@dimen/meals_dish_marginEnd"
-                    android:layout_marginRight="@dimen/meals_dish_marginEnd"
-                    android:textSize="@dimen/meals_dish_textSize"
-                    android:textStyle="bold"
-                    android:text="@string/meals_dinner"/>
-                <TextView
-                    android:id="@+id/text_dinner_meal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/meals_dish_marginTop"
-                    android:textSize="@dimen/meals_dish_textSize"
-                    android:textColor="#000000"
-                    android:text="@string/standard_dish"/>
-            </TableRow>
-            <TableRow>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/meals_side_dish_marginStart"
-                    android:layout_marginLeft="@dimen/meals_side_dish_marginStart"
-                    android:layout_marginEnd="@dimen/meals_side_dish_marginEnd"
-                    android:layout_marginRight="@dimen/meals_side_dish_marginEnd"
-                    android:textSize="@dimen/meals_side_dish_textSize"
-                    android:textStyle="bold"
-                    android:text="@string/meals_side_dish"/>
-                <TextView
-                    android:id="@+id/text_dinner_side"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/meals_side_dish_textSize"
-                    android:textColor="#000000"
-                    android:text="@string/standard_side_dish"/>
-            </TableRow>
-        </TableLayout>
+            android:stretchColumns="1"/>
     </LinearLayout>
 </merge>

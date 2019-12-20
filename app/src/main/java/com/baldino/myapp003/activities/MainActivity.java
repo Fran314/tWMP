@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
         sIngredientManager.loadData();
 
         sRecipeManager.loadTypeNames();
-        sRecipeManager.loadFirstCourses();
-        sRecipeManager.loadSecondCourses();
-        sRecipeManager.loadSideDishes();
 
         sWeekManager.loadWeeks();
         sWeekManager.loadDailyMeals();

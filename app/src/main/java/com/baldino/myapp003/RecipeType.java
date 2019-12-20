@@ -61,7 +61,8 @@ public class RecipeType
 
     public void loadRecipes()
     {
-        if(nameToFileName(name).equals("")) return;
+        //TODO: ma ci va davvero questo?
+        if(Util.compareStrings(Util.nameToFileName(name), "") == 0) return;
 
         recipes = new ArrayList<>();
         List<String> lines = new ArrayList<>();
@@ -194,8 +195,8 @@ public class RecipeType
         if(left  > right) return -1;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(recipes.get(mid).getName())) return mid;
-        else if(name.compareTo(recipes.get(mid).getName()) < 0) return binaryFindIndex(name, left, mid-1);
+        if(Util.compareStrings(name, recipes.get(mid).getName()) == 0) return mid;
+        else if(Util.compareStrings(name, recipes.get(mid).getName()) < 0) return binaryFindIndex(name, left, mid-1);
         else return binaryFindIndex(name, mid+1, right);
     }
 

@@ -1,10 +1,14 @@
 package com.baldino.myapp003;
 
+import java.util.List;
+
 import static com.baldino.myapp003.Util.normalizeString;
 
 public class Day
 {
     private String lunch, dinner, side_dinner;
+
+    private List<List<String>> meals;
 
     public Day(boolean error)
     {
@@ -39,6 +43,15 @@ public class Day
     public String getLunch() { return lunch; }
     public String getDinner() { return dinner; }
     public String getSideDinner() { return side_dinner; }
+
+    public String getCourseOfmeal(int course, int meal)
+    {
+        return meals.get(meal).get(course);
+    }
+    public void setMeal(int meal, List<String> courses)
+    {
+        meals.set(meal, courses);
+    }
 
     public void setLunch(String lunch) { this.lunch = normalizeString(lunch); }
     public void setDinner(String dinner) { this.dinner = normalizeString(dinner); }

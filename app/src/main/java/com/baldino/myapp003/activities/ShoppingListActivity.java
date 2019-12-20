@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.RecIngredient;
 import com.baldino.myapp003.Recipe;
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
@@ -81,7 +82,7 @@ public class ShoppingListActivity extends AppCompatActivity
             int pos = shopping_list.size();
             for(int i = 0; i < shopping_list.size(); i++)
             {
-                if(name.compareTo(shopping_list.get(i).getName()) < 0)
+                if(Util.compareStrings(name, shopping_list.get(i).getName()) < 0)
                 {
                     pos = i;
                     break;
@@ -101,8 +102,8 @@ public class ShoppingListActivity extends AppCompatActivity
         if(left  > right) return -1;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(shopping_list.get(mid).getName())) return mid;
-        else if(name.compareTo(shopping_list.get(mid).getName()) < 0) return binaryFindIndex(name, left, mid-1);
+        if(Util.compareStrings(name, shopping_list.get(mid).getName()) == 0) return mid;
+        else if(Util.compareStrings(name, shopping_list.get(mid).getName()) < 0) return binaryFindIndex(name, left, mid-1);
         else return binaryFindIndex(name, mid+1, right);
     }
 

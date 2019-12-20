@@ -183,7 +183,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                         public void onClick(DialogInterface dialog, int which)
                         {
                             sRecipeManager.removeRecipe(sRecipeManager.expanded_value, sRecipeManager.expanded_type);
-                            sRecipeManager.saveData(sRecipeManager.expanded_type);
+                            //sRecipeManager.saveData(sRecipeManager.expanded_type);
                             dialog.dismiss();
                         }
                     });

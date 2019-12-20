@@ -5,6 +5,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Util {
 
     public static final int BYTES_IN_CHAR = 2;
@@ -38,11 +41,43 @@ public class Util {
         else return line.substring(pos[0]+1, pos[1]);
     }
 
-    public static int getDim(String line)
+    public static int getInt(String line)
     {
         int pos[] = isValidAndGetPos(line, 1);
         if(pos[0] == -1) return 0;
         else return stringToInt(line.substring(pos[0]+1, pos[1]));
+    }
+
+    public static List<String> getStrings(String line, int amount)
+    {
+        int pos[] = isValidAndGetPos(line, amount);
+        List<String> to_return = new ArrayList<>();
+        if(pos[0] != -1)
+        {
+
+            for(int i = 0; i < amount; i++)
+            {
+                to_return.add(line.substring(pos[i]+1, pos[amount+i]));
+            }
+        }
+
+        return to_return;
+    }
+
+    public static List<Integer> getInts(String line, int amount)
+    {
+        int pos[] = isValidAndGetPos(line, amount);
+        List<Integer> to_return = new ArrayList<>();
+        if(pos[0] != -1)
+        {
+
+            for(int i = 0; i < amount; i++)
+            {
+                to_return.add(stringToInt(line.substring(pos[i]+1, pos[amount+i])));
+            }
+        }
+
+        return to_return;
     }
 
     public static int[] getTypeAndStd(String line)
@@ -225,6 +260,16 @@ public class Util {
         }
 
         return to_return;
+    }
+
+    public static int compareStrings(String arg0, String arg1)
+    {
+        arg0 = arg0.toUpperCase();
+        arg1 = arg1.toUpperCase();
+
+        if(arg0.equals(arg1)) return 0;
+        else if(arg0.compareTo(arg1) < 0 ) return -1;
+        else return 1;
     }
 
     /*

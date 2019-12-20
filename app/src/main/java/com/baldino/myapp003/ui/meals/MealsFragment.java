@@ -73,9 +73,9 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
                 int meals_index[] = new int[21];
                 for(int i = 0; i < 7; i++)
                 {
-                    meals_index[i] = sRecipeManager.binaryFindIndex(days[i].lunch.getText().toString(), 0) + 1;
-                    meals_index[7+i] = sRecipeManager.binaryFindIndex(days[i].dinner.getText().toString(), 1) + 1;
-                    meals_index[14+i] = sRecipeManager.binaryFindIndex(days[i].side_dish.getText().toString(), 2) + 1;
+                    //meals_index[i] = sRecipeManager.binaryFindIndex(days[i].lunch.getText().toString(), 0) + 1;
+                    //meals_index[7+i] = sRecipeManager.binaryFindIndex(days[i].dinner.getText().toString(), 1) + 1;
+                    //meals_index[14+i] = sRecipeManager.binaryFindIndex(days[i].side_dish.getText().toString(), 2) + 1;
                 }
                 intent.putExtra("Meals_Index", meals_index);
                 intent.putExtra("Year", sWeekManager.year);
@@ -113,6 +113,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     public void onResume() {
         super.onResume();
 
+        /*
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
 
         for(int i = 0; i < 7; i++)
@@ -121,6 +122,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
             days[i].dinner.setText(sWeekManager.days[i].getDinner());
             days[i].side_dish.setText(sWeekManager.days[i].getSideDinner());
         }
+         */
     }
 
     @Override
@@ -150,12 +152,24 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         sWeekManager.setCalendar(year, month, day_of_month);
         sWeekManager.loadData();
 
+        //TODO
+
+        //  Check if week daily_meals can correspond with the current daily_meals
+        //  (In particular, check if sWeekManager.courses_per_meal's size and values make
+        //  sense in this daily_meals)
+
+        //      If it doesn't, just load and don't try to make sense out of it
+        //      If it does, load and try to see if the loaded recipes actually exist in the
+        //      correspondent recipe_type and write them in black or red
+
+        /*
         for(int i = 0; i < 7; i++)
         {
             days[i].lunch.setText(sWeekManager.days[i].getLunch());
             days[i].dinner.setText(sWeekManager.days[i].getDinner());
             days[i].side_dish.setText(sWeekManager.days[i].getSideDinner());
         }
+         */
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         days[0].header.setText(getResources().getString(R.string.meals_monday) + ", " + DateFormat.getDateInstance().format(c.getTime()));

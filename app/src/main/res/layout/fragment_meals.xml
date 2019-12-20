@@ -73,45 +73,31 @@
                 <com.baldino.myapp003.custom_views.DayMealsView
                     android:id="@+id/monday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"/>
+                    android:layout_height="wrap_content"/>
                 <com.baldino.myapp003.custom_views.DayMealsView
                     android:id="@+id/tuesday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"/>
+                    android:layout_height="wrap_content"/>
                 <com.baldino.myapp003.custom_views.DayMealsView
                     android:id="@+id/wednesday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"/>
+                    android:layout_height="wrap_content"/>
                 <com.baldino.myapp003.custom_views.DayMealsView
                     android:id="@+id/thursday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"/>
+                    android:layout_height="wrap_content"/>
                 <com.baldino.myapp003.custom_views.DayMealsView
                     android:id="@+id/friday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"/>
+                    android:layout_height="wrap_content"/>
                 <com.baldino.myapp003.custom_views.DayMealsView
                     android:id="@+id/saturday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"/>
+                    android:layout_height="wrap_content"/>
                 <com.baldino.myapp003.custom_views.DayMealsView
                     android:id="@+id/sunday"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"/>
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

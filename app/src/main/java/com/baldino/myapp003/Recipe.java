@@ -20,14 +20,14 @@ public class Recipe
 
     public static boolean alphabFirst(Recipe arg0, Recipe arg1)
     {
-        if(arg0.getName().compareTo(arg1.getName())<0) //"a".compareTo("b") := -1
+        if(Util.compareStrings(arg0.getName(), arg1.getName())<0) //"a".compareTo("b") := -1
             return true;
         else return false;
     }
 
     public static boolean areEqual(Recipe arg0, Recipe arg1)
     {
-        if(arg0.getName().equals(arg1.getName()))
+        if(Util.compareStrings(arg0.getName(), arg1.getName()) == 0)
             return true;
         else return false;
     }
