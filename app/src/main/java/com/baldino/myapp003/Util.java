@@ -168,21 +168,6 @@ public class Util {
         return new Ingredient(name, amount, unit, price);
     }
 
-    public static Day getDay(String line)
-    {
-        String lunch = "ERROR_LUNCH", dinner = "ERROR_DINNER", side_dinner = "ERROR_SIDE";
-
-        int pos[] = isValidAndGetPos(line, 3);
-        if(pos[0] != -1)
-        {
-            lunch = line.substring(pos[0]+1, pos[3+0]);
-            dinner = line.substring(pos[1]+1, pos[3+1]);
-            side_dinner = line.substring(pos[2]+1, pos[3+2]);
-        }
-
-        return new Day(lunch, dinner, side_dinner);
-    }
-
     public static String getFileName(String line)
     {
         int pos[] = isValidAndGetPos(line, 1);

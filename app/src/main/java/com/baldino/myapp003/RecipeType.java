@@ -189,6 +189,20 @@ public class RecipeType
         return recipes.get(pos);
     }
 
+    /*
+    public Recipe binaryFind(String name) { return binaryFind(name, 0, recipes.size()-1); }
+    public Recipe binaryFind(String name, int left, int right)
+    {
+        if(left  > right) return null;
+
+        int mid = left + ((right - left)/2);
+        if(Util.compareStrings(name, recipes.get(mid).getName()) == 0) return recipes.get(mid);
+        else if(Util.compareStrings(name, recipes.get(mid).getName()) < 0) return binaryFind(name, left, mid-1);
+        else return binaryFind(name, mid+1, right);
+    }
+
+     */
+
     public int binaryFindIndex(String name) { return binaryFindIndex(name, 0, recipes.size()-1); }
     public int binaryFindIndex(String name, int left, int right)
     {

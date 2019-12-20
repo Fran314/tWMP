@@ -19,6 +19,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baldino.myapp003.Util;
+import com.baldino.myapp003.custom_views.EditRecipeTypeDialog;
 import com.baldino.myapp003.custom_views.ExpandableRecipeListView;
 import com.baldino.myapp003.RecipeType;
 import com.baldino.myapp003.activities.EditRecipeActivity;
@@ -62,6 +64,7 @@ public class RecipesFragment extends Fragment {
                 sRecipeManager.recipe_types.add(new_recipe_type);
                 addRecipeType(pos);
                 setButtons(pos);
+                sRecipeManager.saveTypeNames();
             }
         });
 
@@ -124,6 +127,13 @@ public class RecipesFragment extends Fragment {
                             startActivity(intent);
                             getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                         }
+                        else if(item.getItemId() == R.id.item_edit_list)
+                        {
+                            EditRecipeTypeDialog ertd = new EditRecipeTypeDialog(getContext());
+                            ertd.editable_recipes_name.setText(sRecipeManager.recipe_types.get(pos).getName());
+                            ertd.file_name_output.setText(Util.nameToFileName(sRecipeManager.recipe_types.get(pos).getName()) + ".txt");
+                            ertd.show();
+                        }
                         else if(item.getItemId() == R.id.item_delete_list)
                         {
                             //TODO: change this text to something that makes more sense and is based on
@@ -170,6 +180,9 @@ public class RecipesFragment extends Fragment {
         rv_container.removeViewAt(pos);
         eLists.remove(pos);
         sRecipeManager.recipe_types.remove(pos);
+
+        //TODO: elimina file
+        sRecipeManager.saveTypeNames();
 
         for(int i = 0; i < eLists.size(); i++)
         {

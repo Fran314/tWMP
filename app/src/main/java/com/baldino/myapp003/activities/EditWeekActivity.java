@@ -2,8 +2,8 @@ package com.baldino.myapp003.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.baldino.myapp003.Day;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableDayMealsView;
 import com.baldino.myapp003.R;
@@ -138,6 +139,41 @@ public class EditWeekActivity extends AppCompatActivity
             spinners.add(daily_spinners);
         }
 
+        //TODO set the spinners to some value if it's the case, else set to standard value
+        for(int i = 0; i < 7; i++)
+        {
+            if(sWeekManager.days[i].isNew)
+            {
+                //  Init at std values
+                for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+                {
+                    for(int k = 0; k <sWeekManager.daily_meals.get(j).getDim(); k++)
+                    {
+                        spinners.get(i).get(j).get(k).setSelection(sWeekManager.daily_meals.get(j).getStd(k));
+                    }
+                }
+            }
+            else
+            {
+                //  Init at loaded values
+                for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+                {
+                    for(int k = 0; k <sWeekManager.daily_meals.get(j).getDim(); k++)
+                    {
+                        if(Util.compareStrings(sWeekManager.days[i].getCourseOfmeal(k, j), "-") == 0)
+                        {
+                            spinners.get(i).get(j).get(k).setSelection(0);
+                        }
+                        else
+                        {
+                            int pos = sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(k)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(k, j)) + 1;
+                            spinners.get(i).get(j).get(k).setSelection(pos);
+                        }
+                    }
+                }
+            }
+        }
+
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         days[0].header.setText(getResources().getString(R.string.meals_monday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
@@ -163,12 +199,29 @@ public class EditWeekActivity extends AppCompatActivity
 
     private void saveWeek()
     {
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
-
         for(int i = 0; i < 7; i++)
         {
-            /*
+            sWeekManager.days[i] = new Day(false);
+            Log.w("AAA", "T'works");
+            for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+            {
+                List<String> courses_of_this_meal = new ArrayList<>();
+                for(int k = 0; k < sWeekManager.daily_meals.get(j).getDim(); k++)
+                {
+                    String course_name;
+                    if(spinners.get(i).get(j).get(k).getSelectedItemPosition() == 0) course_name = "-";
+                    //  I know... I know... waaaaaaaay too long of a line. Should work tho
+                    else course_name = sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(k)).getRecipe(spinners.get(i).get(j).get(k).getSelectedItemPosition() - 1).getName();
+                    courses_of_this_meal.add(course_name);
+                }
+
+                sWeekManager.days[i].addMeal(courses_of_this_meal);
+            }
+        }
+
+        /*
+        for(int i = 0; i < 7; i++)
+        {
             if(days[i].lunch_spinner.getSelectedItemPosition() != 0)
                 sWeekManager.days[i].setLunch(sRecipeManager.getRecipe(days[i].lunch_spinner.getSelectedItemPosition()-1, 0).getName());
             else
@@ -184,10 +237,11 @@ public class EditWeekActivity extends AppCompatActivity
             else
                 sWeekManager.days[i].setSideDinner("-");
 
-             */
         }
 
-        sWeekManager.saveNewData();
+         */
+
+        sWeekManager.saveData();
 
         finish();
     }

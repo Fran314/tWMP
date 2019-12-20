@@ -2,13 +2,20 @@ package com.baldino.myapp003.custom_views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.baldino.myapp003.R;
+import com.baldino.myapp003.Util;
+import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 public class DayMealsView extends LinearLayout {
 
@@ -34,5 +41,61 @@ public class DayMealsView extends LinearLayout {
 
         header = this.findViewById(R.id.text_day_name);
         meals_container = this.findViewById(R.id.meals_container);
+    }
+
+    public void addFirstRow(String name, String meal, String color)
+    {
+        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+
+        TableRow first_row = new TableRow(getContext());
+        first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+        TextView meal_name = new TextView(getContext());
+        meal_name.setText(name);
+        meal_name.setTextSize(Util.intToDp(6));
+        meal_name.setTypeface(Typeface.DEFAULT_BOLD);
+        TableRow.LayoutParams name_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        name_params.gravity = Gravity.CENTER_VERTICAL;
+        meal_name.setLayoutParams(name_params);
+
+        TextView first_course = new TextView(getContext());
+        first_course.setText(meal);
+        first_course.setTextColor(Color.parseColor(color));
+        TableRow.LayoutParams first_course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        first_course_params.gravity = Gravity.CENTER_VERTICAL;
+        first_course_params.leftMargin = Util.intToDp(4);
+        first_course_params.rightMargin = Util.intToDp(4);
+        first_course.setLayoutParams(first_course_params);
+
+        first_row.addView(meal_name);
+        first_row.addView(first_course);
+        meals_container.addView(first_row);
+    }
+
+    public void addRow(String meal, String color)
+    {
+        TableRow row = new TableRow(getContext());
+        row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+        View filler = new View(getContext());
+        filler.setLayoutParams(new TableRow.LayoutParams(0, 0));
+
+        TextView course = new TextView(getContext());
+        course.setText(meal);
+        course.setTextColor(Color.parseColor(color));
+        TableRow.LayoutParams course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        course_params.gravity = Gravity.CENTER_VERTICAL;
+        course_params.leftMargin = Util.intToDp(4);
+        course_params.rightMargin = Util.intToDp(4);
+        course.setLayoutParams(course_params);
+
+        row.addView(filler);
+        row.addView(course);
+        meals_container.addView(row);
+    }
+
+    public void empty()
+    {
+        meals_container.removeAllViews();
     }
 }

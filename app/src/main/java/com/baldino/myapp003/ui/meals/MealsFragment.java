@@ -3,15 +3,12 @@ package com.baldino.myapp003.ui.meals;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,13 +20,10 @@ import com.baldino.myapp003.custom_views.DayMealsView;
 import com.baldino.myapp003.activities.EditWeekActivity;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.activities.ShoppingListActivity;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
 
@@ -40,13 +34,15 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     private TextView week_indicator;
     DatePickerDialog datePickerDialog;
 
+    WeekManagerSingleton sWeekManager;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         mealsViewModel = ViewModelProviders.of(this).get(MealsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_meals, container, false);
 
 
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+        sWeekManager = WeekManagerSingleton.getInstance();
 
         days[0] = root.findViewById(R.id.monday);
         days[1] = root.findViewById(R.id.tuesday);
@@ -74,7 +70,6 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         {
             @Override
             public void onClick(View view) {
-                WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
                 Intent intent = new Intent(getActivity(), EditWeekActivity.class);
 
                 startActivity(intent);
@@ -109,16 +104,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     public void onResume() {
         super.onResume();
 
-        /*
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-
-        for(int i = 0; i < 7; i++)
-        {
-            days[i].lunch.setText(sWeekManager.days[i].getLunch());
-            days[i].dinner.setText(sWeekManager.days[i].getDinner());
-            days[i].side_dish.setText(sWeekManager.days[i].getSideDinner());
-        }
-         */
+        renderMeals();
     }
 
     @Override
@@ -144,77 +130,10 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         week_indicator.setText(week_text);
 
 
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
         sWeekManager.setCalendar(year, month, day_of_month);
         sWeekManager.loadData();
 
-        //TODO
-
-        //  Check if week daily_meals can correspond with the current daily_meals
-        //  (In particular, check if sWeekManager.courses_per_meal's size and values make
-        //  sense in this daily_meals)
-
-        //      If it doesn't, just load and don't try to make sense out of it
-        //      If it does, load and try to see if the loaded recipes actually exist in the
-        //      correspondent recipe_type and write them in black or red
-
-        /*
-        for(int i = 0; i < 7; i++)
-        {
-            days[i].lunch.setText(sWeekManager.days[i].getLunch());
-            days[i].dinner.setText(sWeekManager.days[i].getDinner());
-            days[i].side_dish.setText(sWeekManager.days[i].getSideDinner());
-        }
-         */
-
-
-        /*
-        for(int i = 0; i < 7; i++)
-        {
-            for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
-            {
-                //  Add first
-                TableRow first_row = new TableRow(getContext());
-                first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-                TextView meal_name = new TextView(getContext());
-                meal_name.setText(sWeekManager.daily_meals.get(j).getName());
-                TableRow.LayoutParams name_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                name_params.gravity = Gravity.CENTER_VERTICAL;
-                meal_name.setLayoutParams(name_params);
-
-                TextView first_course = new TextView(getContext());
-                first_course.setText(sWeekManager.days[i].getCourseOfmeal(0, j));
-                TableRow.LayoutParams first_course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                first_course_params.gravity = Gravity.CENTER_VERTICAL;
-                first_course.setLayoutParams(first_course_params);
-
-                first_row.addView(meal_name);
-                first_row.addView(first_course);
-                days[i].meals_container.addView(first_row);
-
-                for(int k = 1; k < sWeekManager.daily_meals.get(j).getDim(); k++)
-                {
-                    //  Add other rows
-                    TableRow row = new TableRow(getContext());
-                    first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-                    View filler = new View(getContext());
-                    filler.setLayoutParams(new TableRow.LayoutParams(0, 0));
-
-                    TextView course = new TextView(getContext());
-                    course.setText(sWeekManager.days[i].getCourseOfmeal(k, j));
-                    TableRow.LayoutParams course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                    course_params.gravity = Gravity.CENTER_VERTICAL;
-                    course.setLayoutParams(course_params);
-
-                    row.addView(filler);
-                    row.addView(course);
-                    days[i].meals_container.addView(row);
-                }
-            }
-        }
-         */
+        renderMeals();
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         days[0].header.setText(getResources().getString(R.string.meals_monday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
@@ -236,5 +155,66 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         days[6].header.setText(getResources().getString(R.string.meals_sunday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+    }
+
+    private void renderMeals()
+    {
+        //TODO
+
+        //  Check if week daily_meals can correspond with the current daily_meals
+        //  (In particular, check if sWeekManager.courses_per_meal's size and values make
+        //  sense in this daily_meals)
+
+        //      If it doesn't, just load and don't try to make sense out of it
+        //      If it does, load and try to see if the loaded recipes actually exist in the
+        //      correspondent recipe_type and write them in black or red
+        boolean check = true;
+        if(sWeekManager.daily_meals.size() != sWeekManager.meal_names.size()) check = false;
+        for(int i = 0; i < sWeekManager.daily_meals.size() && check; i++)
+        {
+            if(sWeekManager.daily_meals.get(i).getDim() != sWeekManager.courses_per_meal.get(i)) check = false;
+        }
+        for(int i = 0; i < sWeekManager.daily_meals.size() && check; i++)
+        {
+            if(Util.compareStrings(sWeekManager.daily_meals.get(i).getName(), sWeekManager.meal_names.get(i)) != 0) check = false;
+        }
+
+        if(check)
+        {
+            for(int i = 0; i < 7; i++)
+            {
+                days[i].empty();
+                for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+                {
+                    //  Add first
+
+                    //TODO check if meal exists in our recipes
+                    days[i].addFirstRow(sWeekManager.daily_meals.get(j).getName(), sWeekManager.days[i].getCourseOfmeal(0, j), "#000000");
+
+                    for(int k = 1; k < sWeekManager.daily_meals.get(j).getDim(); k++)
+                    {
+                        //  Add other rows
+                        //TODO check if meal exists in our recipes
+                        days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), "#000000");
+                    }
+                }
+            }
+        }
+        else
+        {
+            for(int i = 0; i < 7; i++)
+            {
+                days[i].empty();
+                for(int j = 0; j < sWeekManager.meal_names.size(); j++)
+                {
+                    days[i].addFirstRow(sWeekManager.meal_names.get(j), sWeekManager.days[i].getCourseOfmeal(0, j), "#000000");
+
+                    for(int k = 1; k < sWeekManager.courses_per_meal.get(j); k++)
+                    {
+                        days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), "#000000");
+                    }
+                }
+            }
+        }
     }
 }
