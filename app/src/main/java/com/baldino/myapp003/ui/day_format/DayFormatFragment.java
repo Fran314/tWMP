@@ -144,6 +144,7 @@ public class DayFormatFragment extends Fragment {
         sWeekManager.daily_meals = new_daily_meals;
         sWeekManager.saveDailyMeals();
 
+        //TODO change text so that it changes based on device language
         Toast.makeText(getContext(), "Daily Meals saved!", Toast.LENGTH_LONG).show();
     }
 }

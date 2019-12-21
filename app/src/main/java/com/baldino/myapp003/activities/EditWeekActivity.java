@@ -142,7 +142,7 @@ public class EditWeekActivity extends AppCompatActivity
         //TODO set the spinners to some value if it's the case, else set to standard value
         for(int i = 0; i < 7; i++)
         {
-            if(sWeekManager.days[i].isNew)
+            if(sWeekManager.days[i].isNew || !sWeekManager.days[i].hasSameFormat)
             {
                 //  Init at std values
                 for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
@@ -202,7 +202,7 @@ public class EditWeekActivity extends AppCompatActivity
         for(int i = 0; i < 7; i++)
         {
             sWeekManager.days[i] = new Day(false);
-            Log.w("AAA", "T'works");
+            sWeekManager.days[i].hasSameFormat = true;
             for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
             {
                 List<String> courses_of_this_meal = new ArrayList<>();
@@ -218,28 +218,6 @@ public class EditWeekActivity extends AppCompatActivity
                 sWeekManager.days[i].addMeal(courses_of_this_meal);
             }
         }
-
-        /*
-        for(int i = 0; i < 7; i++)
-        {
-            if(days[i].lunch_spinner.getSelectedItemPosition() != 0)
-                sWeekManager.days[i].setLunch(sRecipeManager.getRecipe(days[i].lunch_spinner.getSelectedItemPosition()-1, 0).getName());
-            else
-                sWeekManager.days[i].setLunch("-");
-
-            if(days[i].dinner_spinner.getSelectedItemPosition() != 0)
-                sWeekManager.days[i].setDinner(sRecipeManager.getRecipe(days[i].dinner_spinner.getSelectedItemPosition()-1, 1).getName());
-            else
-                sWeekManager.days[i].setDinner("-");
-
-            if(days[i].dinner_side_spinner.getSelectedItemPosition() != 0)
-                sWeekManager.days[i].setSideDinner(sRecipeManager.getRecipe(days[i].dinner_side_spinner.getSelectedItemPosition()-1, 2).getName());
-            else
-                sWeekManager.days[i].setSideDinner("-");
-
-        }
-
-         */
 
         sWeekManager.saveData();
 

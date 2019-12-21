@@ -38,8 +38,6 @@ public class RecipesFragment extends Fragment {
 
     LinearLayout rv_container;
     private ImageButton button_add;
-    private List<LinearLayout> headers;
-    private List<RecyclerView> lists;
     private List<ExpandableRecipeListView> eLists;
     private int expanded_value = 0;
 
@@ -68,9 +66,6 @@ public class RecipesFragment extends Fragment {
             }
         });
 
-        headers = new ArrayList<>();
-        lists = new ArrayList<>();
-
         eLists = new ArrayList<>();
 
         for(int i = 0; i < sRecipeManager.recipe_types.size(); i++)
@@ -80,6 +75,13 @@ public class RecipesFragment extends Fragment {
         }
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateUI();
     }
 
     private void addRecipeType(int pos)
@@ -97,7 +99,14 @@ public class RecipesFragment extends Fragment {
         eLists.add(erl);
         rv_container.addView(erl, pos);
     }
+    public void updateList(int pos)
+    {
+        RecipeType rec_type = sRecipeManager.recipe_types.get(pos);
+        eLists.get(pos).header_text.setText(rec_type.getName());
+        rec_type.getListAdapter().recipes_fragment = this;
+        eLists.get(pos).rv_recipes.setAdapter(rec_type.getListAdapter());
 
+    }
     private void setButtons(final int pos)
     {
         eLists.get(pos).header_bar.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +115,8 @@ public class RecipesFragment extends Fragment {
                 expand(pos);
             }
         });
+
+        final RecipesFragment fragment = this;
 
         eLists.get(pos).button_menu.setOnClickListener(new View.OnClickListener()
         {
@@ -129,7 +140,7 @@ public class RecipesFragment extends Fragment {
                         }
                         else if(item.getItemId() == R.id.item_edit_list)
                         {
-                            EditRecipeTypeDialog ertd = new EditRecipeTypeDialog(getContext());
+                            EditRecipeTypeDialog ertd = new EditRecipeTypeDialog(getContext(), pos, fragment);
                             ertd.editable_recipes_name.setText(sRecipeManager.recipe_types.get(pos).getName());
                             ertd.file_name_output.setText(Util.nameToFileName(sRecipeManager.recipe_types.get(pos).getName()) + ".txt");
                             ertd.show();
@@ -171,6 +182,14 @@ public class RecipesFragment extends Fragment {
                 popup.show();
             }
         });
+    }
+
+    public void updateUI()
+    {
+        for(int i = 0; i < sRecipeManager.recipe_types.size(); i++)
+        {
+            updateList(i);
+        }
     }
 
     private void removeRecipeType(int pos)

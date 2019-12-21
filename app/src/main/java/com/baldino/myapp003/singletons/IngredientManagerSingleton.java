@@ -16,15 +16,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baldino.myapp003.Util.*;
-
 public class IngredientManagerSingleton {
 
     private static IngredientManagerSingleton singleton_instance = null;
 
     private Context context;
-
-    private static final String FILE_PATH = "ingredients.txt";
 
     public List<Ingredient> ingredients;
     public IngredientListAdapter listAdapter = null;
@@ -94,13 +90,6 @@ public class IngredientManagerSingleton {
         else return binaryFind(name, mid+1, right);
     }
 
-    public void createFakeData()
-    {
-        ingredients.add(new Ingredient("Pasta", 0.5f, "kg", 0.55f));
-        ingredients.add(new Ingredient("Tonno", 12f, "pz", 8.49f));
-        ingredients.add(new Ingredient("Uova", 6f, "pz", 1.75f));
-    }
-
     public int saveData()
     {
         StringBuilder output_string = new StringBuilder("");
@@ -119,8 +108,8 @@ public class IngredientManagerSingleton {
 
         try
         {
-            FileOutputStream fos = context.openFileOutput(FILE_PATH, Context.MODE_PRIVATE);
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
+            FileOutputStream fos = context.openFileOutput(Util.FILE_PATH, Context.MODE_PRIVATE);
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
             fos.close();
         }
         catch (FileNotFoundException e)
@@ -144,8 +133,8 @@ public class IngredientManagerSingleton {
 
         try
         {
-            FileInputStream fis = context.openFileInput(FILE_PATH);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
+            FileInputStream fis = context.openFileInput(Util.FILE_PATH);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 
             while((line = reader.readLine()) != null)
@@ -175,7 +164,7 @@ public class IngredientManagerSingleton {
 
         for(int i = 0; i < lines.size(); i++)
         {
-            ingredients.add(getIngredient(lines.get(i)));
+            ingredients.add(Util.getIngredient(lines.get(i)));
         }
 
         return 0;

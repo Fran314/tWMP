@@ -22,6 +22,9 @@ public class ShoppingListActivity extends AppCompatActivity
     private LinearLayout container;
     private List<RecIngredient> shopping_list;
 
+    WeekManagerSingleton sWeekManager;
+    RecipeManagerSingleton sRecipeManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,38 +33,28 @@ public class ShoppingListActivity extends AppCompatActivity
 
         container = findViewById(R.id.shopping_list_container);
 
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
+        sWeekManager = WeekManagerSingleton.getInstance();
+        sRecipeManager = RecipeManagerSingleton.getInstance();
 
         shopping_list = new ArrayList<>();
 
-        /*
         for(int i = 0; i < 7; i++)
         {
-            Recipe lunch = sRecipeManager.binaryFind(sWeekManager.days[i].getLunch(), 0);
-            if(lunch != null)
+            if(sWeekManager.days[i].hasSameFormat)
             {
-                for(int j = 0; j < lunch.ingredients.size(); j++)
+                for(int j = 0; j < sWeekManager.courses_per_meal.size(); j++)
                 {
-                    addItem(lunch.ingredients.get(j).getName(), lunch.ingredients.get(j).getAmount());
-                }
-            }
-
-            Recipe dinner = sRecipeManager.binaryFind(sWeekManager.days[i].getDinner(), 1);
-            if(dinner != null)
-            {
-                for(int j = 0; j < dinner.ingredients.size(); j++)
-                {
-                    addItem(dinner.ingredients.get(j).getName(), dinner.ingredients.get(j).getAmount());
-                }
-            }
-
-            Recipe side_dish = sRecipeManager.binaryFind(sWeekManager.days[i].getSideDinner(), 2);
-            if(side_dish != null)
-            {
-                for(int j = 0; j < side_dish.ingredients.size(); j++)
-                {
-                    addItem(side_dish.ingredients.get(j).getName(), side_dish.ingredients.get(j).getAmount());
+                    for(int k = 0; k < sWeekManager.courses_per_meal.get(j); k++)
+                    {
+                        Recipe rec = sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(k)).binaryFind(sWeekManager.days[i].getCourseOfmeal(k,j));
+                        if(rec != null)
+                        {
+                            for(int h = 0; h < rec.ingredients.size(); h++)
+                            {
+                                addItem(rec.ingredients.get(h).getName(), rec.ingredients.get(h).getAmount());
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -72,8 +65,6 @@ public class ShoppingListActivity extends AppCompatActivity
             new_item.setText(rec_ingr.getName() + " x" + rec_ingr.getAmount());
             container.addView(new_item);
         }
-
-         */
     }
 
     private void addItem(String name, float amount)

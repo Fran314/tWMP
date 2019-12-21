@@ -25,7 +25,6 @@ import static com.baldino.myapp003.Util.normalizeString;
 
 public class RecipeType
 {
-    private static final String TYPES_FOLDER = "recipes_data";
     private Context context;
 
     private String name = "";
@@ -67,7 +66,7 @@ public class RecipeType
         recipes = new ArrayList<>();
         List<String> lines = new ArrayList<>();
 
-        File folder = new File(context.getFilesDir(), TYPES_FOLDER);
+        File folder = new File(context.getFilesDir(), Util.TYPES_FOLDER);
         folder.mkdirs();
 
         try
@@ -134,7 +133,7 @@ public class RecipeType
             }
         }
 
-        File folder = new File(context.getFilesDir(), TYPES_FOLDER);
+        File folder = new File(context.getFilesDir(), Util.TYPES_FOLDER);
         folder.mkdirs();
 
         try
@@ -189,7 +188,6 @@ public class RecipeType
         return recipes.get(pos);
     }
 
-    /*
     public Recipe binaryFind(String name) { return binaryFind(name, 0, recipes.size()-1); }
     public Recipe binaryFind(String name, int left, int right)
     {
@@ -200,8 +198,6 @@ public class RecipeType
         else if(Util.compareStrings(name, recipes.get(mid).getName()) < 0) return binaryFind(name, left, mid-1);
         else return binaryFind(name, mid+1, right);
     }
-
-     */
 
     public int binaryFindIndex(String name) { return binaryFindIndex(name, 0, recipes.size()-1); }
     public int binaryFindIndex(String name, int left, int right)

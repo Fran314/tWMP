@@ -8,7 +8,7 @@ import java.util.List;
 public class Day
 {
     private List<List<String>> meals;
-    public boolean isNew;
+    public boolean isNew, hasSameFormat;
 
     public Day(boolean isNew)
     {

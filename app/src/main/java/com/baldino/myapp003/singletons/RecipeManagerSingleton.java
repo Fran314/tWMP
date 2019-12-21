@@ -3,8 +3,8 @@ package com.baldino.myapp003.singletons;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.baldino.myapp003.Recipe;
 import com.baldino.myapp003.RecipeType;
+import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,15 +17,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baldino.myapp003.Util.*;
-
 public class RecipeManagerSingleton {
 
     private static RecipeManagerSingleton singleton_instance = null;
 
     private Context context;
-
-    private static final String REC_TYPES_PATH = "recipe_types.txt";
 
     public List<RecipeType> recipe_types;
     public List<String> type_names;
@@ -54,8 +50,8 @@ public class RecipeManagerSingleton {
 
         try
         {
-            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), REC_TYPES_PATH));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
+            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.REC_TYPES_PATH));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 
             while((line = reader.readLine()) != null)
@@ -80,7 +76,7 @@ public class RecipeManagerSingleton {
         for(int i = 0; i < lines.size(); i++)
         {
             RecipeType new_recipe_type;
-            String name = getRecTypeName(lines.get(i));
+            String name = Util.getRecTypeName(lines.get(i));
 
             new_recipe_type = new RecipeType(name, context);
             //new_recipe_type.createFakeData();
@@ -110,8 +106,8 @@ public class RecipeManagerSingleton {
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), REC_TYPES_PATH));
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.REC_TYPES_PATH));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
             fos.close();
         }
         catch (FileNotFoundException e)
@@ -123,14 +119,4 @@ public class RecipeManagerSingleton {
             e.printStackTrace();
         }
     }
-
-    /*
-    public void createFakeTypeNames()
-    {
-        recipe_types = new ArrayList<>();
-        recipe_types.add(new RecipeType("Primi", context));
-        recipe_types.add(new RecipeType("Secondi", context));
-        recipe_types.add(new RecipeType("Contorni", context));
-    }
-     */
 }

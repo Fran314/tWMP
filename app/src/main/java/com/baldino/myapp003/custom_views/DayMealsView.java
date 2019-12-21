@@ -43,7 +43,7 @@ public class DayMealsView extends LinearLayout {
         meals_container = this.findViewById(R.id.meals_container);
     }
 
-    public void addFirstRow(String name, String meal, String color)
+    public void addFirstRow(String name, String meal, int color)
     {
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
 
@@ -60,7 +60,7 @@ public class DayMealsView extends LinearLayout {
 
         TextView first_course = new TextView(getContext());
         first_course.setText(meal);
-        first_course.setTextColor(Color.parseColor(color));
+        first_course.setTextColor(color);
         TableRow.LayoutParams first_course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         first_course_params.gravity = Gravity.CENTER_VERTICAL;
         first_course_params.leftMargin = Util.intToDp(4);
@@ -72,7 +72,7 @@ public class DayMealsView extends LinearLayout {
         meals_container.addView(first_row);
     }
 
-    public void addRow(String meal, String color)
+    public void addRow(String meal, int color)
     {
         TableRow row = new TableRow(getContext());
         row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -82,7 +82,7 @@ public class DayMealsView extends LinearLayout {
 
         TextView course = new TextView(getContext());
         course.setText(meal);
-        course.setTextColor(Color.parseColor(color));
+        course.setTextColor(color);
         TableRow.LayoutParams course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         course_params.gravity = Gravity.CENTER_VERTICAL;
         course_params.leftMargin = Util.intToDp(4);
@@ -94,7 +94,7 @@ public class DayMealsView extends LinearLayout {
         meals_container.addView(row);
     }
 
-    public void empty()
+    public void emptyUI()
     {
         meals_container.removeAllViews();
     }

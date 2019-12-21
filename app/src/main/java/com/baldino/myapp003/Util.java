@@ -10,31 +10,18 @@ import android.view.animation.Transformation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Util {
-
-    public static final int BYTES_IN_CHAR = 2;
-    public static final int BYTES_IN_FLOAT = 4;
-
-    public static final int INGR_NAME_LENGTH = 56;
-    public static final int INGR_UNIT_LENGTH = 4;
-
-    public static final int INGR_TOT_BYTES = 128;   // bytes from 0   to 111 (112 in total): name
-                                                    // bytes from 112 to 119 (8   in total): unit
-                                                    // bytes from 120 to 123 (4   in total): amount
-                                                    // bytes from 124 to 127 (4   in total): price
-    public static final int INGR_NAME_OFFSET = 0;
-    public static final int INGR_UNIT_OFFSET = 112;
-    public static final int INGR_AMOUNT_OFFSET = 120;
-    public static final int INGR_PRICE_OFFSET = 124;
-
-    public static final int INGR_B_NAME_SIZE = INGR_NAME_LENGTH *BYTES_IN_CHAR;
-    public static final int INGR_B_UNIT_SIZE = INGR_UNIT_LENGTH *BYTES_IN_CHAR;
-    public static final int INGR_B_AMOUNT_SIZE = BYTES_IN_FLOAT;
-    public static final int INGR_B_PRICE_SIZE = BYTES_IN_FLOAT;
-
-    public static final char NULL_CHAR = '\uFFFF';
-
+public class Util
+{
     public static final String STD_CHARSET = "UTF-16";
+
+    public static final String FILE_PATH = "ingredients.txt";
+
+    public static final String TYPES_FOLDER = "recipes_data";
+    public static final String REC_TYPES_PATH = "recipe_types.txt";
+
+    public static final String SUBFOLDER_PATH = "weeks_data";
+    public static final String WEEKS_LIST_PATH = "weeks_list.txt";
+    public static final String DAILY_MEALS_PATH = "daily_meals.txt";
 
     public static Context context;
 
@@ -221,7 +208,7 @@ public class Util {
 
     public static String nameToFileName(String name)
     {
-        return name.toLowerCase().replaceAll("/[^A-Za-z0-9 ]/", "").replace(" ", "_");
+        return name.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replace(" ", "_");
     }
 
     public static int stringToInt(String arg)

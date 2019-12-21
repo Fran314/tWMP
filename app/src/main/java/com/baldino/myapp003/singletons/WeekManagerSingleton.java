@@ -19,26 +19,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.baldino.myapp003.Util.*;
-
 public class WeekManagerSingleton
 {
     private static WeekManagerSingleton singleton_instance = null;
 
     private Context context;
 
-    private static final String SUBFOLDER_PATH = "weeks_data";
-    private static final String WEEKS_LIST_PATH = "weeks_list.txt";
-    private static final String DAILY_MEALS_PATH = "daily_meals.txt";
-
     public int year = 1970, month = 0, day_of_month = 1;
 
     private List<String> existing_files;
-
     public List<MealFormat> daily_meals;
 
+    //---- Variables relative to the currently loaded week ----//
+    public boolean has_same_format;
     public List<Integer> courses_per_meal;
     public List<String> meal_names;
+    //---- ----//
 
     public Day days[] = new Day[7];
 
@@ -73,29 +69,6 @@ public class WeekManagerSingleton
         this.day_of_month = day_of_month;
     }
 
-    /*
-    public void createFakeData()
-    {
-        for(int i = 0; i < 7; i++)
-        {
-
-        }
-    }
-
-    public void createFakeDailyMeals()
-    {
-        MealFormat pranzo = new MealFormat("Pranzo");
-        pranzo.addMeal(0, 0);
-
-        MealFormat cena = new MealFormat("Cena");
-        cena.addMeal(1, 0);
-        cena.addMeal(2, 0);
-
-        daily_meals.add(pranzo);
-        daily_meals.add(cena);
-    }
-     */
-
     public void saveDailyMeals()
     {
         StringBuilder output_string = new StringBuilder("");
@@ -119,8 +92,8 @@ public class WeekManagerSingleton
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), DAILY_MEALS_PATH));
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.DAILY_MEALS_PATH));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
             fos.close();
         }
         catch (FileNotFoundException e)
@@ -138,8 +111,8 @@ public class WeekManagerSingleton
         List<String> lines = new ArrayList<>();
         try
         {
-            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), DAILY_MEALS_PATH));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
+            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.DAILY_MEALS_PATH));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 
             while((line = reader.readLine()) != null)
@@ -162,19 +135,19 @@ public class WeekManagerSingleton
 
         for(int i = 0; i < lines.size(); i++)
         {
-            String name = getMealFormatName(lines.get(i));
+            String name = Util.getMealFormatName(lines.get(i));
             MealFormat new_meal_format = new MealFormat(name);
 
             i++;
             int dim = 0;
-            if(i < lines.size()) dim = getInt(lines.get(i));
+            if(i < lines.size()) dim = Util.getInt(lines.get(i));
 
             for(int iter = 0; iter < dim; iter++)
             {
                 i++;
                 if(i < lines.size())
                 {
-                    int vals[] = getTypeAndStd(lines.get(i));
+                    int vals[] = Util.getTypeAndStd(lines.get(i));
                     new_meal_format.addMeal(vals[0], vals[1]);
                 }
             }
@@ -186,7 +159,7 @@ public class WeekManagerSingleton
     public void saveData()
     {
 
-        File folder = new File(context.getFilesDir(), SUBFOLDER_PATH);
+        File folder = new File(context.getFilesDir(), Util.SUBFOLDER_PATH);
         folder.mkdirs();
 
         Calendar c = Calendar.getInstance();
@@ -239,7 +212,7 @@ public class WeekManagerSingleton
         try
         {
             FileOutputStream fos = new FileOutputStream(new File(folder, week_file_path));
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
             fos.close();
         }
         catch (FileNotFoundException e)
@@ -275,24 +248,25 @@ public class WeekManagerSingleton
             {
                 //TODO: sistema qua con il nuovo tipo di Day
                 days[i] = new Day(true);
+                days[i].hasSameFormat = true;
             }
             for(int i = 0; i < daily_meals.size(); i++)
             {
-                meal_names.add(daily_meals.get(i).getName());
-                courses_per_meal.add(daily_meals.get(i).getDim());
+                this.meal_names.add(daily_meals.get(i).getName());
+                this.courses_per_meal.add(daily_meals.get(i).getDim());
             }
             return;
         }
 
         List<String> lines = new ArrayList<>();
 
-        File folder = new File(context.getFilesDir(), SUBFOLDER_PATH);
+        File folder = new File(context.getFilesDir(), Util.SUBFOLDER_PATH);
         folder.mkdirs();
 
         try
         {
             FileInputStream fis = new FileInputStream(new File(folder, week_file_path));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 
             while((line = reader.readLine()) != null)
@@ -311,11 +285,12 @@ public class WeekManagerSingleton
             {
                 //TODO: sistema qua con il nuovo tipo di Day
                 days[i] = new Day(true);
+                days[i].hasSameFormat = true;
             }
             for(int i = 0; i < daily_meals.size(); i++)
             {
-                meal_names.add(daily_meals.get(i).getName());
-                courses_per_meal.add(daily_meals.get(i).getDim());
+                this.meal_names.add(daily_meals.get(i).getName());
+                this.courses_per_meal.add(daily_meals.get(i).getDim());
             }
             return;
         }
@@ -328,8 +303,8 @@ public class WeekManagerSingleton
             e.printStackTrace();
         }
 
-        List<String> meal_names = new ArrayList<>();
-        List<Integer> courser_per_meal = new ArrayList<>();
+        List<String> curr_meal_names = new ArrayList<>();
+        List<Integer> curr_courser_per_meal = new ArrayList<>();
         int meals_per_day = 0;
 
         int counter = 0;
@@ -340,12 +315,12 @@ public class WeekManagerSingleton
         }
         if(counter < lines.size())
         {
-            meal_names = Util.getStrings(lines.get(counter), meals_per_day);
+            curr_meal_names = Util.getStrings(lines.get(counter), meals_per_day);
             counter++;
         }
         if(counter < lines.size())
         {
-            courser_per_meal = Util.getInts(lines.get(counter), meals_per_day);
+            curr_courser_per_meal = Util.getInts(lines.get(counter), meals_per_day);
             counter++;
         }
 
@@ -355,29 +330,42 @@ public class WeekManagerSingleton
             for(int i = 0; i < 7; i++)
             {
                 days[i] = new Day(true);
+                days[i].hasSameFormat = true;
             }
             for(int i = 0; i < daily_meals.size(); i++)
             {
-                meal_names.add(daily_meals.get(i).getName());
-                courses_per_meal.add(daily_meals.get(i).getDim());
+                this.meal_names.add(daily_meals.get(i).getName());
+                this.courses_per_meal.add(daily_meals.get(i).getDim());
             }
             return;
         }
         else
         {
+            boolean check = true;
+            if(daily_meals.size() != curr_meal_names.size()) check = false;
+            for(int i = 0; i < daily_meals.size() && check; i++)
+            {
+                if(daily_meals.get(i).getDim() != curr_courser_per_meal.get(i)) check = false;
+            }
+            for(int i = 0; i < daily_meals.size() && check; i++)
+            {
+                if(Util.compareStrings(daily_meals.get(i).getName(), curr_meal_names.get(i)) != 0) check = false;
+            }
+
             for(int i = 0; i < 7; i++)
             {
                 days[i] = new Day(false);
+                days[i].hasSameFormat = check;
                 for(int j = 0; j < meals_per_day; j++)
                 {
-                    days[i].addMeal(Util.getStrings(lines.get(counter), courser_per_meal.get(j)));
+                    days[i].addMeal(Util.getStrings(lines.get(counter), curr_courser_per_meal.get(j)));
                     counter++;
                 }
             }
-        }
 
-        this.courses_per_meal = courser_per_meal;
-        this.meal_names = meal_names;
+            this.courses_per_meal = curr_courser_per_meal;
+            this.meal_names = curr_meal_names;
+        }
     }
 
     public int saveWeeks()
@@ -392,8 +380,8 @@ public class WeekManagerSingleton
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), WEEKS_LIST_PATH));
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.WEEKS_LIST_PATH));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
             fos.close();
         }
         catch (FileNotFoundException e)
@@ -415,8 +403,8 @@ public class WeekManagerSingleton
 
         try
         {
-            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), WEEKS_LIST_PATH));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
+            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.WEEKS_LIST_PATH));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 
             while((line = reader.readLine()) != null)
@@ -446,7 +434,7 @@ public class WeekManagerSingleton
 
         for(int i = 0; i < lines.size(); i++)
         {
-            addWeek(getFileName(lines.get(i)));
+            addWeek(Util.getFileName(lines.get(i)));
         }
 
         return 0;
