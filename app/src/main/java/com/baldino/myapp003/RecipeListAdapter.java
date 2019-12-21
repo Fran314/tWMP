@@ -17,30 +17,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.ui.recipes.RecipesFragment;
 
-public class NewRecipeListAdapter extends RecyclerView.Adapter<NewRecipeListAdapter.RecViewHolder>
+public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecViewHolder>
 {
     private RecipeType recipe_type;
     public int expanded_value = -1;
 
     public RecipesFragment recipes_fragment;
 
-    public NewRecipeListAdapter(RecipeType recipe_type)
+    public RecipeListAdapter(RecipeType recipe_type)
     {
         this.recipe_type = recipe_type;
     }
 
     @NonNull
     @Override
-    public NewRecipeListAdapter.RecViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public RecipeListAdapter.RecViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe, parent, false);
 
-        return new NewRecipeListAdapter.RecViewHolder(view);
+        return new RecipeListAdapter.RecViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewRecipeListAdapter.RecViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull RecipeListAdapter.RecViewHolder holder, int position)
     {
         final Recipe recipe = recipe_type.getRecipe(position);
 

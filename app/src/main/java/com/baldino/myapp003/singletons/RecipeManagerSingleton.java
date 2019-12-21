@@ -23,8 +23,8 @@ public class RecipeManagerSingleton {
 
     private Context context;
 
-    public List<RecipeType> recipe_types;
-    public List<String> type_names;
+    private List<RecipeType> recipe_types;
+    private List<String> type_names;
     public ArrayAdapter<String> type_names_adapter = null;
 
     private RecipeManagerSingleton()
@@ -79,13 +79,12 @@ public class RecipeManagerSingleton {
             String name = Util.getRecTypeName(lines.get(i));
 
             new_recipe_type = new RecipeType(name, context);
-            //new_recipe_type.createFakeData();
+
             new_recipe_type.loadRecipes();
             recipe_types.add(new_recipe_type);
         }
 
         type_names = new ArrayList<>();
-        //type_names.addMeal("-");
         for(RecipeType rec_type : recipe_types)
         {
             type_names.add(rec_type.getName());
@@ -118,5 +117,30 @@ public class RecipeManagerSingleton {
         {
             e.printStackTrace();
         }
+    }
+
+    public RecipeType getType(int pos)
+    {
+        return recipe_types.get(pos);
+    }
+
+    public void addRecType(RecipeType new_rec_type)
+    {
+        recipe_types.add(new_rec_type);
+    }
+
+    public void removeRecType(int pos)
+    {
+        recipe_types.remove(pos);
+    }
+
+    public int typesSize()
+    {
+        return recipe_types.size();
+    }
+
+    public void changeName(String name, int pos)
+    {
+        type_names.set(pos, name);
     }
 }

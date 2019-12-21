@@ -1,7 +1,6 @@
 package com.baldino.myapp003;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.BufferedReader;
@@ -12,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class RecipeType
     private String name = "";
 
     private List<Recipe> recipes;
-    private NewRecipeListAdapter recipe_list_adapter;
+    private RecipeListAdapter recipe_list_adapter;
     private ArrayAdapter<String> names_adapter = null;
 
     public RecipeType(String name, Context context)
@@ -40,7 +38,7 @@ public class RecipeType
 
         recipes = new ArrayList<>();
 
-        recipe_list_adapter = new NewRecipeListAdapter(this);
+        recipe_list_adapter = new RecipeListAdapter(this);
     }
 
     public void createFakeData()
@@ -210,7 +208,7 @@ public class RecipeType
         else return binaryFindIndex(name, mid+1, right);
     }
 
-    public NewRecipeListAdapter getListAdapter() { return recipe_list_adapter; }
+    public RecipeListAdapter getListAdapter() { return recipe_list_adapter; }
 
     public ArrayAdapter<String> getNamesAdapter()
     {

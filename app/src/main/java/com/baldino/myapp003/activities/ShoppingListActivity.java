@@ -40,13 +40,13 @@ public class ShoppingListActivity extends AppCompatActivity
 
         for(int i = 0; i < 7; i++)
         {
-            if(sWeekManager.days[i].hasSameFormat)
+            if(sWeekManager.has_same_format)
             {
                 for(int j = 0; j < sWeekManager.courses_per_meal.size(); j++)
                 {
                     for(int k = 0; k < sWeekManager.courses_per_meal.get(j); k++)
                     {
-                        Recipe rec = sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(k)).binaryFind(sWeekManager.days[i].getCourseOfmeal(k,j));
+                        Recipe rec = sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).binaryFind(sWeekManager.days[i].getCourseOfmeal(k,j));
                         if(rec != null)
                         {
                             for(int h = 0; h < rec.ingredients.size(); h++)

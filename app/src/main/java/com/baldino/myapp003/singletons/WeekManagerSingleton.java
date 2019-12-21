@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.baldino.myapp003.Day;
 import com.baldino.myapp003.MealFormat;
+import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
@@ -248,8 +249,8 @@ public class WeekManagerSingleton
             {
                 //TODO: sistema qua con il nuovo tipo di Day
                 days[i] = new Day(true);
-                days[i].hasSameFormat = true;
             }
+            has_same_format = true;
             for(int i = 0; i < daily_meals.size(); i++)
             {
                 this.meal_names.add(daily_meals.get(i).getName());
@@ -285,8 +286,8 @@ public class WeekManagerSingleton
             {
                 //TODO: sistema qua con il nuovo tipo di Day
                 days[i] = new Day(true);
-                days[i].hasSameFormat = true;
             }
+            has_same_format = true;
             for(int i = 0; i < daily_meals.size(); i++)
             {
                 this.meal_names.add(daily_meals.get(i).getName());
@@ -330,8 +331,8 @@ public class WeekManagerSingleton
             for(int i = 0; i < 7; i++)
             {
                 days[i] = new Day(true);
-                days[i].hasSameFormat = true;
             }
+            has_same_format = true;
             for(int i = 0; i < daily_meals.size(); i++)
             {
                 this.meal_names.add(daily_meals.get(i).getName());
@@ -352,10 +353,10 @@ public class WeekManagerSingleton
                 if(Util.compareStrings(daily_meals.get(i).getName(), curr_meal_names.get(i)) != 0) check = false;
             }
 
+            has_same_format = check;
             for(int i = 0; i < 7; i++)
             {
                 days[i] = new Day(false);
-                days[i].hasSameFormat = check;
                 for(int j = 0; j < meals_per_day; j++)
                 {
                     days[i].addMeal(Util.getStrings(lines.get(counter), curr_courser_per_meal.get(j)));
@@ -366,6 +367,31 @@ public class WeekManagerSingleton
             this.courses_per_meal = curr_courser_per_meal;
             this.meal_names = curr_meal_names;
         }
+    }
+
+    public int saveWooks()
+    {
+        StringBuilder output_string = new StringBuilder("");
+        output_string.append(context.getResources().getString(R.string.initial_recipe_types));
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(),"test.txt"));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
+            fos.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            return -1;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return -2;
+        }
+
+        return 0;
     }
 
     public int saveWeeks()

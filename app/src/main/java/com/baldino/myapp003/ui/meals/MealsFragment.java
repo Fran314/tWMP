@@ -151,16 +151,14 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
                 days[i].emptyUI();
                 for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
                 {
-                    //TODO check if meal exists in our recipes
-                    if(sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(0)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(0, j)) != -1)
+                    if(sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(0)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(0, j)) != -1)
                         days[i].addFirstRow(sWeekManager.daily_meals.get(j).getName(), sWeekManager.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorBlack));
                     else
                         days[i].addFirstRow(sWeekManager.daily_meals.get(j).getName(), sWeekManager.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorErrorRed));
 
                     for(int k = 1; k < sWeekManager.daily_meals.get(j).getDim(); k++)
                     {
-                        //TODO check if meal exists in our recipes
-                        if(sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(j).getType(k)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(k, j)) != -1)
+                        if(sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(k, j)) != -1)
                             days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorBlack));
                         else
                             days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorErrorRed));

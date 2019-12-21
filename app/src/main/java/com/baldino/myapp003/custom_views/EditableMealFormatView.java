@@ -126,7 +126,7 @@ public class EditableMealFormatView extends LinearLayout
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
             {
-                stds.get(pos).setAdapter(sRecipeManager.recipe_types.get(selected_index).getNamesAdapter());
+                stds.get(pos).setAdapter(sRecipeManager.getType(selected_index).getNamesAdapter());
                 stds.get(pos).setSelection(0);
             }
 
@@ -152,7 +152,7 @@ public class EditableMealFormatView extends LinearLayout
         types.get(pos).setAdapter(sRecipeManager.type_names_adapter);
         types.get(pos).setSelection(sWeekManager.daily_meals.get(meal).getType(pos));
 
-        stds.get(pos).setAdapter(sRecipeManager.recipe_types.get(sWeekManager.daily_meals.get(meal).getType(pos)).getNamesAdapter());
+        stds.get(pos).setAdapter(sRecipeManager.getType(sWeekManager.daily_meals.get(meal).getType(pos)).getNamesAdapter());
         stds.get(pos).setSelection(sWeekManager.daily_meals.get(meal).getStd(pos));
     }
 

@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         //----//
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         sWeekManager.loadWeeks();
         sWeekManager.loadDailyMeals();
         sWeekManager.loadData();
+
+        sWeekManager.saveWooks();
     }
 
     @Override

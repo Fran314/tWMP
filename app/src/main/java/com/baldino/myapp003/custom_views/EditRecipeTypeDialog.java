@@ -71,17 +71,18 @@ public class EditRecipeTypeDialog extends Dialog implements View.OnClickListener
             public void onClick(View view)
             {
                 boolean sameFileName = false;
-                for(int i = 0; i < sRecipeManager.recipe_types.size() && !sameFileName; i++)
+                for(int i = 0; i < sRecipeManager.typesSize() && !sameFileName; i++)
                 {
-                    if(i != curr_pos && Util.compareStrings(Util.nameToFileName(editable_recipes_name.getText().toString()), sRecipeManager.recipe_types.get(i).getName()) == 0)
+                    if(i != curr_pos && Util.compareStrings(Util.nameToFileName(editable_recipes_name.getText().toString()), sRecipeManager.getType(i).getName()) == 0)
                         sameFileName = true;
                 }
 
                 if(!sameFileName)
                 {
-                    String last_name = sRecipeManager.recipe_types.get(curr_pos).getName();
-                    sRecipeManager.recipe_types.get(curr_pos).setName(editable_recipes_name.getText().toString());
-                    sRecipeManager.recipe_types.get(curr_pos).saveRecipes();
+                    String last_name = sRecipeManager.getType(curr_pos).getName();
+                    sRecipeManager.getType(curr_pos).setName(editable_recipes_name.getText().toString());
+                    sRecipeManager.changeName(editable_recipes_name.getText().toString(), curr_pos);
+                    sRecipeManager.getType(curr_pos).saveRecipes();
                     sRecipeManager.saveTypeNames();
 
                     File folder = new File(getContext().getFilesDir(), Util.TYPES_FOLDER);

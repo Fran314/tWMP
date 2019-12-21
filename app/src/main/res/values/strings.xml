@@ -57,6 +57,8 @@
     <string name="dialog_recipes_type_name">Recipes Type Name:</string>
     <string name="dialog_file_name">File Name:</string>
 
+    <string name="shopping_list_hint">Add other items to the list…</string>
+
     <string-array name="meals">
         <item>[Nessun Piatto Predefinito]</item>
         <item>Pizza Kebab</item>

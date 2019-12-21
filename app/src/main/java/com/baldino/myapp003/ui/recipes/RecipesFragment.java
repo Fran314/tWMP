@@ -55,11 +55,11 @@ public class RecipesFragment extends Fragment {
         {
             @Override
             public void onClick(View view) {
-                int pos = sRecipeManager.recipe_types.size();
+                int pos = sRecipeManager.typesSize();
 
                 //TODO: change New Meal to a string based on the device language
                 RecipeType new_recipe_type = new RecipeType("New Recipe Type", getContext());
-                sRecipeManager.recipe_types.add(new_recipe_type);
+                sRecipeManager.addRecType(new_recipe_type);
                 addRecipeType(pos);
                 setButtons(pos);
                 sRecipeManager.saveTypeNames();
@@ -68,7 +68,7 @@ public class RecipesFragment extends Fragment {
 
         eLists = new ArrayList<>();
 
-        for(int i = 0; i < sRecipeManager.recipe_types.size(); i++)
+        for(int i = 0; i < sRecipeManager.typesSize(); i++)
         {
             addRecipeType(i);
             setButtons(i);
@@ -86,7 +86,7 @@ public class RecipesFragment extends Fragment {
 
     private void addRecipeType(int pos)
     {
-        RecipeType rec_type = sRecipeManager.recipe_types.get(pos);
+        RecipeType rec_type = sRecipeManager.getType(pos);
         ExpandableRecipeListView erl = new ExpandableRecipeListView(getContext());
         erl.header_text.setText(rec_type.getName());
         if(pos != expanded_value) erl.rv_recipes.setVisibility(View.GONE);
@@ -101,7 +101,7 @@ public class RecipesFragment extends Fragment {
     }
     public void updateList(int pos)
     {
-        RecipeType rec_type = sRecipeManager.recipe_types.get(pos);
+        RecipeType rec_type = sRecipeManager.getType(pos);
         eLists.get(pos).header_text.setText(rec_type.getName());
         rec_type.getListAdapter().recipes_fragment = this;
         eLists.get(pos).rv_recipes.setAdapter(rec_type.getListAdapter());
@@ -141,8 +141,8 @@ public class RecipesFragment extends Fragment {
                         else if(item.getItemId() == R.id.item_edit_list)
                         {
                             EditRecipeTypeDialog ertd = new EditRecipeTypeDialog(getContext(), pos, fragment);
-                            ertd.editable_recipes_name.setText(sRecipeManager.recipe_types.get(pos).getName());
-                            ertd.file_name_output.setText(Util.nameToFileName(sRecipeManager.recipe_types.get(pos).getName()) + ".txt");
+                            ertd.editable_recipes_name.setText(sRecipeManager.getType(pos).getName());
+                            ertd.file_name_output.setText(Util.nameToFileName(sRecipeManager.getType(pos).getName()) + ".txt");
                             ertd.show();
                         }
                         else if(item.getItemId() == R.id.item_delete_list)
@@ -186,7 +186,7 @@ public class RecipesFragment extends Fragment {
 
     public void updateUI()
     {
-        for(int i = 0; i < sRecipeManager.recipe_types.size(); i++)
+        for(int i = 0; i < sRecipeManager.typesSize(); i++)
         {
             updateList(i);
         }
@@ -198,7 +198,7 @@ public class RecipesFragment extends Fragment {
         else if(expanded_value > pos) expanded_value--;
         rv_container.removeViewAt(pos);
         eLists.remove(pos);
-        sRecipeManager.recipe_types.remove(pos);
+        sRecipeManager.removeRecType(pos);
 
         //TODO: elimina file
         sRecipeManager.saveTypeNames();
@@ -234,7 +234,7 @@ public class RecipesFragment extends Fragment {
     {
         Intent intent = new Intent(getActivity(), EditRecipeActivity.class);
         intent.putExtra("Recipe_Type", expanded_value);
-        intent.putExtra("Recipe_Position", sRecipeManager.recipe_types.get(expanded_value).getListAdapter().expanded_value);
+        intent.putExtra("Recipe_Position", sRecipeManager.getType(expanded_value).getListAdapter().expanded_value);
         intent.putExtra("Recipe_New", false);
 
         startActivity(intent);
@@ -245,7 +245,7 @@ public class RecipesFragment extends Fragment {
     {
         Intent intent = new Intent(getActivity(), EditRecipeActivity.class);
         intent.putExtra("Recipe_Type", expanded_value);
-        intent.putExtra("Recipe_Position", sRecipeManager.recipe_types.get(expanded_value).getListAdapter().expanded_value);
+        intent.putExtra("Recipe_Position", sRecipeManager.getType(expanded_value).getListAdapter().expanded_value);
         intent.putExtra("Recipe_New", true);
 
         startActivity(intent);

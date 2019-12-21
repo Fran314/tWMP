@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="initial_recipe_types">
+        [Lunch Main Courses]
+        \n[Dinner Main Courses]
+        \n[Side Dishes]
+        \n[Extra]
+    </string>
+    <string name="initial_daily_meals">
+        [Colazione]
+        \n[1]
+        \n[3][1]
+        \n[Pranzo]
+        \n[1]
+        \n[0][0]
+        \n[Cena]
+        \n[2]
+        \n[1][0]
+        \n[2][0]
+    </string>
+    <string name="initial_lunch_courses">
+        [Insalata]
+        \n[2]
+        \n[Insalata][0.4]
+        \n[Tonno][0.16]
+        \n[Pasta Amatriciana]
+        \n[4]
+        \n[Pasta][0.125]
+        \n[Tomato Sauce][0.25]
+        \n[Pancetta][0.1]
+        \n[Onion][0.1]
+        \n[Gnocchi With Pesto]
+        \n[2]
+        \n[Gnocchi][0.125]
+        \n[Pesto Sauce][0.2]
+    </string>
+</resources>

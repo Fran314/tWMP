@@ -41,4 +41,6 @@
 
     <string name="label_ingredients_list">Lista Degli Ingredienti</string>
     <string name="label_daily_meals">Pasti Giornalieri</string>
+
+    <string name="shopping_list_hint">Aggiungi altri elementi alla lista…</string>
 </resources>
