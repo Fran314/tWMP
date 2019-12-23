@@ -372,7 +372,7 @@ public class WeekManagerSingleton
     public int saveWooks()
     {
         StringBuilder output_string = new StringBuilder("");
-        output_string.append(context.getResources().getString(R.string.initial_recipe_types));
+        //output_string.append(context.getResources().getString(context.getResources().getStringArray(R.array.id_array)[0]));
 
         try
         {

@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="initial_recipe_types">
-        [Lunch Main Courses]
-        \n[Dinner Main Courses]
+        [Main Courses]
         \n[Side Dishes]
         \n[Extra]
     </string>
     <string name="initial_daily_meals">
-        [Colazione]
+        [Breakfast]
         \n[1]
-        \n[3][1]
-        \n[Pranzo]
-        \n[1]
+        \n[2][1]
+        \n[Lunch]
+        \n[0]
         \n[0][0]
-        \n[Cena]
+        \n[Dinner]
         \n[2]
+        \n[0][0]
         \n[1][0]
-        \n[2][0]
     </string>
-    <string name="initial_lunch_courses">
-        [Insalata]
+    <string name="initial_main_courses">
+        [Salad]
         \n[2]
-        \n[Insalata][0.4]
-        \n[Tonno][0.16]
+        \n[Salad][0.4]
+        \n[Tuna][0.16]
         \n[Pasta Amatriciana]
         \n[4]
         \n[Pasta][0.125]
@@ -34,4 +33,11 @@
         \n[Gnocchi][0.125]
         \n[Pesto Sauce][0.2]
     </string>
+    <string-array name="id_array">
+        <item>initial_main_courses</item>
+        <item>Pizza Kebab</item>
+        <item>Pasta All\'Amatriciana</item>
+        <item>Pasta Al Tonno</item>
+        <item>Carne Con Fagiolini</item>
+    </string-array>
 </resources>

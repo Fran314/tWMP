@@ -1,5 +1,7 @@
 package com.baldino.myapp003.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.baldino.myapp003.R;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        //----//
+        //--- Code created by the toolkit. Don't really know what it does. Don't touch it ---//
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -46,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        //----//
+        //--- ---//
 
+
+        //--- The following block of code should always be the first to be run, before
+        //    anything else, and should stay in this order, too. Not strictly, but it's better if
+        //    it stays this way ---//
         Util.context = this;
 
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
@@ -57,6 +63,34 @@ public class MainActivity extends AppCompatActivity {
         sIngredientManager.setContext(this);
         sRecipeManager.setContext(this);
         sWeekManager.setContext(this);
+        //--- ---//
+
+        if(Util.isFirstStart())
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirm");
+            builder.setMessage("Are you sure?");
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton("Fresh\nStart", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    // Do nothing
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
 
         sIngredientManager.loadData();
 
@@ -65,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
         sWeekManager.loadWeeks();
         sWeekManager.loadDailyMeals();
         sWeekManager.loadData();
-
-        sWeekManager.saveWooks();
     }
 
     @Override

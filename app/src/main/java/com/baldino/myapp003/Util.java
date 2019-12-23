@@ -7,6 +7,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +28,8 @@ public class Util
     public static final String SUBFOLDER_PATH = "weeks_data";
     public static final String WEEKS_LIST_PATH = "weeks_list.txt";
     public static final String DAILY_MEALS_PATH = "daily_meals.txt";
+
+    private static final String FIRST_START_PATH = "first_start.txt";
 
     public static Context context;
 
@@ -309,5 +317,53 @@ public class Util
         // Collapse speed of 1dp/ms
         a.setDuration((int)(initialHeight * 1 / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+    }
+
+    /*
+        Thanks to Macarse & cricket_007 from StackOverflow for the next function
+        [https://stackoverflow.com/questions/4427608/android-getting-resource-id-from-string]
+     */
+    public static int getResId(String resName, Class<?> c)
+    {
+        try
+        {
+            Field idField = c.getDeclaredField(resName);
+            return idField.getInt(idField);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public static boolean isFirstStart()
+    {
+        //TODO dare un senso a questa funzione
+
+        File first_start = new File(context.getFilesDir(), FIRST_START_PATH);
+        if(first_start.exists()) return false;
+
+        String output_string = "Check!";
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(first_start);
+            fos.write(output_string.getBytes(Util.STD_CHARSET));
+            fos.close();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 }
