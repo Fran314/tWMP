@@ -43,10 +43,6 @@
     <string name="ingredients_name_text">Name:</string>
     <string name="ingredients_unit_text">Unit:</string>
 
-    <string name="recipe_first_courses">First Courses</string>
-    <string name="recipe_second_courses">Second Courses</string>
-    <string name="recipe_side_dishes">Side Dishes</string>
-
     <string name="label_ingredients_list">Ingredients List</string>
     <string name="label_daily_meals">Daily Meals</string>
 
@@ -59,16 +55,19 @@
 
     <string name="shopping_list_hint">Add other items to the list…</string>
 
-    <string-array name="meals">
-        <item>[Nessun Piatto Predefinito]</item>
-        <item>Pizza Kebab</item>
-        <item>Pasta All\'Amatriciana</item>
-        <item>Pasta Al Tonno</item>
-        <item>Carne Con Fagiolini</item>
-    </string-array>
-    <string-array name="types">
-        <item>Primo</item>
-        <item>Secondo</item>
-        <item>Contorno</item>
-    </string-array>
+    <string name="first_start_dialog_title">First Start</string>
+    <string name="first_start_dialog_intro">
+        It seems this is the first time you open this app. You can choose between one of the two following options for your first install\n
+        (Not choosing will have the same effect as choosing "Fresh Start")\n\n
+    </string>
+    <string name="first_start_dialog_fresh_start">Fresh Start: </string>
+    <string name="first_start_dialog_fs_explain">
+        Test test 1 test Test 2\n\n
+    </string>
+    <string name="first_start_dialog_basic_template">Basic Template: </string>
+    <string name="first_start_dialog_bt_explain">
+        Test test 3 test Test 4
+    </string>
+    <string name="button_fresh_start">Fresh\nStart</string>
+    <string name="button_basic_template">Basic\nTemplate</string>
 </resources>

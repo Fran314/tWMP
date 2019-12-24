@@ -42,5 +42,24 @@
     <string name="label_ingredients_list">Lista Degli Ingredienti</string>
     <string name="label_daily_meals">Pasti Giornalieri</string>
 
+    <string name="menu_add_recipe">Aggiungi Ricetta</string>
+    <string name="menu_edit_list">Modifica Lista</string>
+    <string name="menu_delete_list">Elimina Lista</string>
+
+    <string name="dialog_recipes_type_name">Nome Categoria Ricette:</string>
+    <string name="dialog_file_name">Nome File:</string>
+
     <string name="shopping_list_hint">Aggiungi altri elementi alla lista…</string>
+
+    <string name="first_start_dialog_title">Primo Avvio</string>
+    <string name="first_start_dialog_intro">
+        Sembra che sia la prima volta che apri quest\'app. Puoi scegliere una delle seguenti due azioni per il primo avvio
+        \n(Non scegliere avrà lo stesso effetto di scegliere "Inizio Pulito")\n\n
+    </string>
+    <string name="first_start_dialog_fresh_start">Inizio Pulito:</string>
+
+    <string name="first_start_dialog_basic_template">Template Di Base:</string>
+
+    <string name="button_fresh_start">Inizio\nPulito</string>
+    <string name="button_basic_template">Template\nDi Base</string>
 </resources>

@@ -27,8 +27,7 @@
                 android:id="@+id/spinner_main_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:entries="@array/types"/>
+                android:layout_gravity="center_vertical"/>
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
@@ -42,8 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:entries="@array/meals"/>
+                android:layout_marginLeft="16dp"/>
         </TableRow>
 
         <TableRow

@@ -339,8 +339,6 @@ public class Util
 
     public static boolean isFirstStart()
     {
-        //TODO dare un senso a questa funzione
-
         File first_start = new File(context.getFilesDir(), FIRST_START_PATH);
         if(first_start.exists()) return false;
 

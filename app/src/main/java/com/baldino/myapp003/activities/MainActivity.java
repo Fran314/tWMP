@@ -23,6 +23,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.view.Menu;
 
 public class MainActivity extends AppCompatActivity {
@@ -74,11 +79,35 @@ public class MainActivity extends AppCompatActivity {
 
         if(Util.isFirstStart())
         {
-            //TODO change this dialog so that it makes somewhat sense
+            //TODO write the actual explanations
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Confirm");
-            builder.setMessage("Are you sure?");
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+            builder.setTitle(getResources().getString(R.string.first_start_dialog_title));
+            String intro = getResources().getString(R.string.first_start_dialog_intro);
+            String fresh_start = getResources().getString(R.string.first_start_dialog_fresh_start);
+            String fs_explain = " " + getResources().getString(R.string.first_start_dialog_fs_explain);
+            String basic_template = getResources().getString(R.string.first_start_dialog_basic_template);
+            String bt_explain = " " + getResources().getString(R.string.first_start_dialog_bt_explain);
+
+            int start, end;
+            SpannableStringBuilder  dialog_body = new SpannableStringBuilder ();
+            dialog_body.append(intro);
+
+            start = dialog_body.length();
+            dialog_body.append(fresh_start);
+            end = dialog_body.length();
+            dialog_body.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            dialog_body.append(fs_explain);
+
+            start = dialog_body.length();
+            dialog_body.append(basic_template);
+            end = dialog_body.length();
+            dialog_body.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            dialog_body.append(bt_explain);
+
+            builder.setMessage(dialog_body);
+            builder.setPositiveButton(getResources().getString(R.string.button_basic_template), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
@@ -92,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            builder.setNegativeButton("Fresh\nStart", new DialogInterface.OnClickListener()
+            builder.setNegativeButton(getResources().getString(R.string.button_fresh_start), new DialogInterface.OnClickListener()
             {
                 @Override
                 public void onClick(DialogInterface dialog, int which)
@@ -101,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
+            builder.setCancelable(false);
 
             AlertDialog alert = builder.create();
             alert.show();
