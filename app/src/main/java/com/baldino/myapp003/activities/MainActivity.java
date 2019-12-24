@@ -2,6 +2,7 @@ package com.baldino.myapp003.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.baldino.myapp003.R;
@@ -27,6 +28,10 @@ import android.view.Menu;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    IngredientManagerSingleton sIngredientManager;
+    RecipeManagerSingleton sRecipeManager;
+    WeekManagerSingleton sWeekManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,17 +61,20 @@ public class MainActivity extends AppCompatActivity {
         //    it stays this way ---//
         Util.context = this;
 
-        IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-        RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+        sIngredientManager = IngredientManagerSingleton.getInstance();
+        sRecipeManager = RecipeManagerSingleton.getInstance();
+        sWeekManager = WeekManagerSingleton.getInstance();
 
         sIngredientManager.setContext(this);
         sRecipeManager.setContext(this);
         sWeekManager.setContext(this);
         //--- ---//
 
+        final MainActivity mainActivity = this;
+
         if(Util.isFirstStart())
         {
+            //TODO change this dialog so that it makes somewhat sense
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Confirm");
             builder.setMessage("Are you sure?");
@@ -74,7 +82,13 @@ public class MainActivity extends AppCompatActivity {
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
+                    Util.createInitFiles();
+
                     dialog.dismiss();
+
+                    Intent intent = mainActivity.getIntent();
+                    mainActivity.finish();
+                    startActivity(intent);
                 }
             });
 

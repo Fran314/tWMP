@@ -108,7 +108,7 @@ public class IngredientManagerSingleton {
 
         try
         {
-            FileOutputStream fos = context.openFileOutput(Util.FILE_PATH, Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(Util.INGREDIENTS_PATH, Context.MODE_PRIVATE);
             fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
             fos.close();
         }
@@ -133,7 +133,7 @@ public class IngredientManagerSingleton {
 
         try
         {
-            FileInputStream fis = context.openFileInput(Util.FILE_PATH);
+            FileInputStream fis = context.openFileInput(Util.INGREDIENTS_PATH);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 

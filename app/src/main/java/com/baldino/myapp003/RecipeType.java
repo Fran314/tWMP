@@ -41,21 +41,6 @@ public class RecipeType
         recipe_list_adapter = new RecipeListAdapter(this);
     }
 
-    public void createFakeData()
-    {
-        recipes = new ArrayList<>();
-        for(int i = 0; i < 10; i++)
-        {
-            Recipe recipeOne = new Recipe();
-            recipeOne.setName("Paninazzo " + Integer.toString(i));
-            recipeOne.ingredients.add(new RecIngredient("Pasta", 0.125f));
-            recipeOne.ingredients.add(new RecIngredient("Passata Di Pomodoro", 0.240f));
-            recipeOne.ingredients.add(new RecIngredient("Pancetta", 0.200f));
-            recipeOne.ingredients.add(new RecIngredient("Cipolla", 0.5f));
-            addRecipe(recipeOne);
-        }
-    }
-
     public void loadRecipes()
     {
         //TODO: ma ci va davvero questo?

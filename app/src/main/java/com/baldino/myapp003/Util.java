@@ -20,7 +20,7 @@ public class Util
 {
     public static final String STD_CHARSET = "UTF-16";
 
-    public static final String FILE_PATH = "ingredients.txt";
+    public static final String INGREDIENTS_PATH = "ingredients.txt";
 
     public static final String TYPES_FOLDER = "recipes_data";
     public static final String REC_TYPES_PATH = "recipe_types.txt";
@@ -348,7 +348,7 @@ public class Util
         try
         {
             FileOutputStream fos = new FileOutputStream(first_start);
-            fos.write(output_string.getBytes(Util.STD_CHARSET));
+            fos.write(output_string.getBytes(STD_CHARSET));
             fos.close();
         }
         catch (UnsupportedEncodingException e)
@@ -365,5 +365,87 @@ public class Util
         }
 
         return true;
+    }
+
+    public static void createInitFiles()
+    {
+        String[] file_names = context.getResources().getStringArray(R.array.id_array);
+
+        String initial_daily_meals = context.getResources().getString(R.string.initial_daily_meals);
+        String initial_rec_types = context.getResources().getString(R.string.initial_recipe_types);
+
+        String[] recipe_types = new String[file_names.length];
+        for(int i = 0; i < file_names.length; i++)
+        {
+            recipe_types[i] = context.getResources().getString(getResId("initial_" + nameToFileName(file_names[i]), R.string.class));
+        }
+
+        //--- Write initial daily meals ---//
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), DAILY_MEALS_PATH));
+            fos.write(initial_daily_meals.getBytes(STD_CHARSET));
+            fos.close();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        //--- ---//
+
+        //--- Write initial recipe types ---//
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), REC_TYPES_PATH));
+            fos.write(initial_rec_types.getBytes(STD_CHARSET));
+            fos.close();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        //--- ---//
+
+        //--- Write each recipe type ---//
+        File recipe_types_folder = new File(context.getFilesDir(), TYPES_FOLDER);
+        recipe_types_folder.mkdirs();
+        for(int i = 0; i < recipe_types.length; i++)
+        {
+            try
+            {
+                FileOutputStream fos = new FileOutputStream(new File(recipe_types_folder, nameToFileName(file_names[i]) + ".txt"));
+                fos.write(recipe_types[i].getBytes(STD_CHARSET));
+                fos.close();
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        //--- ---//
     }
 }
