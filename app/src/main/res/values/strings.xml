@@ -57,16 +57,20 @@
 
     <string name="first_start_dialog_title">First Start</string>
     <string name="first_start_dialog_intro">
-        It seems this is the first time you open this app. You can choose between one of the two following options for your first install\n
-        (Not choosing will have the same effect as choosing "Fresh Start")\n\n
+        It seems this is the first time you open this app. You can choose between one of the two
+        following options for your first install (not choosing will have the same effect as
+        choosing "Fresh Start").\n\n
     </string>
-    <string name="first_start_dialog_fresh_start">Fresh Start: </string>
+    <string name="first_start_dialog_fresh_start">Fresh Start:</string>
     <string name="first_start_dialog_fs_explain">
-        Test test 1 test Test 2\n\n
+        (If you have already used this app in the past) Start with a completely empty app so that
+        you can directly add all and only your ingredients, recipes and meals.\n\n
     </string>
-    <string name="first_start_dialog_basic_template">Basic Template: </string>
+    <string name="first_start_dialog_basic_template">Basic Template:</string>
     <string name="first_start_dialog_bt_explain">
-        Test test 3 test Test 4
+        (Suggested) Create a basic template that can be manually modified or deleted later. This
+        way you\'ll have a rough idea of what the app should look like and how each functionality
+        works.
     </string>
     <string name="button_fresh_start">Fresh\nStart</string>
     <string name="button_basic_template">Basic\nTemplate</string>

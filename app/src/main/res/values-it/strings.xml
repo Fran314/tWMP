@@ -53,13 +53,19 @@
 
     <string name="first_start_dialog_title">Primo Avvio</string>
     <string name="first_start_dialog_intro">
-        Sembra che sia la prima volta che apri quest\'app. Puoi scegliere una delle seguenti due azioni per il primo avvio
-        \n(Non scegliere avrà lo stesso effetto di scegliere "Inizio Pulito")\n\n
+        Sembra che sia la prima volta che apri quest\'app. Puoi scegliere una delle seguenti due
+        azioni per il primo avvio (non scegliere avrà lo stesso effetto di scegliere "Inizio Pulito").\n\n
     </string>
     <string name="first_start_dialog_fresh_start">Inizio Pulito:</string>
-
+    <string name="first_start_dialog_fs_explain">
+        (Se hai già utilizzato quest\'app in precedenza) Comincia con un\'app completamente vuota
+        per poter aggiungere subito tutti e soli i tuoi ingredienti, ricette e pasti.\n\n
+    </string>
     <string name="first_start_dialog_basic_template">Template Di Base:</string>
-
+    <string name="first_start_dialog_bt_explain">
+        (Consigliato) Crea un template di base che può poi essere modificato o eliminato manualmente.
+        Così facendo avrai un\'idea pi chiara di come dovrebbe funzionare l'app e le varie opzioni.
+    </string>
     <string name="button_fresh_start">Inizio\nPulito</string>
     <string name="button_basic_template">Template\nDi Base</string>
 </resources>

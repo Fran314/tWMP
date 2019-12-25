@@ -342,6 +342,7 @@ public class Util
         File first_start = new File(context.getFilesDir(), FIRST_START_PATH);
         if(first_start.exists()) return false;
 
+        /*
         String output_string = "Check!";
         try
         {
@@ -361,6 +362,8 @@ public class Util
         {
             e.printStackTrace();
         }
+
+         */
 
         return true;
     }
