@@ -23,7 +23,7 @@ import com.baldino.myapp003.ui.recipes.RecipesFragment;
 
 import java.io.File;
 
-public class EditRecipeTypeDialog extends Dialog implements View.OnClickListener
+public class EditRecipeTypeDialog extends Dialog
 {
     RecipeManagerSingleton sRecipeManager;
     public EditText editable_recipes_name;
@@ -35,7 +35,7 @@ public class EditRecipeTypeDialog extends Dialog implements View.OnClickListener
 
     private RecipesFragment fragment;
 
-    public EditRecipeTypeDialog(@NonNull Context context, int pos, final RecipesFragment fragment)
+    public EditRecipeTypeDialog(@NonNull final Context context, int pos, final RecipesFragment fragment)
     {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -95,16 +95,9 @@ public class EditRecipeTypeDialog extends Dialog implements View.OnClickListener
                 }
                 else
                 {
-                    //TODO change text so that it changes based on device language
-                    Toast.makeText(getContext(), "Couldn't save name. It's too similar to an already existing one", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), context.getResources().getString(R.string.toast_cant_save_type_name), Toast.LENGTH_LONG).show();
                 }
             }
         });
-    }
-
-    @Override
-    public void onClick(View view)
-    {
-
     }
 }

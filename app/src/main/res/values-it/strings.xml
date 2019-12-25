@@ -48,6 +48,7 @@
 
     <string name="dialog_recipes_type_name">Nome Categoria Ricette:</string>
     <string name="dialog_file_name">Nome File:</string>
+    <string name="toast_cant_save_type_name">Impossibile salvare nome. È troppo simile ad un nome già esistente</string>
 
     <string name="shopping_list_hint">Aggiungi altri elementi alla lista…</string>
 

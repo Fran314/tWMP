@@ -52,6 +52,7 @@
 
     <string name="dialog_recipes_type_name">Recipes Type Name:</string>
     <string name="dialog_file_name">File Name:</string>
+    <string name="toast_cant_save_type_name">Couldn\'t save name. It\'s too similar to an already existing one</string>
 
     <string name="shopping_list_hint">Add other items to the list…</string>
 
