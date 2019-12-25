@@ -64,7 +64,7 @@
     <string name="first_start_dialog_basic_template">Template Di Base:</string>
     <string name="first_start_dialog_bt_explain">
         (Consigliato) Crea un template di base che può poi essere modificato o eliminato manualmente.
-        Così facendo avrai un\'idea pi chiara di come dovrebbe funzionare l'app e le varie opzioni.
+        Così facendo avrai un\'idea pi chiara di come dovrebbe funzionare l\'app e le varie opzioni.
     </string>
     <string name="button_fresh_start">Inizio\nPulito</string>
     <string name="button_basic_template">Template\nDi Base</string>

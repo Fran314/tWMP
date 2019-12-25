@@ -342,7 +342,6 @@ public class Util
         File first_start = new File(context.getFilesDir(), FIRST_START_PATH);
         if(first_start.exists()) return false;
 
-        /*
         String output_string = "Check!";
         try
         {
@@ -363,8 +362,6 @@ public class Util
             e.printStackTrace();
         }
 
-         */
-
         return true;
     }
 
@@ -374,6 +371,7 @@ public class Util
 
         String initial_daily_meals = context.getResources().getString(R.string.initial_daily_meals);
         String initial_rec_types = context.getResources().getString(R.string.initial_recipe_types);
+        String initial_ingredients = context.getResources().getString(R.string.initial_ingredients);
 
         String[] recipe_types = new String[file_names.length];
         for(int i = 0; i < file_names.length; i++)
@@ -407,6 +405,27 @@ public class Util
         {
             FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), REC_TYPES_PATH));
             fos.write(initial_rec_types.getBytes(STD_CHARSET));
+            fos.close();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        //--- ---//
+
+        //--- Write initial ingredients ---//
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), INGREDIENTS_PATH));
+            fos.write(initial_ingredients.getBytes(STD_CHARSET));
             fos.close();
         }
         catch (UnsupportedEncodingException e)

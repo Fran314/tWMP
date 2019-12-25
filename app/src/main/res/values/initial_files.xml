@@ -28,6 +28,23 @@
         \n[0][0]
         \n[1][0]
     </string>
+    <string name="initial_ingredients">
+        [Salad][99.0][kg][99.0]
+        \n[Tuna][99.0][kg][99.0]
+        \n[Eggs][99.0][kg][99.0]
+        \n[Pasta][99.0][kg][99.0]
+        \n[Tomato Sauce][99.0][kg][99.0]
+        \n[Pancetta][99.0][kg][99.0]
+        \n[Onions][99.0][kg][99.0]
+        \n[Gnocchi][99.0][kg][99.0]
+        \n[Pesto Sauce][99.0][kg][99.0]
+        \n[Potatoes][99.0][kg][99.0]
+        \n[Spinach][99.0][kg][99.0]
+        \n[Butter][99.0][kg][99.0]
+        \n[Heavy Cream][99.0][kg][99.0]
+        \n[Milk][99.0][kg][99.0]
+        \n[Cereals][99.0][kg][99.0]
+    </string>
     <string name="initial_main_courses">
         [Salad]
         \n[3]
@@ -39,7 +56,7 @@
         \n[Pasta][0.125]
         \n[Tomato Sauce][0.25]
         \n[Pancetta][0.1]
-        \n[Onion][0.1]
+        \n[Onions][0.1]
         \n[Gnocchi With Pesto]
         \n[2]
         \n[Gnocchi][0.125]

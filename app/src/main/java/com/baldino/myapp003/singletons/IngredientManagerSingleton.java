@@ -164,7 +164,7 @@ public class IngredientManagerSingleton {
 
         for(int i = 0; i < lines.size(); i++)
         {
-            ingredients.add(Util.getIngredient(lines.get(i)));
+            addIngredient(Util.getIngredient(lines.get(i)));
         }
 
         return 0;
