@@ -76,7 +76,7 @@ public class RecipeManagerSingleton {
         for(int i = 0; i < lines.size(); i++)
         {
             RecipeType new_recipe_type;
-            String name = Util.getRecTypeName(lines.get(i));
+            String name = Util.getStringFromLine(lines.get(i));
 
             new_recipe_type = new RecipeType(name, context);
 
@@ -141,6 +141,7 @@ public class RecipeManagerSingleton {
 
     public void changeName(String name, int pos)
     {
+        recipe_types.get(pos).setName(name);
         type_names.set(pos, name);
     }
 }

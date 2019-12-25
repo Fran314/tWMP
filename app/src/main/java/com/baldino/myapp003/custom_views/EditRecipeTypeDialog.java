@@ -80,7 +80,6 @@ public class EditRecipeTypeDialog extends Dialog implements View.OnClickListener
                 if(!sameFileName)
                 {
                     String last_name = sRecipeManager.getType(curr_pos).getName();
-                    sRecipeManager.getType(curr_pos).setName(editable_recipes_name.getText().toString());
                     sRecipeManager.changeName(editable_recipes_name.getText().toString(), curr_pos);
                     sRecipeManager.getType(curr_pos).saveRecipes();
                     sRecipeManager.saveTypeNames();

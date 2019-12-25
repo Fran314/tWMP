@@ -33,21 +33,19 @@ public class Util
 
     public static Context context;
 
-    public static String getMealFormatName(String line)
+    public static String getStringFromLine(String line)
     {
         int pos[] = isValidAndGetPos(line, 1);
         if(pos[0] == -1) return "ERROR_NAME";
         else return line.substring(pos[0]+1, pos[1]);
     }
-
-    public static int getInt(String line)
+    public static int getIntFromLine(String line)
     {
         int pos[] = isValidAndGetPos(line, 1);
-        if(pos[0] == -1) return 0;
+        if(pos[0] == -1) return -1;
         else return stringToInt(line.substring(pos[0]+1, pos[1]));
     }
-
-    public static List<String> getStrings(String line, int amount)
+    public static List<String> getStringsFromLine(String line, int amount)
     {
         int pos[] = isValidAndGetPos(line, amount);
         List<String> to_return = new ArrayList<>();
@@ -62,8 +60,7 @@ public class Util
 
         return to_return;
     }
-
-    public static List<Integer> getInts(String line, int amount)
+    public static List<Integer> getIntsFromLine(String line, int amount)
     {
         int pos[] = isValidAndGetPos(line, amount);
         List<Integer> to_return = new ArrayList<>();
@@ -78,45 +75,12 @@ public class Util
 
         return to_return;
     }
-
     public static int[] getTypeAndStd(String line)
     {
         int pos[] = isValidAndGetPos(line, 2);
         if(pos[0] == -1) return new int[]{0, 0};
         else return new int[]{stringToInt(line.substring(pos[0]+1, pos[2])), stringToInt(line.substring(pos[1]+1, pos[2+1]))};
     }
-
-    public static String getRecTypeName(String line)
-    {
-        int pos[] = isValidAndGetPos(line, 1);
-        if(pos[0] == -1) return "ERROR_NAME";
-        else return line.substring(pos[0]+1, pos[1]);
-    }
-
-    public static String getRecipeName(String line)
-    {
-        int pos[] = isValidAndGetPos(line, 1);
-        if(pos[0] == -1) return "ERROR_NAME";
-        else return line.substring(pos[0]+1, pos[1]);
-    }
-
-    public static int getRecipeIngredientsAmount(String line)
-    {
-        int pos[] = isValidAndGetPos(line, 1);
-        int to_return = -1;
-        if(pos[0] != -1)
-        {
-            try
-            {
-                to_return = Integer.parseInt(line.substring(pos[0]+1, pos[1]));
-            }
-            catch(NumberFormatException nfe)
-            {
-            }
-        }
-        return to_return;
-    }
-
     public static RecIngredient getRecipeIngredient(String line)
     {
         String name = "ERROR_NAME";
@@ -137,7 +101,6 @@ public class Util
 
         return new RecIngredient(name, amount);
     }
-
     public static Ingredient getIngredient(String line)
     {
         String name = "ERROR_NAME";
@@ -161,14 +124,6 @@ public class Util
         }
 
         return new Ingredient(name, amount, unit, price);
-    }
-
-    public static String getFileName(String line)
-    {
-        int pos[] = isValidAndGetPos(line, 1);
-        if(pos[0] == -1) return "";
-
-        return line.substring(pos[0]+1, pos[1]);
     }
 
     public static int[] isValidAndGetPos(String s, int n_par)
@@ -213,7 +168,6 @@ public class Util
         to_return.replace("[", "").replace("]", "");
         return to_return;
     }
-
     public static String nameToFileName(String name)
     {
         return name.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replace(" ", "_");
@@ -221,7 +175,7 @@ public class Util
 
     public static int stringToInt(String arg)
     {
-        int to_return = 0;
+        int to_return = -1;
         try
         {
             to_return = Integer.parseInt(arg);
@@ -256,6 +210,7 @@ public class Util
         else return 1;
     }
 
+    //  Function copied from StackOverflow, can't remember the specific question though //
     public static int intToDp(int arg)
     {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, arg, context.getResources().getDisplayMetrics());

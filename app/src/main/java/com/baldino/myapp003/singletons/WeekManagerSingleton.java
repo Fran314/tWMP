@@ -1,11 +1,9 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.baldino.myapp003.Day;
 import com.baldino.myapp003.MealFormat;
-import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
@@ -136,12 +134,12 @@ public class WeekManagerSingleton
 
         for(int i = 0; i < lines.size(); i++)
         {
-            String name = Util.getMealFormatName(lines.get(i));
+            String name = Util.getStringFromLine(lines.get(i));
             MealFormat new_meal_format = new MealFormat(name);
 
             i++;
             int dim = 0;
-            if(i < lines.size()) dim = Util.getInt(lines.get(i));
+            if(i < lines.size()) dim = Util.getIntFromLine(lines.get(i));
 
             for(int iter = 0; iter < dim; iter++)
             {
@@ -311,17 +309,17 @@ public class WeekManagerSingleton
         int counter = 0;
         if(counter < lines.size())
         {
-            meals_per_day = Util.getInt(lines.get(counter));
+            meals_per_day = Util.getIntFromLine(lines.get(counter));
             counter++;
         }
         if(counter < lines.size())
         {
-            curr_meal_names = Util.getStrings(lines.get(counter), meals_per_day);
+            curr_meal_names = Util.getStringsFromLine(lines.get(counter), meals_per_day);
             counter++;
         }
         if(counter < lines.size())
         {
-            curr_courser_per_meal = Util.getInts(lines.get(counter), meals_per_day);
+            curr_courser_per_meal = Util.getIntsFromLine(lines.get(counter), meals_per_day);
             counter++;
         }
 
@@ -359,7 +357,7 @@ public class WeekManagerSingleton
                 days[i] = new Day(false);
                 for(int j = 0; j < meals_per_day; j++)
                 {
-                    days[i].addMeal(Util.getStrings(lines.get(counter), curr_courser_per_meal.get(j)));
+                    days[i].addMeal(Util.getStringsFromLine(lines.get(counter), curr_courser_per_meal.get(j)));
                     counter++;
                 }
             }
@@ -460,7 +458,7 @@ public class WeekManagerSingleton
 
         for(int i = 0; i < lines.size(); i++)
         {
-            addWeek(Util.getFileName(lines.get(i)));
+            addWeek(Util.getStringFromLine(lines.get(i)));
         }
 
         return 0;

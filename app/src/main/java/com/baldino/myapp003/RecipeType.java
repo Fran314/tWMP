@@ -14,13 +14,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baldino.myapp003.Util.STD_CHARSET;
-import static com.baldino.myapp003.Util.getRecipeIngredient;
-import static com.baldino.myapp003.Util.getRecipeIngredientsAmount;
-import static com.baldino.myapp003.Util.getRecipeName;
-import static com.baldino.myapp003.Util.nameToFileName;
-import static com.baldino.myapp003.Util.normalizeString;
-
 public class RecipeType
 {
     private Context context;
@@ -54,8 +47,8 @@ public class RecipeType
 
         try
         {
-            FileInputStream fis = new FileInputStream(new File(folder, nameToFileName(name) + ".txt"));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
+            FileInputStream fis = new FileInputStream(new File(folder, Util.nameToFileName(name) + ".txt"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 
             while((line = reader.readLine()) != null)
@@ -79,17 +72,17 @@ public class RecipeType
         for(int i = 0; i < lines.size(); i++)
         {
             Recipe new_recipe = new Recipe();
-            new_recipe.setName(getRecipeName(lines.get(i)));
+            new_recipe.setName(Util.getStringFromLine(lines.get(i)));
             i++;
 
             int ingredients_amount = -1;
-            if(i < lines.size()) ingredients_amount = getRecipeIngredientsAmount(lines.get(i));
+            if(i < lines.size()) ingredients_amount = Util.getIntFromLine(lines.get(i));
             for(int iter = 0; iter < ingredients_amount; iter++)
             {
                 i++;
                 if(i < lines.size())
                 {
-                    RecIngredient rec_ingredient = getRecipeIngredient(lines.get(i));
+                    RecIngredient rec_ingredient = Util.getRecipeIngredient(lines.get(i));
                     new_recipe.ingredients.add(rec_ingredient);
                 }
             }
@@ -121,8 +114,8 @@ public class RecipeType
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(folder, nameToFileName(name) + ".txt"));
-            fos.write(output_string.toString().getBytes(STD_CHARSET));
+            FileOutputStream fos = new FileOutputStream(new File(folder, Util.nameToFileName(name) + ".txt"));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
             fos.close();
         }
         catch (FileNotFoundException e)
@@ -217,5 +210,5 @@ public class RecipeType
     }
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = normalizeString(name); }
+    public void setName(String name) { this.name = Util.normalizeString(name); }
 }
