@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="menu_settings">Impostazioni</string>
+    <string name="app_name">The Weekly Meal Planner</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_settings">Impostazioni &amp; Dati</string>
     <string name="menu_home">Pasti</string>
     <string name="menu_recipes">Ricette</string>
     <string name="menu_ingredients">Ingredienti</string>
     <string name="menu_day_format">Formato Giorno</string>
-    <string name="menu_tools">Tag</string>
 
     <string name="edit_ingredient_label">Modifica Ingrediente</string>
     <string name="new_ingredient_label">Nuovo Ingrediente</string>
@@ -18,9 +21,6 @@
     <string name="standard_dish">[Pasto Noioso]</string>
     <string name="standard_side_dish">[Contorno Noioso]</string>
 
-    <string name="meals_lunch">Pranzo:</string>
-    <string name="meals_dinner">Cena:</string>
-    <string name="meals_side_dish">- Contorno:</string>
     <string name="meals_monday">Lunedì</string>
     <string name="meals_tuesday">Martedì</string>
     <string name="meals_wednesday">Mercoledì</string>
@@ -34,10 +34,6 @@
     <string name="ingredients_ratio_text">Rapporto:</string>
     <string name="ingredients_name_text">Nome:</string>
     <string name="ingredients_unit_text">Unità di misura:</string>
-
-    <string name="recipe_first_courses">Primi</string>
-    <string name="recipe_second_courses">Secondi</string>
-    <string name="recipe_side_dishes">Contorni</string>
 
     <string name="label_ingredients_list">Lista Degli Ingredienti</string>
     <string name="label_daily_meals">Pasti Giornalieri</string>

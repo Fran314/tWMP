@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
-import com.baldino.myapp003.ui.recipes.RecipesFragment;
+import com.baldino.myapp003.main_fragments.RecipesFragment;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecViewHolder>
 {

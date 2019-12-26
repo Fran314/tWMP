@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -18,8 +16,7 @@ import androidx.annotation.NonNull;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
-import com.baldino.myapp003.ui.recipes.RecipesFragment;
+import com.baldino.myapp003.main_fragments.RecipesFragment;
 
 import java.io.File;
 

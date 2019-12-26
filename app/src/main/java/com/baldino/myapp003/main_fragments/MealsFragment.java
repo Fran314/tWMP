@@ -1,4 +1,4 @@
-package com.baldino.myapp003.ui.meals;
+package com.baldino.myapp003.main_fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.DayMealsView;
@@ -25,27 +24,26 @@ import com.baldino.myapp003.singletons.WeekManagerSingleton;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
-
-    private MealsViewModel mealsViewModel;
-
+public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSetListener
+{
     private DayMealsView[] days = new DayMealsView[7];
     private ImageButton buttonShopList, buttonEdit, buttonCalendar;
     private TextView week_indicator;
-    DatePickerDialog datePickerDialog;
+    private DatePickerDialog datePickerDialog;
 
-    WeekManagerSingleton sWeekManager;
-    RecipeManagerSingleton sRecipeManager;
+    private WeekManagerSingleton sWeekManager;
+    private RecipeManagerSingleton sRecipeManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        mealsViewModel = ViewModelProviders.of(this).get(MealsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_meals, container, false);
 
         sWeekManager = WeekManagerSingleton.getInstance();
         sRecipeManager = RecipeManagerSingleton.getInstance();
 
-        //TextView output_string = root.findViewById(R.id.output_string);
+        //TODO eventually remove this
+        TextView output_string = root.findViewById(R.id.output_string);
+        output_string.setVisibility(View.GONE);
         //output_string.setText(getContext().getResources().getString(Util.getResId(getContext().getResources().getStringArray(R.array.id_array)[0], R.string.class)));
         //output_string.setText("WATTAAA");
 

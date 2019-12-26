@@ -1,4 +1,4 @@
-package com.baldino.myapp003.ui.ingredients;
+package com.baldino.myapp003.main_fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,17 +16,14 @@ import com.baldino.myapp003.activities.EditIngredientActivity;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.R;
 
-public class IngredientsFragment extends Fragment {
-
-    private IngredientsViewModel ingredientsViewModel;
-
+public class IngredientsFragment extends Fragment
+{
     private IngredientManagerSingleton sIngredientManager;
 
     private ImageButton button_add_ingredient;
 
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        ingredientsViewModel = ViewModelProviders.of(this).get(IngredientsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
         sIngredientManager = IngredientManagerSingleton.getInstance();

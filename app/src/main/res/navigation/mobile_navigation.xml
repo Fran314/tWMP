@@ -7,43 +7,26 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.baldino.myapp003.ui.meals.MealsFragment"
+        android:name="com.baldino.myapp003.main_fragments.MealsFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_meals"/>
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.baldino.myapp003.ui.recipes.RecipesFragment"
+        android:name="com.baldino.myapp003.main_fragments.RecipesFragment"
         android:label="@string/menu_recipes"
         tools:layout="@layout/fragment_recipes" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.baldino.myapp003.ui.ingredients.IngredientsFragment"
+        android:name="com.baldino.myapp003.main_fragments.IngredientsFragment"
         android:label="@string/menu_ingredients"
         tools:layout="@layout/fragment_ingredients" />
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.baldino.myapp003.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
-
-    <fragment
         android:id="@+id/nav_day_format"
-        android:name="com.baldino.myapp003.ui.day_format.DayFormatFragment"
+        android:name="com.baldino.myapp003.main_fragments.DayFormatFragment"
         android:label="@string/menu_day_format"
         tools:layout="@layout/fragment_day_format" />
 
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.baldino.myapp003.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
-
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="com.baldino.myapp003.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
 </navigation>

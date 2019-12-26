@@ -1,26 +1,16 @@
-package com.baldino.myapp003.ui.day_format;
+package com.baldino.myapp003.main_fragments;
 
-import androidx.lifecycle.ViewModelProviders;
-
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.renderscript.Script;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.baldino.myapp003.MealFormat;
@@ -31,18 +21,16 @@ import com.baldino.myapp003.singletons.WeekManagerSingleton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DayFormatFragment extends Fragment {
-
-    private DayFormatViewModel dayFormatViewModel;
-
-    WeekManagerSingleton sWeekManager;
+public class DayFormatFragment extends Fragment
+{
+    private WeekManagerSingleton sWeekManager;
 
     private LinearLayout days_container;
     private List<EditableMealFormatView> emfv_list;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        dayFormatViewModel = ViewModelProviders.of(this).get(DayFormatViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View root = inflater.inflate(R.layout.fragment_day_format, container, false);
 
         days_container = root.findViewById(R.id.container);

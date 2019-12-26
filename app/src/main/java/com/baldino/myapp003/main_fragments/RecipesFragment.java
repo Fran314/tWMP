@@ -1,4 +1,4 @@
-package com.baldino.myapp003.ui.recipes;
+package com.baldino.myapp003.main_fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,13 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditRecipeTypeDialog;
@@ -30,10 +27,8 @@ import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipesFragment extends Fragment {
-
-    private RecipesViewModel recipesViewModel;
-
+public class RecipesFragment extends Fragment
+{
     private RecipeManagerSingleton sRecipeManager;
 
     LinearLayout rv_container;
@@ -41,10 +36,8 @@ public class RecipesFragment extends Fragment {
     private List<ExpandableRecipeListView> eLists;
     private int expanded_value = 0;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        recipesViewModel =
-                ViewModelProviders.of(this).get(RecipesViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View root = inflater.inflate(R.layout.fragment_recipes, container, false);
 
         sRecipeManager = RecipeManagerSingleton.getInstance();

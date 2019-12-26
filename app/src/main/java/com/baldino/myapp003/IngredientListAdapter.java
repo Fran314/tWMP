@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
-import com.baldino.myapp003.ui.ingredients.IngredientsFragment;
+import com.baldino.myapp003.main_fragments.IngredientsFragment;
 
 public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.RecViewHolder>
 {
