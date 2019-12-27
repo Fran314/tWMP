@@ -39,6 +39,7 @@
     <string name="ingredients_unit_text">Unit:</string>
 
     <string name="label_ingredients_list">Ingredients List</string>
+    <string name="label_minor_ingredients">Minor Ingredients List</string>
     <string name="label_daily_meals">Daily Meals</string>
     <string name="label_weeks_data">Saved Weeks List</string>
     <string name="label_info">Info</string>

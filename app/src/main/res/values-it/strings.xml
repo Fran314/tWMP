@@ -39,6 +39,7 @@
     <string name="ingredients_unit_text">Unità di misura:</string>
 
     <string name="label_ingredients_list">Lista Degli Ingredienti</string>
+    <string name="label_minor_ingredients">Lista Degli Ingredienti Secondari</string>
     <string name="label_daily_meals">Pasti Giornalieri</string>
     <string name="label_weeks_data">Lista Delle Settimane Salvate</string>
     <string name="label_info">Info</string>

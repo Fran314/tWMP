@@ -23,9 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.text.Html;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.view.Menu;
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(Util.isFirstStart())
         {
-            //TODO write the actual explanations
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getResources().getString(R.string.first_start_dialog_title));
             String intro = getResources().getString(R.string.first_start_dialog_intro);
@@ -135,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         }
 
-        sIngredientManager.loadData();
+        sIngredientManager.loadIngredients();
 
         sRecipeManager.loadTypeNames();
 

@@ -143,7 +143,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                         public void onClick(DialogInterface dialog, int which)
                         {
                             sIngredientManager.removeIngredient(sIngredientManager.expandedVal);
-                            sIngredientManager.saveData();
+                            sIngredientManager.saveIngredients();
                             dialog.dismiss();
                         }
                     });

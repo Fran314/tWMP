@@ -21,6 +21,7 @@ public class Util
     public static final String STD_CHARSET = "UTF-16";
 
     public static final String INGREDIENTS_PATH = "ingredients.txt";
+    public static final String MINOR_INGR_PATH = "minor_ingredients.txt";
 
     public static final String TYPES_FOLDER = "recipes_data";
     public static final String REC_TYPES_PATH = "recipe_types.txt";

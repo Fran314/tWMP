@@ -127,11 +127,9 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     private void updateUI()
     {
         //TODO
-
         //  Check if week daily_meals can correspond with the current daily_meals
         //  (In particular, check if sWeekManager.courses_per_meal's size and values make
         //  sense in this daily_meals)
-
         //      If it doesn't, just load and don't try to make sense out of it
         //      If it does, load and try to see if the loaded recipes actually exist in the
         //      correspondent recipe_type and write them in black or red

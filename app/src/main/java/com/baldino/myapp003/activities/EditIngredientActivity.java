@@ -67,7 +67,7 @@ public class EditIngredientActivity extends AppCompatActivity {
         }
 
         sIngredientManager.addIngredient(new_ingredient);
-        sIngredientManager.saveData();
+        sIngredientManager.saveIngredients();
 
         finish();
     }

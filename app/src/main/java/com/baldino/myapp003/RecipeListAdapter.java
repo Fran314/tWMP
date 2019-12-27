@@ -123,7 +123,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                 TableRow row = new TableRow(view.getContext());
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                Ingredient curr_ingredient = sIngredientManager.binaryFind(recipe.ingredients.get(i).getName());
+                Ingredient curr_ingredient = sIngredientManager.binaryFindIngredient(recipe.ingredients.get(i).getName());
 
                 TextView name_in_row = new TextView(view.getContext());
                 name_in_row.setText(recipe.ingredients.get(i).getName());

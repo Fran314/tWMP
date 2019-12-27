@@ -16,21 +16,28 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredientManagerSingleton {
-
+public class IngredientManagerSingleton
+{
     private static IngredientManagerSingleton singleton_instance = null;
 
     private Context context;
 
     public List<Ingredient> ingredients;
-    public IngredientListAdapter listAdapter = null;
+    public IngredientListAdapter ingredients_list_adapter = null;
+
+    //TODO actually implement these
+    public List<Ingredient> minor_ingredients;
+    public IngredientListAdapter minor_ingr_list_adapter = null;
 
     public int expandedVal = -1;
 
     private IngredientManagerSingleton()
     {
         ingredients = new ArrayList<>();
-        listAdapter = new IngredientListAdapter();
+        ingredients_list_adapter = new IngredientListAdapter();
+
+        minor_ingredients = new ArrayList<>();
+        minor_ingr_list_adapter = new IngredientListAdapter();
     }
 
     public static IngredientManagerSingleton getInstance()
@@ -61,7 +68,7 @@ public class IngredientManagerSingleton {
         else
         {
             ingredients.add(pos, ingredient);
-            listAdapter.notifyItemInserted(pos);
+            ingredients_list_adapter.notifyItemInserted(pos);
 
             return 1;
         }
@@ -70,27 +77,27 @@ public class IngredientManagerSingleton {
     {
         if(pos < 0 || pos >= ingredients.size()) return -1;
         ingredients.remove(pos);
-        listAdapter.notifyItemRemoved(pos);
+        ingredients_list_adapter.notifyItemRemoved(pos);
 
         int last_expanded = expandedVal;
         expandedVal = -1;
-        if(last_expanded != -1) listAdapter.notifyItemChanged(last_expanded);
+        if(last_expanded != -1) ingredients_list_adapter.notifyItemChanged(last_expanded);
 
         return 0;
     }
 
-    public Ingredient binaryFind(String name) { return binaryFind(name, 0, ingredients.size()-1); }
-    public Ingredient binaryFind(String name, int left, int right)
+    public Ingredient binaryFindIngredient(String name) { return binaryFindIngredient(name, 0, ingredients.size()-1); }
+    public Ingredient binaryFindIngredient(String name, int left, int right)
     {
         if(left  > right) return null;
 
         int mid = left + ((right - left)/2);
         if(Util.compareStrings(name, ingredients.get(mid).getName()) == 0) return ingredients.get(mid);
-        else if(Util.compareStrings(name, ingredients.get(mid).getName()) < 0) return binaryFind(name, left, mid-1);
-        else return binaryFind(name, mid+1, right);
+        else if(Util.compareStrings(name, ingredients.get(mid).getName()) < 0) return binaryFindIngredient(name, left, mid-1);
+        else return binaryFindIngredient(name, mid+1, right);
     }
 
-    public int saveData()
+    public void saveIngredients()
     {
         StringBuilder output_string = new StringBuilder("");
         for(int i = 0; i < ingredients.size(); i++)
@@ -115,18 +122,13 @@ public class IngredientManagerSingleton {
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-            return -1;
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            return -2;
         }
-
-        return 0;
     }
-
-    public int loadData()
+    public void loadIngredients()
     {
         ingredients = new ArrayList<>();
         List<String> lines = new ArrayList<>();
@@ -149,24 +151,19 @@ public class IngredientManagerSingleton {
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-            return -1;
         }
         catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
-            return -2;
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            return -3;
         }
 
         for(int i = 0; i < lines.size(); i++)
         {
             addIngredient(Util.getIngredient(lines.get(i)));
         }
-
-        return 0;
     }
 }
