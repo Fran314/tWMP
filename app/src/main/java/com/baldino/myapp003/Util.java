@@ -25,7 +25,7 @@ public class Util
     public static final String TYPES_FOLDER = "recipes_data";
     public static final String REC_TYPES_PATH = "recipe_types.txt";
 
-    public static final String SUBFOLDER_PATH = "weeks_data";
+    public static final String WEEKS_DATA_FOLDER = "weeks_data";
     public static final String WEEKS_LIST_PATH = "weeks_list.txt";
     public static final String DAILY_MEALS_PATH = "daily_meals.txt";
 
@@ -319,7 +319,6 @@ public class Util
 
         return true;
     }
-
     public static void createInitFiles()
     {
         String[] file_names = context.getResources().getStringArray(R.array.id_array);

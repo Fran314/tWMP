@@ -26,7 +26,7 @@ public class WeekManagerSingleton
 
     public int year = 1970, month = 0, day_of_month = 1;
 
-    private List<String> existing_files;
+    public List<String> saved_weeks;
     public List<MealFormat> daily_meals;
 
     //---- Variables relative to the currently loaded week ----//
@@ -39,7 +39,7 @@ public class WeekManagerSingleton
 
     private WeekManagerSingleton()
     {
-        existing_files = new ArrayList<>();
+        saved_weeks = new ArrayList<>();
         daily_meals = new ArrayList<>();
         courses_per_meal = new ArrayList<>();
         meal_names = new ArrayList<>();
@@ -158,7 +158,7 @@ public class WeekManagerSingleton
     public void saveData()
     {
 
-        File folder = new File(context.getFilesDir(), Util.SUBFOLDER_PATH);
+        File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
         folder.mkdirs();
 
         Calendar c = Calendar.getInstance();
@@ -259,7 +259,7 @@ public class WeekManagerSingleton
 
         List<String> lines = new ArrayList<>();
 
-        File folder = new File(context.getFilesDir(), Util.SUBFOLDER_PATH);
+        File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
         folder.mkdirs();
 
         try
@@ -395,10 +395,10 @@ public class WeekManagerSingleton
     public int saveWeeks()
     {
         StringBuilder output_string = new StringBuilder("");
-        for(int i = 0; i < existing_files.size(); i++)
+        for(int i = 0; i < saved_weeks.size(); i++)
         {
             output_string.append("[");
-            output_string.append(existing_files.get(i));
+            output_string.append(saved_weeks.get(i));
             output_string.append("]\n");
         }
 
@@ -467,12 +467,12 @@ public class WeekManagerSingleton
     public int addWeek(String name)
     {
         boolean exists = false, found_place = false;
-        int pos = existing_files.size();
-        for(int i = 0; i < existing_files.size() && !exists && !found_place; i++)
+        int pos = saved_weeks.size();
+        for(int i = 0; i < saved_weeks.size() && !exists && !found_place; i++)
         {
-            if(name.equals(existing_files.get(i)))     //Only checks if fc_names are the same
+            if(name.equals(saved_weeks.get(i)))     //Only checks if fc_names are the same
                 exists = true;
-            else if(name.compareTo(existing_files.get(i)) < 0)
+            else if(name.compareTo(saved_weeks.get(i)) < 0)
             {
                 found_place = true;
                 pos = i;
@@ -481,20 +481,20 @@ public class WeekManagerSingleton
         if(exists) return -1;
         else
         {
-            existing_files.add(pos, name);
+            saved_weeks.add(pos, name);
 
             return 1;
         }
     }
 
-    public boolean binaryExists(String name) { return binaryExists(name, 0, existing_files.size()-1); }
+    public boolean binaryExists(String name) { return binaryExists(name, 0, saved_weeks.size()-1); }
     public boolean binaryExists(String name, int left, int right)
     {
         if(left  > right) return false;
 
         int mid = left + ((right - left)/2);
-        if(name.equals(existing_files.get(mid))) return true;
-        else if(name.compareTo(existing_files.get(mid)) < 0) return binaryExists(name, left, mid-1);
+        if(name.equals(saved_weeks.get(mid))) return true;
+        else if(name.compareTo(saved_weeks.get(mid)) < 0) return binaryExists(name, left, mid-1);
         else return binaryExists(name, mid+1, right);
     }
 

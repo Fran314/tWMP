@@ -10,11 +10,15 @@
     <string name="edit_week_activity_name">Edit Week</string>
     <string name="shopping_list_activity_name">Shopping List</string>
 
+    <string name="menu_planner">Planner</string>
     <string name="menu_settings">Settings &amp; Data</string>
     <string name="menu_home">Meals</string>
     <string name="menu_recipes">Recipes</string>
     <string name="menu_ingredients">Ingredients</string>
     <string name="menu_day_format">Day Format</string>
+    <string name="menu_weeks_data">Weeks Data</string>
+    <string name="menu_info">Info</string>
+    <string name="menu_export">Export Data</string>
 
     <string name="standard_day_name">[Monday]</string>
     <string name="standard_dish">[Boring Dish]</string>
@@ -36,6 +40,8 @@
 
     <string name="label_ingredients_list">Ingredients List</string>
     <string name="label_daily_meals">Daily Meals</string>
+    <string name="label_weeks_data">Saved Weeks List</string>
+    <string name="label_info">Info</string>
 
     <string name="menu_add_recipe">Add Recipe</string>
     <string name="menu_edit_list">Edit List</string>
@@ -66,4 +72,7 @@
     </string>
     <string name="button_fresh_start">Fresh\nStart</string>
     <string name="button_basic_template">Basic\nTemplate</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

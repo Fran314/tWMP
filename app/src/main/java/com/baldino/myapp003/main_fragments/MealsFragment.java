@@ -104,9 +104,9 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-
         updateUI();
     }
 

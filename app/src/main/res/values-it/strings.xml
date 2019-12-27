@@ -9,6 +9,9 @@
     <string name="menu_recipes">Ricette</string>
     <string name="menu_ingredients">Ingredienti</string>
     <string name="menu_day_format">Formato Giorno</string>
+    <string name="menu_weeks_data">Dati Settimane</string>
+    <string name="menu_info">Info</string>
+    <string name="menu_export">Esporta Dati</string>
 
     <string name="edit_ingredient_label">Modifica Ingrediente</string>
     <string name="new_ingredient_label">Nuovo Ingrediente</string>
@@ -37,6 +40,8 @@
 
     <string name="label_ingredients_list">Lista Degli Ingredienti</string>
     <string name="label_daily_meals">Pasti Giornalieri</string>
+    <string name="label_weeks_data">Lista Delle Settimane Salvate</string>
+    <string name="label_info">Info</string>
 
     <string name="menu_add_recipe">Aggiungi Ricetta</string>
     <string name="menu_edit_list">Modifica Lista</string>

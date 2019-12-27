@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.baldino.myapp003.MealFormat;
 import com.baldino.myapp003.R;
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableMealFormatView;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
@@ -73,11 +74,8 @@ public class DayFormatFragment extends Fragment
         EditableMealFormatView emfv = new EditableMealFormatView(getContext(), pos);
 
         View separator = new View(getContext());
-        LinearLayout.LayoutParams separator_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
-        separator_params.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-        separator_params.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-        separator_params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-        separator_params.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+        LinearLayout.LayoutParams separator_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Util.intToDp(1));
+        separator_params.setMargins(Util.intToDp(4), Util.intToDp(4), Util.intToDp(4), Util.intToDp(4));
         separator.setLayoutParams(separator_params);
         separator.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
 

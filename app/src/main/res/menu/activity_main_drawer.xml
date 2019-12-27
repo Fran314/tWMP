@@ -2,29 +2,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/menu_first_group_id">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_meals"
             android:title="@string/menu_home"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_recipes"
             android:icon="@drawable/ic_menu_recipes"
             android:title="@string/menu_recipes"/>
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_ingredients"
             android:icon="@drawable/ic_menu_ingredients"
             android:title="@string/menu_ingredients"/>
     </group>
-
-    <item android:title="@string/menu_settings">
-        <menu>
-            <item
-                android:id="@+id/nav_day_format"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/menu_day_format"/>
-        </menu>
-    </item>
-
+    <group android:id="@+id/menu_second_group_id">
+        <item
+            android:id="@+id/nav_day_format"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_day_format"/>
+        <item
+            android:id="@+id/nav_weeks_data"
+            android:icon="@drawable/ic_menu_weeks_data"
+            android:title="@string/menu_weeks_data"/>
+    </group>
+    <group android:id="@+id/menu_third_group_id">
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@drawable/ic_menu_info"
+            android:title="@string/menu_info"/>
+        <item
+            android:id="@+id/nav_export"
+            android:icon="@drawable/ic_menu_export"
+            android:title="@string/menu_export"/>
+    </group>
 </menu>

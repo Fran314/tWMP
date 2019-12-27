@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_meals"/>
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_recipes"
         android:name="com.baldino.myapp003.main_fragments.RecipesFragment"
         android:label="@string/menu_recipes"
         tools:layout="@layout/fragment_recipes" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_ingredients"
         android:name="com.baldino.myapp003.main_fragments.IngredientsFragment"
         android:label="@string/menu_ingredients"
         tools:layout="@layout/fragment_ingredients" />
@@ -28,5 +28,20 @@
         android:name="com.baldino.myapp003.main_fragments.DayFormatFragment"
         android:label="@string/menu_day_format"
         tools:layout="@layout/fragment_day_format" />
+    <fragment
+        android:id="@+id/nav_weeks_data"
+        android:name="com.baldino.myapp003.main_fragments.WeeksDataFragment"
+        android:label="@string/menu_weeks_data"
+        tools:layout="@layout/fragment_weeks_data" />
+    <fragment
+        android:id="@+id/nav_info"
+        android:name="com.baldino.myapp003.main_fragments.InfoFragment"
+        android:label="@string/label_info"
+        tools:layout="@layout/fragment_info" />
+    <fragment
+        android:id="@+id/nav_export"
+        android:name="com.baldino.myapp003.main_fragments.ExportFragment"
+        android:label="@string/menu_export"
+        tools:layout="@layout/fragment_export" />
 
 </navigation>
