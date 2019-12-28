@@ -70,7 +70,7 @@ public class EditRecipeActivity extends AppCompatActivity
         if(rec_pos != -1)
         {
             //name.setText(sRecipeManager.getRecipe(rec_pos, rec_type).getName());
-            //rec_ingredients = sRecipeManager.getRecipe(rec_pos, rec_type).ingredients;
+            //rec_ingredients = sRecipeManager.getRecipe(rec_pos, rec_type).standard_ingredients;
 
             name.setText(sRecipeManager.getType(rec_type).getRecipe(rec_pos).getName());
             rec_ingredients = sRecipeManager.getType(rec_type).getRecipe(rec_pos).ingredients;

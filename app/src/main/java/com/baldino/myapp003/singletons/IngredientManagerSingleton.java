@@ -3,7 +3,7 @@ package com.baldino.myapp003.singletons;
 import android.content.Context;
 
 import com.baldino.myapp003.Ingredient;
-import com.baldino.myapp003.IngredientListAdapter;
+import com.baldino.myapp003.StdIngrListAdapter;
 import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
@@ -22,22 +22,22 @@ public class IngredientManagerSingleton
 
     private Context context;
 
-    public List<Ingredient> ingredients;
-    public IngredientListAdapter ingredients_list_adapter = null;
+    public List<Ingredient> standard_ingredients;
+    public StdIngrListAdapter standard_ingr_list_adapter = null;
 
     //TODO actually implement these
     public List<Ingredient> minor_ingredients;
-    public IngredientListAdapter minor_ingr_list_adapter = null;
+    public StdIngrListAdapter minor_ingr_list_adapter = null;
 
     public int expandedVal = -1;
 
     private IngredientManagerSingleton()
     {
-        ingredients = new ArrayList<>();
-        ingredients_list_adapter = new IngredientListAdapter();
+        standard_ingredients = new ArrayList<>();
+        standard_ingr_list_adapter = new StdIngrListAdapter();
 
         minor_ingredients = new ArrayList<>();
-        minor_ingr_list_adapter = new IngredientListAdapter();
+        minor_ingr_list_adapter = new StdIngrListAdapter();
     }
 
     public static IngredientManagerSingleton getInstance()
@@ -53,12 +53,12 @@ public class IngredientManagerSingleton
     public int addIngredient(Ingredient ingredient)
     {
         boolean exists = false, found_place = false;
-        int pos = ingredients.size();
-        for(int i = 0; i < ingredients.size() && !exists && !found_place; i++)
+        int pos = standard_ingredients.size();
+        for(int i = 0; i < standard_ingredients.size() && !exists && !found_place; i++)
         {
-            if(Ingredient.areEqual(ingredient, ingredients.get(i)))
+            if(Ingredient.areEqual(ingredient, standard_ingredients.get(i)))
                 exists = true;
-            else if(Ingredient.alphabFirst(ingredient, ingredients.get(i)))
+            else if(Ingredient.alphabFirst(ingredient, standard_ingredients.get(i)))
             {
                 found_place = true;
                 pos = i;
@@ -67,49 +67,49 @@ public class IngredientManagerSingleton
         if(exists) return -1;
         else
         {
-            ingredients.add(pos, ingredient);
-            ingredients_list_adapter.notifyItemInserted(pos);
+            standard_ingredients.add(pos, ingredient);
+            standard_ingr_list_adapter.notifyItemInserted(pos);
 
             return 1;
         }
     }
     public int removeIngredient(int pos)
     {
-        if(pos < 0 || pos >= ingredients.size()) return -1;
-        ingredients.remove(pos);
-        ingredients_list_adapter.notifyItemRemoved(pos);
+        if(pos < 0 || pos >= standard_ingredients.size()) return -1;
+        standard_ingredients.remove(pos);
+        standard_ingr_list_adapter.notifyItemRemoved(pos);
 
         int last_expanded = expandedVal;
         expandedVal = -1;
-        if(last_expanded != -1) ingredients_list_adapter.notifyItemChanged(last_expanded);
+        if(last_expanded != -1) standard_ingr_list_adapter.notifyItemChanged(last_expanded);
 
         return 0;
     }
 
-    public Ingredient binaryFindIngredient(String name) { return binaryFindIngredient(name, 0, ingredients.size()-1); }
+    public Ingredient binaryFindIngredient(String name) { return binaryFindIngredient(name, 0, standard_ingredients.size()-1); }
     public Ingredient binaryFindIngredient(String name, int left, int right)
     {
         if(left  > right) return null;
 
         int mid = left + ((right - left)/2);
-        if(Util.compareStrings(name, ingredients.get(mid).getName()) == 0) return ingredients.get(mid);
-        else if(Util.compareStrings(name, ingredients.get(mid).getName()) < 0) return binaryFindIngredient(name, left, mid-1);
+        if(Util.compareStrings(name, standard_ingredients.get(mid).getName()) == 0) return standard_ingredients.get(mid);
+        else if(Util.compareStrings(name, standard_ingredients.get(mid).getName()) < 0) return binaryFindIngredient(name, left, mid-1);
         else return binaryFindIngredient(name, mid+1, right);
     }
 
     public void saveIngredients()
     {
         StringBuilder output_string = new StringBuilder("");
-        for(int i = 0; i < ingredients.size(); i++)
+        for(int i = 0; i < standard_ingredients.size(); i++)
         {
             output_string.append('[');
-            output_string.append(ingredients.get(i).getName());
+            output_string.append(standard_ingredients.get(i).getName());
             output_string.append("][");
-            output_string.append(ingredients.get(i).getAmount());
+            output_string.append(standard_ingredients.get(i).getAmount());
             output_string.append("][");
-            output_string.append(ingredients.get(i).getUnit());
+            output_string.append(standard_ingredients.get(i).getUnit());
             output_string.append("][");
-            output_string.append(ingredients.get(i).getPrice());
+            output_string.append(standard_ingredients.get(i).getPrice());
             output_string.append("]\n");
         }
 
@@ -130,7 +130,7 @@ public class IngredientManagerSingleton
     }
     public void loadIngredients()
     {
-        ingredients = new ArrayList<>();
+        standard_ingredients = new ArrayList<>();
         List<String> lines = new ArrayList<>();
 
         try

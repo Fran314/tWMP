@@ -20,14 +20,14 @@ public class Util
 {
     public static final String STD_CHARSET = "UTF-16";
 
-    public static final String INGREDIENTS_PATH = "ingredients.txt";
+    public static final String INGREDIENTS_PATH = "standard_ingredients.txt";
     public static final String MINOR_INGR_PATH = "minor_ingredients.txt";
 
-    public static final String TYPES_FOLDER = "recipes_data";
     public static final String REC_TYPES_PATH = "recipe_types.txt";
+    public static final String TYPES_FOLDER = "recipes_data";
 
-    public static final String WEEKS_DATA_FOLDER = "weeks_data";
     public static final String WEEKS_LIST_PATH = "weeks_list.txt";
+    public static final String WEEKS_DATA_FOLDER = "weeks_data";
     public static final String DAILY_MEALS_PATH = "daily_meals.txt";
 
     private static final String FIRST_START_PATH = "first_start.txt";
@@ -376,7 +376,7 @@ public class Util
         }
         //--- ---//
 
-        //--- Write initial ingredients ---//
+        //--- Write initial standard_ingredients ---//
         try
         {
             FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), INGREDIENTS_PATH));

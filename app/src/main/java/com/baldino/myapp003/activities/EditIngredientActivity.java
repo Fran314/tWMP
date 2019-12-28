@@ -41,7 +41,7 @@ public class EditIngredientActivity extends AppCompatActivity {
 
         if(ingr_pos != -1)
         {
-            Ingredient ingr = sIngredientManager.ingredients.get(ingr_pos);
+            Ingredient ingr = sIngredientManager.standard_ingredients.get(ingr_pos);
             name.setText(ingr.getName());
             amount.setText(Float.toString(ingr.getAmount()));
             unit.setText(ingr.getUnit());

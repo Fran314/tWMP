@@ -13,18 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.main_fragments.IngredientsFragment;
 
-public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.RecViewHolder>
+public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.RecViewHolder>
 {
     public IngredientsFragment ingredients_fragment;
 
-    public IngredientListAdapter()
+    public StdIngrListAdapter()
     {
     }
 
     @Override
     public RecViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_std_ingredient, parent, false);
 
         return new RecViewHolder(view);
     }
@@ -33,7 +33,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     public void onBindViewHolder(RecViewHolder holder, int position)
     {
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-        final Ingredient ingredient = sIngredientManager.ingredients.get(position);
+        final Ingredient ingredient = sIngredientManager.standard_ingredients.get(position);
 
         holder.bind(ingredient, position);
 
@@ -42,7 +42,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                     @Override
                     public void onClick(View view) {
                         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-                        int curr_position = sIngredientManager.ingredients.indexOf(ingredient);
+                        int curr_position = sIngredientManager.standard_ingredients.indexOf(ingredient);
 
                         if(curr_position == sIngredientManager.expandedVal)
                         {
@@ -65,7 +65,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     public int getItemCount()
     {
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-        return sIngredientManager.ingredients == null ? 0 : sIngredientManager.ingredients.size();
+        return sIngredientManager.standard_ingredients == null ? 0 : sIngredientManager.standard_ingredients.size();
     }
 
     public class RecViewHolder extends RecyclerView.ViewHolder
@@ -102,7 +102,6 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
         private void bind(Ingredient ingredient, int pos)
         {
             final IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-            //boolean expanded = ingredient.isExpanded();
 
             subItem.setVisibility(pos == sIngredientManager.expandedVal ? View.VISIBLE : View.GONE);
 

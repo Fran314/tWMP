@@ -27,11 +27,11 @@ public class IngredientsFragment extends Fragment
         View root = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
         sIngredientManager = IngredientManagerSingleton.getInstance();
-        sIngredientManager.ingredients_list_adapter.ingredients_fragment = this;
+        sIngredientManager.standard_ingr_list_adapter.ingredients_fragment = this;
 
         RecyclerView recycler_view = root.findViewById(R.id.recyclerview_ingredients);
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycler_view.setAdapter(sIngredientManager.ingredients_list_adapter);
+        recycler_view.setAdapter(sIngredientManager.standard_ingr_list_adapter);
 
         button_add_ingredient = root.findViewById(R.id.button_add_ingredient);
         button_add_ingredient.setOnClickListener(new View.OnClickListener()
