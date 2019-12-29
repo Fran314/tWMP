@@ -33,7 +33,7 @@ public class RecipeManagerSingleton {
         type_names = new ArrayList<>();
     }
 
-    public static RecipeManagerSingleton getInstance()
+    public synchronized static RecipeManagerSingleton getInstance()
     {
         if (singleton_instance == null)
             singleton_instance = new RecipeManagerSingleton();

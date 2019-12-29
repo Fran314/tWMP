@@ -3,6 +3,7 @@ package com.baldino.myapp003.main_fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         {
             @Override
             public void onClick(View view) {
+                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK);
                 datePickerDialog.show();
             }
         });
@@ -96,6 +98,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         {
             @Override
             public void onClick(View view) {
+                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK);
                 datePickerDialog.show();
             }
         });
@@ -126,13 +129,6 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
 
     private void updateUI()
     {
-        //TODO
-        //  Check if week daily_meals can correspond with the current daily_meals
-        //  (In particular, check if sWeekManager.courses_per_meal's size and values make
-        //  sense in this daily_meals)
-        //      If it doesn't, just load and don't try to make sense out of it
-        //      If it does, load and try to see if the loaded recipes actually exist in the
-        //      correspondent recipe_type and write them in black or red
         boolean check = true;
         if(sWeekManager.daily_meals.size() != sWeekManager.meal_names.size()) check = false;
         for(int i = 0; i < sWeekManager.daily_meals.size() && check; i++)
@@ -190,7 +186,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         c.set(Calendar.DAY_OF_MONTH, sWeekManager.day_of_month);
 
         String week_text = "";
-        int offset = c.get(Calendar.DAY_OF_WEEK) - 2;
+        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
         if(offset < 0) offset += 7;
         c.add(Calendar.DATE, -offset);
         week_text += DateFormat.getDateInstance().format(c.getTime());
@@ -199,32 +195,39 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         week_text += DateFormat.getDateInstance().format(c.getTime());
         week_indicator.setText(week_text);
 
-        //c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        Log.w("AAA", "MealsFragment: " + (0%7));
+
         c.add(Calendar.DATE, -6);
-        days[0].header.setText(getResources().getString(R.string.meals_monday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[0].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        //c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
         c.add(Calendar.DATE, 1);
-        days[1].header.setText(getResources().getString(R.string.meals_tuesday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[1].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 1) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        //c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
         c.add(Calendar.DATE, 1);
-        days[2].header.setText(getResources().getString(R.string.meals_wednesday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[2].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 2) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        //c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
         c.add(Calendar.DATE, 1);
-        days[3].header.setText(getResources().getString(R.string.meals_thursday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[3].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 3) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        //c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
         c.add(Calendar.DATE, 1);
-        days[4].header.setText(getResources().getString(R.string.meals_friday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[4].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 4) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        //c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         c.add(Calendar.DATE, 1);
-        days[5].header.setText(getResources().getString(R.string.meals_saturday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[5].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 5) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        //c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         c.add(Calendar.DATE, 1);
-        days[6].header.setText(getResources().getString(R.string.meals_sunday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[6].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 6) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+    }
+
+    private String nameOf(int arg)
+    {
+        arg = (arg-1)%7;
+        if(arg == 0) return getContext().getResources().getString(R.string.meals_sunday);
+        else if(arg == 1) return getContext().getResources().getString(R.string.meals_monday);
+        else if(arg == 2) return getContext().getResources().getString(R.string.meals_tuesday);
+        else if(arg == 3) return getContext().getResources().getString(R.string.meals_wednesday);
+        else if(arg == 4) return getContext().getResources().getString(R.string.meals_thursday);
+        else if(arg == 5) return getContext().getResources().getString(R.string.meals_friday);
+        else return getContext().getResources().getString(R.string.meals_saturday);
     }
 }

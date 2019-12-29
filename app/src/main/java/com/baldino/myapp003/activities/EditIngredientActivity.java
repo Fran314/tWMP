@@ -19,7 +19,7 @@ import static com.baldino.myapp003.Util.stringToFloat;
 public class EditIngredientActivity extends AppCompatActivity {
 
     private int ingr_pos;
-    private boolean ingr_new;
+    private boolean ingr_new, is_standard;
     private EditText name, amount, unit, price;
 
     @Override
@@ -33,6 +33,9 @@ public class EditIngredientActivity extends AppCompatActivity {
 
         ingr_pos = intent.getIntExtra("Ingredient_Position", -1);
         ingr_new = intent.getBooleanExtra("Ingredient_New", true);
+        is_standard = intent.getBooleanExtra("Is_Standard", true);
+
+        //TODO finish implementing is standard
 
         name = findViewById(R.id.edit_ingredient_name);
         amount = findViewById(R.id.edit_ingredient_amount);
@@ -41,7 +44,9 @@ public class EditIngredientActivity extends AppCompatActivity {
 
         if(ingr_pos != -1)
         {
-            Ingredient ingr = sIngredientManager.standard_ingredients.get(ingr_pos);
+            Ingredient ingr;
+            if(is_standard) ingr = sIngredientManager.standard_ingredients.get(ingr_pos);
+            else ingr = sIngredientManager.minor_ingredients.get(ingr_pos);
             name.setText(ingr.getName());
             amount.setText(Float.toString(ingr.getAmount()));
             unit.setText(ingr.getUnit());
@@ -61,13 +66,26 @@ public class EditIngredientActivity extends AppCompatActivity {
 
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
 
-        if(!ingr_new)
+        if(is_standard)
         {
-            sIngredientManager.removeStdIngr(ingr_pos);
-        }
+            if(!ingr_new)
+            {
+                sIngredientManager.removeStdIngr(ingr_pos);
+            }
 
-        sIngredientManager.addStdIngr(new_ingredient);
-        sIngredientManager.saveStdIngr();
+            sIngredientManager.addStdIngr(new_ingredient);
+            sIngredientManager.saveStdIngr();
+        }
+        else
+        {
+            if(!ingr_new)
+            {
+                sIngredientManager.removeMnrIngr(ingr_pos);
+            }
+
+            sIngredientManager.addMnrIngr(new_ingredient);
+            sIngredientManager.saveMnrIngr();
+        }
 
         finish();
     }
@@ -76,8 +94,16 @@ public class EditIngredientActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.generic_header_menu, menu);
-        if(!ingr_new) getSupportActionBar().setTitle(getResources().getString(R.string.edit_ingredient_label));
-        else getSupportActionBar().setTitle(getResources().getString(R.string.new_ingredient_label));
+        if(is_standard)
+        {
+            if(ingr_new) getSupportActionBar().setTitle(getResources().getString(R.string.new_standard_ingredient_label));
+            else getSupportActionBar().setTitle(getResources().getString(R.string.edit_standard_ingredient_label));
+        }
+        else
+        {
+            if(ingr_new) getSupportActionBar().setTitle(getResources().getString(R.string.new_minor_ingredient_label));
+            else getSupportActionBar().setTitle(getResources().getString(R.string.edit_minor_ingredient_label));
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

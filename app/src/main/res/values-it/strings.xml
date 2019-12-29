@@ -4,7 +4,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <string name="menu_settings">Impostazioni &amp; Dati</string>
+    <string name="menu_settings">Impostazioni</string>
     <string name="menu_home">Pasti</string>
     <string name="menu_recipes">Ricette</string>
     <string name="menu_ingredients">Ingredienti</string>
@@ -13,8 +13,10 @@
     <string name="menu_info">Info</string>
     <string name="menu_export">Esporta Dati</string>
 
-    <string name="edit_ingredient_label">Modifica Ingrediente</string>
-    <string name="new_ingredient_label">Nuovo Ingrediente</string>
+    <string name="edit_standard_ingredient_label">Modifica Ingrediente</string>
+    <string name="new_standard_ingredient_label">Nuovo Ingrediente</string>
+    <string name="edit_minor_ingredient_label">Modifica Ingrediente Secondario</string>
+    <string name="new_minor_ingredient_label">Nuovo Ingrediente Secondario</string>
     <string name="edit_recipe_label">Modifica Ricetta</string>
     <string name="new_recipe_label">Nuova Ricetta</string>
     <string name="edit_week_activity_name">Modifica Settimana</string>
@@ -43,6 +45,7 @@
     <string name="label_daily_meals">Pasti Giornalieri</string>
     <string name="label_weeks_data">Lista Delle Settimane Salvate</string>
     <string name="label_info">Info</string>
+    <string name="label_settings">Impostazioni Generali</string>
 
     <string name="menu_add_recipe">Aggiungi Ricetta</string>
     <string name="menu_edit_list">Modifica Lista</string>
@@ -53,6 +56,19 @@
     <string name="toast_cant_save_type_name">Impossibile salvare nome. È troppo simile ad un nome già esistente</string>
 
     <string name="shopping_list_hint">Aggiungi altri elementi alla lista…</string>
+
+    <string name="settings_currency">Valuta:</string>
+    <string name="settings_first_day_of_week">Primo giorno della settimana:</string>
+
+    <string-array name="days_of_week">
+        <item>Domenica</item>
+        <item>Lunedì</item>
+        <item>Martedì</item>
+        <item>Mercoledì</item>
+        <item>Giovedì</item>
+        <item>Venerdì</item>
+        <item>Sabato</item>
+    </string-array>
 
     <string name="first_start_dialog_title">Primo Avvio</string>
     <string name="first_start_dialog_intro">

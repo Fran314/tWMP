@@ -3,8 +3,13 @@ package com.baldino.myapp003.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.baldino.myapp003.R;
@@ -12,6 +17,7 @@ import com.baldino.myapp003.RecIngredient;
 import com.baldino.myapp003.Recipe;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.ShoppingListSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
@@ -24,6 +30,7 @@ public class ShoppingListActivity extends AppCompatActivity
 
     WeekManagerSingleton sWeekManager;
     RecipeManagerSingleton sRecipeManager;
+    ShoppingListSingleton sShoppingList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,71 +40,39 @@ public class ShoppingListActivity extends AppCompatActivity
 
         container = findViewById(R.id.shopping_list_container);
 
-        sWeekManager = WeekManagerSingleton.getInstance();
-        sRecipeManager = RecipeManagerSingleton.getInstance();
+        sShoppingList = ShoppingListSingleton.getInstance();
 
-        shopping_list = new ArrayList<>();
-
-        for(int i = 0; i < 7; i++)
+        for(int i = 0; i < sShoppingList.labels.size(); i++)
         {
-            if(sWeekManager.has_same_format)
-            {
-                for(int j = 0; j < sWeekManager.courses_per_meal.size(); j++)
-                {
-                    for(int k = 0; k < sWeekManager.courses_per_meal.get(j); k++)
-                    {
-                        Recipe rec = sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).binaryFind(sWeekManager.days[i].getCourseOfmeal(k,j));
-                        if(rec != null)
-                        {
-                            for(int h = 0; h < rec.ingredients.size(); h++)
-                            {
-                                addItem(rec.ingredients.get(h).getName(), rec.ingredients.get(h).getAmount());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        for(RecIngredient rec_ingr : shopping_list)
-        {
+            final int pos = i;
             CheckBox new_item = new CheckBox(this);
-            new_item.setText(rec_ingr.getName() + " x" + rec_ingr.getAmount());
+            new_item.setText(sShoppingList.labels.get(i));
+            new_item.setTextColor(sShoppingList.colors.get(i));
+            new_item.setChecked(sShoppingList.values.get(i));
+            new_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    sShoppingList.values.set(pos, isChecked);
+                    sShoppingList.saveValues();
+                }
+            });
             container.addView(new_item);
         }
-    }
 
-    private void addItem(String name, float amount)
-    {
-        int index = binaryFindIndex(name);
-        if(index == -1)
-        {
-            int pos = shopping_list.size();
-            for(int i = 0; i < shopping_list.size(); i++)
+        EditText additional_text = findViewById(R.id.additonal_items);
+        additional_text.setText(sShoppingList.additional_text);
+        additional_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s)
             {
-                if(Util.compareStrings(name, shopping_list.get(i).getName()) < 0)
-                {
-                    pos = i;
-                    break;
-                }
+                sShoppingList.additional_text = s.toString();
+                sShoppingList.saveValues();
             }
-            shopping_list.add(pos, new RecIngredient(name, amount));
-        }
-        else
-        {
-            shopping_list.get(index).setAmount(shopping_list.get(index).getAmount() + amount);
-        }
-    }
-
-    private int binaryFindIndex(String name) { return binaryFindIndex(name, 0, shopping_list.size()-1); }
-    private int binaryFindIndex(String name, int left, int right)
-    {
-        if(left  > right) return -1;
-
-        int mid = left + ((right - left)/2);
-        if(Util.compareStrings(name, shopping_list.get(mid).getName()) == 0) return mid;
-        else if(Util.compareStrings(name, shopping_list.get(mid).getName()) < 0) return binaryFindIndex(name, left, mid-1);
-        else return binaryFindIndex(name, mid+1, right);
+        });
     }
 
     @Override

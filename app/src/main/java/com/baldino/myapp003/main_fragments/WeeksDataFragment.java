@@ -22,6 +22,7 @@ import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -89,14 +90,12 @@ public class WeeksDataFragment extends Fragment
         Calendar c = Calendar.getInstance();
         c.set(year, month, day_of_month);
 
+        String name = DateFormat.getDateInstance().format(c.getTime()) + " - ";
+
         c.add(Calendar.DATE, 6);
 
-        int new_year = c.get(Calendar.YEAR);
-        int new_month = c.get(Calendar.MONTH);
-        int new_day_of_month = c.get(Calendar.DAY_OF_MONTH);
+        name += DateFormat.getDateInstance().format(c.getTime());
 
-        String name = day_of_month + "/" + month + "/" + year + " - " +
-                        new_day_of_month + "/" + new_month + "/" + new_year;
 
         week_name.setText(name);
         week_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);

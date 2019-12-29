@@ -36,7 +36,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
                 <ImageButton
-                    android:id="@+id/button_shopping_list"
+                    android:id="@+id/button_map"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
@@ -44,7 +44,7 @@
                     android:contentDescription="@null"
                     android:src="@drawable/ic_button_map_32dp"/>
                 <ImageButton
-                    android:id="@+id/button_add_ingredient"
+                    android:id="@+id/button_add_standard_ingredient"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
@@ -89,6 +89,10 @@
                     android:contentDescription="@null"
                     android:src="@drawable/ic_button_add_32dp"/>
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_minor_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

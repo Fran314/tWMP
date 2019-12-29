@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.main_fragments.IngredientsFragment;
 
-public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.RecViewHolder>
+public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.RecViewHolder>
 {
     public IngredientsFragment ingredients_fragment;
 
     public int expanded_val = -1;
     public boolean is_standard = true;
 
-    public StdIngrListAdapter(boolean is_standard)
+    public IngredientListAdapter(boolean is_standard)
     {
         this.is_standard = is_standard;
     }

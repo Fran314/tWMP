@@ -36,6 +36,7 @@
             android:layout_weight="1"
             android:padding="2dp">
             <EditText
+                android:id="@+id/additonal_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/shopping_list_hint"/>

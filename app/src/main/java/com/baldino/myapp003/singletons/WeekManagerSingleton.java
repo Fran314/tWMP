@@ -51,7 +51,7 @@ public class WeekManagerSingleton
         setCalendar(curr_year, curr_month, curr_day_of_month);
     }
 
-    public static WeekManagerSingleton getInstance()
+    public synchronized static WeekManagerSingleton getInstance()
     {
         if (singleton_instance == null)
             singleton_instance = new WeekManagerSingleton();
@@ -367,34 +367,9 @@ public class WeekManagerSingleton
         }
     }
 
-    public int saveWooks()
+    public void saveWeeks()
     {
-        StringBuilder output_string = new StringBuilder("");
-        //output_string.append(context.getResources().getString(context.getResources().getStringArray(R.array.id_array)[0]));
-
-        try
-        {
-            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(),"test.txt"));
-            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
-            fos.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return -1;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return -2;
-        }
-
-        return 0;
-    }
-
-    public int saveWeeks()
-    {
-        StringBuilder output_string = new StringBuilder("");
+        StringBuilder output_string = new StringBuilder();
         for(int i = 0; i < saved_weeks.size(); i++)
         {
             output_string.append("[");
@@ -411,17 +386,13 @@ public class WeekManagerSingleton
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-            return -1;
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            return -2;
         }
-
-        return 0;
     }
-    public int loadWeeks()
+    public void loadWeeks()
     {
         List<String> lines = new ArrayList<>();
 
@@ -429,7 +400,7 @@ public class WeekManagerSingleton
         {
             FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.WEEKS_LIST_PATH));
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
-            String line = null;
+            String line;
 
             while((line = reader.readLine()) != null)
             {
@@ -443,28 +414,23 @@ public class WeekManagerSingleton
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-            return -1;
         }
         catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
-            return -2;
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            return -3;
         }
 
         for(int i = 0; i < lines.size(); i++)
         {
             addWeek(Util.getStringFromLine(lines.get(i)));
         }
-
-        return 0;
     }
 
-    public int addWeek(String name)
+    private void addWeek(String name)
     {
         boolean exists = false, found_place = false;
         int pos = saved_weeks.size();
@@ -478,17 +444,14 @@ public class WeekManagerSingleton
                 pos = i;
             }
         }
-        if(exists) return -1;
-        else
+        if(!exists)
         {
             saved_weeks.add(pos, name);
-
-            return 1;
         }
     }
 
-    public boolean binaryExists(String name) { return binaryExists(name, 0, saved_weeks.size()-1); }
-    public boolean binaryExists(String name, int left, int right)
+    private boolean binaryExists(String name) { return binaryExists(name, 0, saved_weeks.size()-1); }
+    private boolean binaryExists(String name, int left, int right)
     {
         if(left  > right) return false;
 

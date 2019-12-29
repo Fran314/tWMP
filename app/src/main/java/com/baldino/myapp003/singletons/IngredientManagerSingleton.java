@@ -3,7 +3,7 @@ package com.baldino.myapp003.singletons;
 import android.content.Context;
 
 import com.baldino.myapp003.Ingredient;
-import com.baldino.myapp003.StdIngrListAdapter;
+import com.baldino.myapp003.IngredientListAdapter;
 import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
@@ -24,22 +24,21 @@ public class IngredientManagerSingleton
     private Context context;
 
     public List<Ingredient> standard_ingredients;
-    public StdIngrListAdapter standard_ingr_list_adapter = null;
+    public IngredientListAdapter standard_ingr_list_adapter;
 
-    //TODO actually implement these
     public List<Ingredient> minor_ingredients;
-    public StdIngrListAdapter minor_ingr_list_adapter = null;
+    public IngredientListAdapter minor_ingr_list_adapter;
 
     private IngredientManagerSingleton()
     {
         standard_ingredients = new ArrayList<>();
-        standard_ingr_list_adapter = new StdIngrListAdapter(true);
+        standard_ingr_list_adapter = new IngredientListAdapter(true);
 
         minor_ingredients = new ArrayList<>();
-        minor_ingr_list_adapter = new StdIngrListAdapter(false);
+        minor_ingr_list_adapter = new IngredientListAdapter(false);
     }
 
-    public static IngredientManagerSingleton getInstance()
+    public synchronized static IngredientManagerSingleton getInstance()
     {
         if (singleton_instance == null)
             singleton_instance = new IngredientManagerSingleton();
@@ -96,6 +95,10 @@ public class IngredientManagerSingleton
         }
         if(!exists)
         {
+            int last_expanded = minor_ingr_list_adapter.expanded_val;
+            minor_ingr_list_adapter.expanded_val = -1;
+            if(last_expanded != -1) minor_ingr_list_adapter.notifyItemChanged(last_expanded);
+
             minor_ingredients.add(pos, ingredient);
             minor_ingr_list_adapter.notifyItemInserted(pos);
         }
@@ -103,12 +106,13 @@ public class IngredientManagerSingleton
     public void removeMnrIngr(int pos)
     {
         if(pos < 0 || pos >= minor_ingredients.size()) return;
-        minor_ingredients.remove(pos);
-        minor_ingr_list_adapter.notifyItemRemoved(pos);
 
         int last_expanded = minor_ingr_list_adapter.expanded_val;
         minor_ingr_list_adapter.expanded_val = -1;
         if(last_expanded != -1) minor_ingr_list_adapter.notifyItemChanged(last_expanded);
+
+        minor_ingredients.remove(pos);
+        minor_ingr_list_adapter.notifyItemRemoved(pos);
     }
 
     public Ingredient binaryFindStdIngr(String name) { return binaryFindStdIngr(name, 0, standard_ingredients.size()-1); }

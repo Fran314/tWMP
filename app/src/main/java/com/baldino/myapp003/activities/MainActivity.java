@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.baldino.myapp003.singletons.ShoppingListSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     IngredientManagerSingleton sIngredientManager;
     RecipeManagerSingleton sRecipeManager;
     WeekManagerSingleton sWeekManager;
+    ShoppingListSingleton sShoppingList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_recipes, R.id.nav_ingredients,
                 R.id.nav_day_format, R.id.nav_weeks_data,
-                R.id.nav_info, R.id.nav_export).setDrawerLayout(drawer).build();
+                R.id.nav_info, R.id.nav_settings, R.id.nav_export).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -66,10 +68,12 @@ public class MainActivity extends AppCompatActivity {
         sIngredientManager = IngredientManagerSingleton.getInstance();
         sRecipeManager = RecipeManagerSingleton.getInstance();
         sWeekManager = WeekManagerSingleton.getInstance();
+        sShoppingList = ShoppingListSingleton.getInstance();
 
         sIngredientManager.setContext(this);
         sRecipeManager.setContext(this);
         sWeekManager.setContext(this);
+        sShoppingList.setContext(this);
         //--- ---//
 
         final MainActivity mainActivity = this;
@@ -132,13 +136,19 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         }
 
+        Util.loadSettings();
+
         sIngredientManager.loadStdIngr();
+        sIngredientManager.loadMnrIngr();
 
         sRecipeManager.loadTypeNames();
 
         sWeekManager.loadWeeks();
         sWeekManager.loadDailyMeals();
         sWeekManager.loadData();
+
+        sShoppingList.updateShoppingList();
+        sShoppingList.loadValues();
     }
 
     @Override

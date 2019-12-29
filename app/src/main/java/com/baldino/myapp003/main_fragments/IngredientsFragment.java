@@ -20,27 +20,46 @@ public class IngredientsFragment extends Fragment
 {
     private IngredientManagerSingleton sIngredientManager;
 
-    private ImageButton button_add_ingredient;
-
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View root = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
         sIngredientManager = IngredientManagerSingleton.getInstance();
         sIngredientManager.standard_ingr_list_adapter.ingredients_fragment = this;
+        sIngredientManager.minor_ingr_list_adapter.ingredients_fragment = this;
 
-        RecyclerView recycler_view = root.findViewById(R.id.recyclerview_ingredients);
-        recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycler_view.setAdapter(sIngredientManager.standard_ingr_list_adapter);
+        RecyclerView std_ingr_rv = root.findViewById(R.id.recyclerview_ingredients);
+        std_ingr_rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        std_ingr_rv.setAdapter(sIngredientManager.standard_ingr_list_adapter);
 
-        button_add_ingredient = root.findViewById(R.id.button_add_ingredient);
-        button_add_ingredient.setOnClickListener(new View.OnClickListener()
+        RecyclerView mnr_ingr_rv = root.findViewById(R.id.recyclerview_minor_ingredients);
+        mnr_ingr_rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        mnr_ingr_rv.setAdapter(sIngredientManager.minor_ingr_list_adapter);
+
+        ImageButton button_add_std_ingr = root.findViewById(R.id.button_add_standard_ingredient);
+        button_add_std_ingr.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditIngredientActivity.class);
                 intent.putExtra("Ingredient_Position", -1);
                 intent.putExtra("Ingredient_New", true);
+                intent.putExtra("Is_Standard", true);
+
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            }
+        });
+
+        ImageButton button_add_mnr_ingr = root.findViewById(R.id.button_add_minor_ingredient);
+        button_add_mnr_ingr.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EditIngredientActivity.class);
+                intent.putExtra("Ingredient_Position", -1);
+                intent.putExtra("Ingredient_New", true);
+                intent.putExtra("Is_Standard", false);
 
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -56,6 +75,7 @@ public class IngredientsFragment extends Fragment
 
         intent.putExtra("Ingredient_Position", pos);
         intent.putExtra("Ingredient_New", false);
+        intent.putExtra("Is_Standard", true);
 
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -66,6 +86,7 @@ public class IngredientsFragment extends Fragment
 
         intent.putExtra("Ingredient_Position", pos);
         intent.putExtra("Ingredient_New", true);
+        intent.putExtra("Is_Standard", true);
 
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -77,6 +98,7 @@ public class IngredientsFragment extends Fragment
 
         intent.putExtra("Ingredient_Position", pos);
         intent.putExtra("Ingredient_New", false);
+        intent.putExtra("Is_Standard", false);
 
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -87,6 +109,7 @@ public class IngredientsFragment extends Fragment
 
         intent.putExtra("Ingredient_Position", pos);
         intent.putExtra("Ingredient_New", true);
+        intent.putExtra("Is_Standard", false);
 
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);

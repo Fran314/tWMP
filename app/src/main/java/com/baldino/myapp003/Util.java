@@ -1,24 +1,33 @@
 package com.baldino.myapp003;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class Util
 {
     public static final String STD_CHARSET = "UTF-16";
+
+    public static final String SL_VALUES_PATH = "shopping_list_values.txt";
 
     public static final String STANDARD_INGR_PATH = "standard_ingredients.txt";
     public static final String MINOR_INGR_PATH = "minor_ingredients.txt";
@@ -31,6 +40,10 @@ public class Util
     public static final String DAILY_MEALS_PATH = "daily_meals.txt";
 
     private static final String FIRST_START_PATH = "first_start.txt";
+    private static final String SETTINGS_PATH = "settings.txt";
+
+    public static String CURRENCY;
+    public static int FIRST_DAY_OF_WEEK;
 
     public static Context context;
 
@@ -45,6 +58,12 @@ public class Util
         int pos[] = isValidAndGetPos(line, 1);
         if(pos[0] == -1) return -1;
         else return stringToInt(line.substring(pos[0]+1, pos[1]));
+    }
+    public static boolean getBooleanFromLine(String line)
+    {
+        int pos[] = isValidAndGetPos(line, 1);
+        if(pos[0] == -1) return false;
+        else return ("true".equals(line.substring(pos[0]+1, pos[1])));
     }
     public static List<String> getStringsFromLine(String line, int amount)
     {
@@ -290,6 +309,76 @@ public class Util
         {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public static void saveSettings()
+    {
+        StringBuilder output_string = new StringBuilder();
+        output_string.append("[").append(CURRENCY).append("]\n");
+        output_string.append("[").append(FIRST_DAY_OF_WEEK).append("]");
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.SETTINGS_PATH));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
+            fos.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public static void loadSettings()
+    {
+
+        List<String> lines = new ArrayList<>();
+
+        try
+        {
+            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.SETTINGS_PATH));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
+            String line;
+
+            while((line = reader.readLine()) != null)
+            {
+                if(line.length() > 0 && line.charAt(0) != '%')
+                {
+                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
+                    else lines.add(line);
+                }
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        if(lines.size() >= 2)
+        {
+            CURRENCY = getStringFromLine(lines.get(0));
+            FIRST_DAY_OF_WEEK = getIntFromLine(lines.get(1));
+        }
+        else
+        {
+            Currency cur = Currency.getInstance(context.getResources().getConfiguration().locale);
+            CURRENCY = cur.getSymbol();
+
+
+            Calendar cal = Calendar.getInstance();
+            FIRST_DAY_OF_WEEK = cal.getFirstDayOfWeek();
         }
     }
 

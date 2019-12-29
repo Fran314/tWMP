@@ -17,6 +17,7 @@ import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableDayMealsView;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.ShoppingListSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.text.DateFormat;
@@ -33,6 +34,7 @@ public class EditWeekActivity extends AppCompatActivity
 
     WeekManagerSingleton sWeekManager;
     RecipeManagerSingleton sRecipeManager;
+    ShoppingListSingleton sShoppingList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,6 +44,7 @@ public class EditWeekActivity extends AppCompatActivity
 
         sWeekManager = WeekManagerSingleton.getInstance();
         sRecipeManager = RecipeManagerSingleton.getInstance();
+        sShoppingList = ShoppingListSingleton.getInstance();
 
         year = sWeekManager.year;
         month = sWeekManager.month;
@@ -220,6 +223,7 @@ public class EditWeekActivity extends AppCompatActivity
         sWeekManager.has_same_format = true;
 
         sWeekManager.saveData();
+        sShoppingList.updateShoppingList();
 
         finish();
     }
