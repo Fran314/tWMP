@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         }
 
-        sIngredientManager.loadIngredients();
+        sIngredientManager.loadStdIngr();
 
         sRecipeManager.loadTypeNames();
 

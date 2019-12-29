@@ -123,30 +123,39 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                 TableRow row = new TableRow(view.getContext());
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                Ingredient curr_ingredient = sIngredientManager.binaryFindIngredient(recipe.ingredients.get(i).getName());
+                boolean mnr_ingr = false;
+                Ingredient curr_ingredient = sIngredientManager.binaryFindStdIngr(recipe.ingredients.get(i).getName());
+                if(curr_ingredient == null)
+                {
+                    mnr_ingr = true;
+                    curr_ingredient = sIngredientManager.binaryFindMnrIngr(recipe.ingredients.get(i).getName());
+                }
 
                 TextView name_in_row = new TextView(view.getContext());
                 name_in_row.setText(recipe.ingredients.get(i).getName());
                 if(curr_ingredient == null) name_in_row.setTextColor(view.getResources().getColor(R.color.colorErrorRed));
                 name_in_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                TextView amount_in_row = new TextView(view.getContext());
-                amount_in_row.setText(Float.toString(recipe.ingredients.get(i).getAmount()));
-                if(curr_ingredient == null) amount_in_row.setTextColor(view.getResources().getColor(R.color.colorErrorRed));
-                amount_in_row.setGravity(Gravity.RIGHT);
-                amount_in_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
                 row.addView(name_in_row);
-                row.addView(amount_in_row);
 
-                if(curr_ingredient != null)
+                if(curr_ingredient == null || !mnr_ingr)
+                {
+                    TextView amount_in_row = new TextView(view.getContext());
+                    amount_in_row.setText(Float.toString(recipe.ingredients.get(i).getAmount()));
+                    if(curr_ingredient == null) amount_in_row.setTextColor(view.getResources().getColor(R.color.colorErrorRed));
+                    amount_in_row.setGravity(Gravity.RIGHT);
+                    amount_in_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                    row.addView(amount_in_row);
+                }
+
+                if(curr_ingredient != null && !mnr_ingr)
                 {
                     TextView unit_in_row = new TextView(view.getContext());
                     unit_in_row.setText(curr_ingredient.getUnit());
                     unit_in_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
                     row.addView(unit_in_row);
                 }
-
 
                 rec_ingredients.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
             }

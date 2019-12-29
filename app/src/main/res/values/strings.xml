@@ -32,7 +32,7 @@
     <string name="meals_saturday">Saturday</string>
     <string name="meals_sunday">Sunday</string>
 
-    <string name="ingredients_amount_text">Amount:</string>
+    <string name="ingredients_amount_text">Amount in package [kg]:</string>
     <string name="ingredients_price_text">Price:</string>
     <string name="ingredients_ratio_text">Ratio:</string>
     <string name="ingredients_name_text">Name:</string>

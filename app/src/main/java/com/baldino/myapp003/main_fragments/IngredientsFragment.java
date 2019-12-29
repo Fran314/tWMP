@@ -50,22 +50,42 @@ public class IngredientsFragment extends Fragment
         return root;
     }
 
-    public void editExpandedIngredient()
+    public void editStdIngr(int pos)
     {
         Intent intent = new Intent(getActivity(), EditIngredientActivity.class);
 
-        intent.putExtra("Ingredient_Position", sIngredientManager.expandedVal);
+        intent.putExtra("Ingredient_Position", pos);
         intent.putExtra("Ingredient_New", false);
 
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
-
-    public void copyExpandedIngredient()
+    public void copyStdIngr(int pos)
     {
         Intent intent = new Intent(getActivity(), EditIngredientActivity.class);
 
-        intent.putExtra("Ingredient_Position", sIngredientManager.expandedVal);
+        intent.putExtra("Ingredient_Position", pos);
+        intent.putExtra("Ingredient_New", true);
+
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+
+    public void editMnrIngr(int pos)
+    {
+        Intent intent = new Intent(getActivity(), EditIngredientActivity.class);
+
+        intent.putExtra("Ingredient_Position", pos);
+        intent.putExtra("Ingredient_New", false);
+
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+    }
+    public void copyMnrIngr(int pos)
+    {
+        Intent intent = new Intent(getActivity(), EditIngredientActivity.class);
+
+        intent.putExtra("Ingredient_Position", pos);
         intent.putExtra("Ingredient_New", true);
 
         startActivity(intent);

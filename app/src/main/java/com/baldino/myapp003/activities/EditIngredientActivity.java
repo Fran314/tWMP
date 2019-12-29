@@ -63,11 +63,11 @@ public class EditIngredientActivity extends AppCompatActivity {
 
         if(!ingr_new)
         {
-            sIngredientManager.removeIngredient(ingr_pos);
+            sIngredientManager.removeStdIngr(ingr_pos);
         }
 
-        sIngredientManager.addIngredient(new_ingredient);
-        sIngredientManager.saveIngredients();
+        sIngredientManager.addStdIngr(new_ingredient);
+        sIngredientManager.saveStdIngr();
 
         finish();
     }

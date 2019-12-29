@@ -17,8 +17,12 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
 {
     public IngredientsFragment ingredients_fragment;
 
-    public StdIngrListAdapter()
+    public int expanded_val = -1;
+    public boolean is_standard = true;
+
+    public StdIngrListAdapter(boolean is_standard)
     {
+        this.is_standard = is_standard;
     }
 
     @Override
@@ -33,7 +37,9 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
     public void onBindViewHolder(RecViewHolder holder, int position)
     {
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-        final Ingredient ingredient = sIngredientManager.standard_ingredients.get(position);
+        final Ingredient ingredient;
+        if(is_standard) ingredient = sIngredientManager.standard_ingredients.get(position);
+        else  ingredient = sIngredientManager.minor_ingredients.get(position);
 
         holder.bind(ingredient, position);
 
@@ -42,17 +48,19 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
                     @Override
                     public void onClick(View view) {
                         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-                        int curr_position = sIngredientManager.standard_ingredients.indexOf(ingredient);
+                        int curr_position;
+                        if(is_standard) curr_position = sIngredientManager.binaryFindStdIndex(ingredient.getName());
+                        else curr_position = sIngredientManager.binaryFindMnrIndex(ingredient.getName());
 
-                        if(curr_position == sIngredientManager.expandedVal)
+                        if(curr_position == expanded_val)
                         {
-                            sIngredientManager.expandedVal = -1;
+                            expanded_val = -1;
                             notifyItemChanged(curr_position);
                         }
                         else
                         {
-                            int last_position = sIngredientManager.expandedVal;
-                            sIngredientManager.expandedVal = curr_position;
+                            int last_position = expanded_val;
+                            expanded_val = curr_position;
                             if(last_position != -1) notifyItemChanged(last_position);
                             notifyItemChanged(curr_position);
                         }
@@ -65,7 +73,10 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
     public int getItemCount()
     {
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-        return sIngredientManager.standard_ingredients == null ? 0 : sIngredientManager.standard_ingredients.size();
+        if(is_standard)
+            return sIngredientManager.standard_ingredients == null ? 0 : sIngredientManager.standard_ingredients.size();
+        else
+            return sIngredientManager.minor_ingredients == null ? 0 : sIngredientManager.minor_ingredients.size();
     }
 
     public class RecViewHolder extends RecyclerView.ViewHolder
@@ -103,7 +114,7 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
         {
             final IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
 
-            subItem.setVisibility(pos == sIngredientManager.expandedVal ? View.VISIBLE : View.GONE);
+            subItem.setVisibility(pos == expanded_val ? View.VISIBLE : View.GONE);
 
             name.setText(ingredient.getName());
 
@@ -141,8 +152,16 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            sIngredientManager.removeIngredient(sIngredientManager.expandedVal);
-                            sIngredientManager.saveIngredients();
+                            if(is_standard)
+                            {
+                                sIngredientManager.removeStdIngr(expanded_val);
+                                sIngredientManager.saveStdIngr();
+                            }
+                            else
+                            {
+                                sIngredientManager.removeMnrIngr(expanded_val);
+                                sIngredientManager.saveMnrIngr();
+                            }
                             dialog.dismiss();
                         }
                     });
@@ -152,7 +171,6 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
                         @Override
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            // Do nothing
                             dialog.dismiss();
                         }
                     });
@@ -166,11 +184,13 @@ public class StdIngrListAdapter extends RecyclerView.Adapter<StdIngrListAdapter.
 
     public void editExpandedIngredient()
     {
-        ingredients_fragment.editExpandedIngredient();
+        if(is_standard) ingredients_fragment.editStdIngr(expanded_val);
+        else ingredients_fragment.editMnrIngr(expanded_val);
     }
 
     public void copyExpandedIngredient()
     {
-        ingredients_fragment.copyExpandedIngredient();
+        if(is_standard) ingredients_fragment.copyStdIngr(expanded_val);
+        else ingredients_fragment.copyMnrIngr(expanded_val);
     }
 }

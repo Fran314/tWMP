@@ -32,7 +32,7 @@
     <string name="meals_saturday">Sabato</string>
     <string name="meals_sunday">Domenica</string>
 
-    <string name="ingredients_amount_text">Quantità:</string>
+    <string name="ingredients_amount_text">Quantità per confezione [kg]:</string>
     <string name="ingredients_price_text">Prezzo:</string>
     <string name="ingredients_ratio_text">Rapporto:</string>
     <string name="ingredients_name_text">Nome:</string>
