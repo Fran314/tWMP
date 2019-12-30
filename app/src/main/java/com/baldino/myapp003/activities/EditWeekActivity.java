@@ -137,7 +137,7 @@ public class EditWeekActivity extends AppCompatActivity
         //TODO set the spinners to some value if it's the case, else set to standard value
         for(int i = 0; i < 7; i++)
         {
-            if(sWeekManager.days[i].isNew || !sWeekManager.has_same_format)
+            if(sWeekManager.is_new_week || !sWeekManager.has_same_format)
             {
                 //  Init at std values
                 for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
@@ -200,7 +200,7 @@ public class EditWeekActivity extends AppCompatActivity
     {
         for(int i = 0; i < 7; i++)
         {
-            sWeekManager.days[i] = new Day(false);
+            sWeekManager.days[i] = new Day();
             for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
             {
                 List<String> courses_of_this_meal = new ArrayList<>();

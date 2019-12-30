@@ -1,6 +1,7 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.baldino.myapp003.Day;
@@ -19,6 +20,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class WeekManagerSingleton
 {
     private static WeekManagerSingleton singleton_instance = null;
@@ -31,7 +34,7 @@ public class WeekManagerSingleton
     public List<MealFormat> daily_meals;
 
     //---- Variables relative to the currently loaded week ----//
-    public boolean has_same_format;
+    public boolean has_same_format, is_new_week;
     public List<Integer> courses_per_meal;
     public List<String> meal_names;
     //---- ----//
@@ -236,127 +239,90 @@ public class WeekManagerSingleton
 
         if(!binaryExists(week_file_path))
         {
-            for(int i = 0; i < 7; i++)
-            {
-                //TODO: sistema qua con il nuovo tipo di Day
-                days[i] = new Day(true);
-            }
-            has_same_format = true;
-            for(int i = 0; i < daily_meals.size(); i++)
-            {
-                this.meal_names.add(daily_meals.get(i).getName());
-                this.courses_per_meal.add(daily_meals.get(i).getDim());
-            }
+            initWeekAsNull();
             return;
         }
 
-        List<String> lines = new ArrayList<>();
+        WeekData week_data = loadData(week_file_path);
+
+        boolean check = true;
+        if(daily_meals.size() != week_data.meal_names.size()) check = false;
+        for(int i = 0; i < daily_meals.size() && check; i++)
+        {
+            if(daily_meals.get(i).getDim() != week_data.courses_per_meal.get(i)) check = false;
+        }
+        for(int i = 0; i < daily_meals.size() && check; i++)
+        {
+            if(Util.compareStrings(daily_meals.get(i).getName(), week_data.meal_names.get(i)) != 0) check = false;
+        }
+
+        has_same_format = check;
+        is_new_week = false;
+        days = week_data.days;
+        this.courses_per_meal = week_data.courses_per_meal;
+        this.meal_names = week_data.meal_names;
+    }
+
+    public WeekData loadData(String path)
+    {
+        WeekData to_return = new WeekData();
 
         File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
         folder.mkdirs();
-
-        try
-        {
-            FileInputStream fis = new FileInputStream(new File(folder, week_file_path));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
-            String line = null;
-
-            while((line = reader.readLine()) != null)
-            {
-                if(line.length() > 0 && line.charAt(0) != '%')
-                {
-                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
-                    else lines.add(line);
-                }
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            for(int i = 0; i < 7; i++)
-            {
-                //TODO: sistema qua con il nuovo tipo di Day
-                days[i] = new Day(true);
-            }
-            has_same_format = true;
-            for(int i = 0; i < daily_meals.size(); i++)
-            {
-                this.meal_names.add(daily_meals.get(i).getName());
-                this.courses_per_meal.add(daily_meals.get(i).getDim());
-            }
-            return;
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        List<String> lines = Util.readFile(new File(folder, path));
 
         List<String> curr_meal_names = new ArrayList<>();
-        List<Integer> curr_courser_per_meal = new ArrayList<>();
-        int meals_per_day = 0;
+        List<Integer> curr_courses_per_meal = new ArrayList<>();
+        int curr_meals_per_day = 0;
 
-        int counter = 0;
-        if(counter < lines.size())
+        //  Here I HEAVILY assume that all the data read from now on has the exact format it
+        //  should have to be read. Why? First, because realistically the only way some data might
+        //  be there is if I wrote it there before (and hence will have the exact format).
+        //  Secondly, I tried to write the error handling part and fuck that
+
+        curr_meals_per_day = Util.getIntFromLine(lines.get(0));
+        curr_meal_names = Util.getStringsFromLine(lines.get(1), curr_meals_per_day);
+        curr_courses_per_meal = Util.getIntsFromLine(lines.get(2), curr_meals_per_day);
+        int counter = 3;
+
+        for(int i = 0; i < 7; i++)
         {
-            meals_per_day = Util.getIntFromLine(lines.get(counter));
-            counter++;
-        }
-        if(counter < lines.size())
-        {
-            curr_meal_names = Util.getStringsFromLine(lines.get(counter), meals_per_day);
-            counter++;
-        }
-        if(counter < lines.size())
-        {
-            curr_courser_per_meal = Util.getIntsFromLine(lines.get(counter), meals_per_day);
-            counter++;
+            to_return.days[i] = new Day();
+            for(int j = 0; j < curr_meals_per_day; j++)
+            {
+                to_return.days[i].addMeal(Util.getStringsFromLine(lines.get(counter), curr_courses_per_meal.get(j)));
+                counter++;
+            }
         }
 
-        if(lines.size() - counter != 7*meals_per_day)
-        {
-            //TODO: do some error handling stuff
-            for(int i = 0; i < 7; i++)
-            {
-                days[i] = new Day(true);
-            }
-            has_same_format = true;
-            for(int i = 0; i < daily_meals.size(); i++)
-            {
-                this.meal_names.add(daily_meals.get(i).getName());
-                this.courses_per_meal.add(daily_meals.get(i).getDim());
-            }
-            return;
-        }
-        else
-        {
-            boolean check = true;
-            if(daily_meals.size() != curr_meal_names.size()) check = false;
-            for(int i = 0; i < daily_meals.size() && check; i++)
-            {
-                if(daily_meals.get(i).getDim() != curr_courser_per_meal.get(i)) check = false;
-            }
-            for(int i = 0; i < daily_meals.size() && check; i++)
-            {
-                if(Util.compareStrings(daily_meals.get(i).getName(), curr_meal_names.get(i)) != 0) check = false;
-            }
+        to_return.meals_per_day = curr_meals_per_day;
+        to_return.courses_per_meal = curr_courses_per_meal;
+        to_return.meal_names = curr_meal_names;
 
-            has_same_format = check;
-            for(int i = 0; i < 7; i++)
+        return to_return;
+    }
+
+    private void initWeekAsNull()
+    {
+        for(int i = 0; i < 7; i++)
+        {
+            days[i] = new Day();
+            for(int j = 0; j < daily_meals.size(); j++)
             {
-                days[i] = new Day(false);
-                for(int j = 0; j < meals_per_day; j++)
+                List<String> meal = new ArrayList<>();
+                for(int k = 0; k < daily_meals.get(j).getDim(); k++)
                 {
-                    days[i].addMeal(Util.getStringsFromLine(lines.get(counter), curr_courser_per_meal.get(j)));
-                    counter++;
+                    meal.add("-");
                 }
+                days[i].addMeal(meal);
             }
-
-            this.courses_per_meal = curr_courser_per_meal;
-            this.meal_names = curr_meal_names;
+        }
+        is_new_week = true;
+        has_same_format = true;
+        for(int i = 0; i < daily_meals.size(); i++)
+        {
+            this.meal_names.add(daily_meals.get(i).getName());
+            this.courses_per_meal.add(daily_meals.get(i).getDim());
         }
     }
 
@@ -454,9 +420,86 @@ public class WeekManagerSingleton
         else return binaryExists(name, mid+1, right);
     }
 
-    public void refactor(int old_first_day_of_week)
+    public void refactor(int old_first_day_of_week, int new_first_day_of_week)
     {
         //TODO actually implement this refactoring thing
+        List<DateRange> ranges = new ArrayList<>();
+
+        LocalDate oldDate;
+        LocalDate newDate;
+
+        int b_year = 0, b_month = 0, b_day_of_month = 0;
+        int n_year = 0, n_month = 0, n_day_of_month = 0;
+
+        if(saved_weeks.size() > 0)
+        {
+            b_year = Util.stringToInt(saved_weeks.get(0).substring(0, 4));
+            b_month = Util.stringToInt(saved_weeks.get(0).substring(5, 7));
+            b_day_of_month = Util.stringToInt(saved_weeks.get(0).substring(8, 10));
+
+            oldDate = LocalDate.of(b_year, b_month, b_day_of_month);
+
+            for(int i = 1; i < saved_weeks.size(); i++)
+            {
+                n_year = Util.stringToInt(saved_weeks.get(i).substring(0, 4));
+                n_month = Util.stringToInt(saved_weeks.get(i).substring(5, 7));
+                n_day_of_month = Util.stringToInt(saved_weeks.get(i).substring(8, 10));
+
+                newDate = LocalDate.of(n_year, n_month, n_day_of_month);
+
+                if(DAYS.between(oldDate, newDate) > 7)
+                {
+                    DateRange new_rage = new DateRange();
+                    new_rage.setBeginning(b_year, b_month, b_day_of_month);
+                    new_rage.setEnding(oldDate.getYear(), oldDate.getMonthValue(), oldDate.getDayOfMonth());
+
+                    ranges.add(new_rage);
+
+                    b_year = n_year;
+                    b_month = n_month;
+                    b_day_of_month = n_day_of_month;
+                }
+
+                oldDate = LocalDate.of(n_year, n_month, n_day_of_month);
+            }
+
+            DateRange last_rage = new DateRange();
+            last_rage.setBeginning(b_year, b_month, b_day_of_month);
+            last_rage.setEnding(oldDate.getYear(), oldDate.getMonthValue(), oldDate.getDayOfMonth());
+
+            ranges.add(last_rage);
+
+            for(DateRange range : ranges)
+            {
+                Log.w("AAA", range.b_day_of_month + "/" + range.b_month + "/" + range.b_year + " - " +
+                                        range.e_day_of_month + "/" + range.e_month + "/"+ range.e_year);
+            }
+
+            //  Get all ranges
+            //  For each range
+            //      create 14 days
+            //      initiate the first 7 days as
+            for(DateRange range : ranges)
+            {
+                List<Integer> first_courses_per_meal, second_courses_per_meal;
+                List<String> first_meal_names, second_meal_namesdesxza;
+                Day[] refactor_days = new Day[14];
+            }
+        }
+    }
+
+    private class WeekData
+    {
+        public List<Integer> courses_per_meal;
+        public List<String> meal_names;
+        public int meals_per_day;
+
+        public Day[] days = new Day[7];
+
+        public WeekData()
+        {
+
+        }
     }
 
     private class DateRange

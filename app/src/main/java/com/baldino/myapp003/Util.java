@@ -243,6 +243,36 @@ public class Util
         return to_return;
     }
 
+    public static List<String> readFile(File file)
+    {
+        List<String> lines = new ArrayList<>();
+
+        try
+        {
+            FileInputStream fis = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
+            String line = null;
+
+            while((line = reader.readLine()) != null)
+            {
+                if(line.length() > 0 && line.charAt(0) != '%')
+                {
+                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
+                    else lines.add(line);
+                }
+            }
+
+            fis.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+
+            Log.e("ERROR", "Had some error while reading the file " + file.getPath() + "/" + file.getName());
+        }
+
+        return lines;
+    }
+
     //  Function copied from StackOverflow, can't remember the specific question though //
     public static int intToDp(int arg)
     {

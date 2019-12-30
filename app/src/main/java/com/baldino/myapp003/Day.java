@@ -8,19 +8,17 @@ import java.util.List;
 public class Day
 {
     private List<List<String>> meals;
-    public boolean isNew;
 
-    public Day(boolean isNew)
+    public Day()
     {
-        this.isNew = isNew;
         meals = new ArrayList<>();
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        if(isNew)
+        if(true)
         {
-            for(int i = 0; i < sWeekManager.daily_meals.size(); i++)
+            for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
             {
                 List<String> meal = new ArrayList<>();
-                for(int j = 0; j < sWeekManager.daily_meals.get(i).getDim(); j++)
+                for(int k = 0; k < sWeekManager.daily_meals.get(j).getDim(); k++)
                 {
                     meal.add("-");
                 }
@@ -31,15 +29,16 @@ public class Day
         {
             meals = new ArrayList<>();
         }
+
     }
 
     public String getCourseOfmeal(int course, int meal)
     {
         return meals.get(meal).get(course);
     }
-    public void addMeal(List<String> courser)
+    public void addMeal(List<String> courses)
     {
-        meals.add(courser);
+        meals.add(courses);
     }
     public void setMeal(int meal, List<String> courses)
     {

@@ -1,6 +1,5 @@
 package com.baldino.myapp003.main_fragments;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -99,7 +98,7 @@ public class SettingsFragment extends Fragment
                     //  They should be moved in builder.setPositiveButton later
                     int old_fdow = Util.FIRST_DAY_OF_WEEK;
                     WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-                    sWeekManager.refactor(old_fdow);
+                    sWeekManager.refactor(old_fdow, 2);
                 }
             }
         });
