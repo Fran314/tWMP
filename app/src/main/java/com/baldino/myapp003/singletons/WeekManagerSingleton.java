@@ -157,7 +157,6 @@ public class WeekManagerSingleton
 
     public void saveData()
     {
-
         File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
         folder.mkdirs();
 
@@ -166,9 +165,11 @@ public class WeekManagerSingleton
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day_of_month);
 
+        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
+        if(offset < 0) offset += 7;
+        c.add(Calendar.DATE, -offset);
+
         String week_file_path = "";
-        c.set(Calendar.WEEK_OF_MONTH, c.get(Calendar.WEEK_OF_MONTH));
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         week_file_path += String.format("%04d", c.get(Calendar.YEAR));
         week_file_path += String.format("%02d", c.get(Calendar.MONTH));
         week_file_path += String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
@@ -233,9 +234,11 @@ public class WeekManagerSingleton
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day_of_month);
 
+        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
+        if(offset < 0) offset += 7;
+        c.add(Calendar.DATE, -offset);
+
         String week_file_path = "";
-        c.set(Calendar.WEEK_OF_MONTH, c.get(Calendar.WEEK_OF_MONTH));
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         week_file_path += String.format("%04d", c.get(Calendar.YEAR));
         week_file_path += String.format("%02d", c.get(Calendar.MONTH));
         week_file_path += String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
@@ -461,4 +464,8 @@ public class WeekManagerSingleton
         else return binaryExists(name, mid+1, right);
     }
 
+    public void refactor(int old_first_day_of_week)
+    {
+        //TODO actually implement this refactoring thing
+    }
 }

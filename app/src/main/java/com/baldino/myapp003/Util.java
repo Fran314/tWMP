@@ -230,6 +230,18 @@ public class Util
         else return 1;
     }
 
+    public static String nameOfDay(int arg)
+    {
+        arg = (arg-1)%7;
+        if(arg == 0) return context.getResources().getString(R.string.meals_sunday);
+        else if(arg == 1) return context.getResources().getString(R.string.meals_monday);
+        else if(arg == 2) return context.getResources().getString(R.string.meals_tuesday);
+        else if(arg == 3) return context.getResources().getString(R.string.meals_wednesday);
+        else if(arg == 4) return context.getResources().getString(R.string.meals_thursday);
+        else if(arg == 5) return context.getResources().getString(R.string.meals_friday);
+        else return context.getResources().getString(R.string.meals_saturday);
+    }
+
     //  Function copied from StackOverflow, can't remember the specific question though //
     public static int intToDp(int arg)
     {

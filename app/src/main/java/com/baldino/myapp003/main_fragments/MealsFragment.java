@@ -179,7 +179,6 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
             }
         }
 
-
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, sWeekManager.year);
         c.set(Calendar.MONTH, sWeekManager.month);
@@ -191,43 +190,28 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         c.add(Calendar.DATE, -offset);
         week_text += DateFormat.getDateInstance().format(c.getTime());
         week_text += " - ";
-        c.add(Calendar.DATE, 6);
+
+        days[0].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
+        c.add(Calendar.DATE, 1);
+        days[1].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 1) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
+        c.add(Calendar.DATE, 1);
+        days[2].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 2) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
+        c.add(Calendar.DATE, 1);
+        days[3].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 3) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
+        c.add(Calendar.DATE, 1);
+        days[4].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 4) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
+        c.add(Calendar.DATE, 1);
+        days[5].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 5) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
+        c.add(Calendar.DATE, 1);
+        days[6].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 6) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
         week_text += DateFormat.getDateInstance().format(c.getTime());
         week_indicator.setText(week_text);
-
-        Log.w("AAA", "MealsFragment: " + (0%7));
-
-        c.add(Calendar.DATE, -6);
-        days[0].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK) + ", " + DateFormat.getDateInstance().format(c.getTime()));
-
-        c.add(Calendar.DATE, 1);
-        days[1].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 1) + ", " + DateFormat.getDateInstance().format(c.getTime()));
-
-        c.add(Calendar.DATE, 1);
-        days[2].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 2) + ", " + DateFormat.getDateInstance().format(c.getTime()));
-
-        c.add(Calendar.DATE, 1);
-        days[3].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 3) + ", " + DateFormat.getDateInstance().format(c.getTime()));
-
-        c.add(Calendar.DATE, 1);
-        days[4].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 4) + ", " + DateFormat.getDateInstance().format(c.getTime()));
-
-        c.add(Calendar.DATE, 1);
-        days[5].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 5) + ", " + DateFormat.getDateInstance().format(c.getTime()));
-
-        c.add(Calendar.DATE, 1);
-        days[6].header.setText(nameOf(Util.FIRST_DAY_OF_WEEK + 6) + ", " + DateFormat.getDateInstance().format(c.getTime()));
-    }
-
-    private String nameOf(int arg)
-    {
-        arg = (arg-1)%7;
-        if(arg == 0) return getContext().getResources().getString(R.string.meals_sunday);
-        else if(arg == 1) return getContext().getResources().getString(R.string.meals_monday);
-        else if(arg == 2) return getContext().getResources().getString(R.string.meals_tuesday);
-        else if(arg == 3) return getContext().getResources().getString(R.string.meals_wednesday);
-        else if(arg == 4) return getContext().getResources().getString(R.string.meals_thursday);
-        else if(arg == 5) return getContext().getResources().getString(R.string.meals_friday);
-        else return getContext().getResources().getString(R.string.meals_saturday);
     }
 }

@@ -119,8 +119,8 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
             name.setText(ingredient.getName());
 
             amount.setText(String.format("%.2f", ingredient.getAmount()) + " " + ingredient.getUnit());
-            price.setText(String.format("%.2f", ingredient.getPrice()) + " €");
-            ratio.setText(String.format("%.2f", ingredient.getRatio()) + " €/" + ingredient.getUnit());
+            price.setText(String.format("%.2f", ingredient.getPrice()) + " " + Util.CURRENCY);
+            ratio.setText(String.format("%.2f", ingredient.getRatio()) + " "  + Util.CURRENCY + "/" + ingredient.getUnit());
 
             edit.setOnClickListener(new View.OnClickListener()
             {

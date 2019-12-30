@@ -28,7 +28,6 @@ import java.util.List;
 public class EditWeekActivity extends AppCompatActivity
 {
     private EditableDayMealsView[] days;
-    private int year, month, day_of_month;
 
     private List<List<List<Spinner>>> spinners;
 
@@ -45,17 +44,6 @@ public class EditWeekActivity extends AppCompatActivity
         sWeekManager = WeekManagerSingleton.getInstance();
         sRecipeManager = RecipeManagerSingleton.getInstance();
         sShoppingList = ShoppingListSingleton.getInstance();
-
-        year = sWeekManager.year;
-        month = sWeekManager.month;
-        day_of_month = sWeekManager.day_of_month;
-
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day_of_month);
-
-        c.set(Calendar.WEEK_OF_YEAR, c.get(Calendar.WEEK_OF_YEAR));
 
         days = new EditableDayMealsView[7];
 
@@ -177,27 +165,34 @@ public class EditWeekActivity extends AppCompatActivity
             }
         }
 
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, sWeekManager.year);
+        c.set(Calendar.MONTH, sWeekManager.month);
+        c.set(Calendar.DAY_OF_MONTH, sWeekManager.day_of_month);
 
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        days[0].header.setText(getResources().getString(R.string.meals_monday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
+        if(offset < 0) offset += 7;
+        c.add(Calendar.DATE, -offset);
 
-        c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-        days[1].header.setText(getResources().getString(R.string.meals_tuesday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[0].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-        days[2].header.setText(getResources().getString(R.string.meals_wednesday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        c.add(Calendar.DATE, 1);
+        days[1].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 1) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-        days[3].header.setText(getResources().getString(R.string.meals_thursday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        c.add(Calendar.DATE, 1);
+        days[2].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 2) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-        days[4].header.setText(getResources().getString(R.string.meals_friday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        c.add(Calendar.DATE, 1);
+        days[3].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 3) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        days[5].header.setText(getResources().getString(R.string.meals_saturday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        c.add(Calendar.DATE, 1);
+        days[4].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 4) + ", " + DateFormat.getDateInstance().format(c.getTime()));
 
-        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        days[6].header.setText(getResources().getString(R.string.meals_sunday) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        c.add(Calendar.DATE, 1);
+        days[5].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 5) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+
+        c.add(Calendar.DATE, 1);
+        days[6].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 6) + ", " + DateFormat.getDateInstance().format(c.getTime()));
     }
 
     private void saveWeek()

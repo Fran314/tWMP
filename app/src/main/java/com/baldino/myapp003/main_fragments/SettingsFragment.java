@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
+import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 public class SettingsFragment extends Fragment
 {
@@ -41,36 +43,54 @@ public class SettingsFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                //TODO: change this text to something that makes more sense and is based on
-                // the device language
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Override Settings");
-                builder.setMessage("Are you sure you want to override current settings?\n" +
-                        "If you changed the first day of the week, this will corrupt the data " +
-                        "about what you ate or what you planned to eat in the already saved weeks.");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                Util.CURRENCY = currency.getText().toString();
+                if(Util.FIRST_DAY_OF_WEEK != first_day_of_week.getSelectedItemPosition() + 1)
                 {
-                    public void onClick(DialogInterface dialog, int which)
+                    //TODO: change this text to something that makes more sense and is based on
+                    // the device language
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setCancelable(false);
+                    builder.setTitle("Override First Day Of Week");
+                    builder.setMessage("Changing the first day of the week will make unreadable " +
+                            "all the previously saved weeks.\n" +
+                            "Do you want to refactor all your previously saved weeks according " +
+                            "to the new week format?\n\n" +
+                            "(Refactoring might take a while. Do NOT close this app as long as " +
+                            "this alert dialog is open!)");
+                    builder.setPositiveButton("YES\n(Do Refactor)", new DialogInterface.OnClickListener()
                     {
-                        Util.CURRENCY = currency.getText().toString();
-                        Util.FIRST_DAY_OF_WEEK = first_day_of_week.getSelectedItemPosition() + 1;
-                        Util.saveSettings();
-                        dialog.dismiss();
-                    }
-                });
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            int old_fdow = Util.FIRST_DAY_OF_WEEK;
+                            Util.FIRST_DAY_OF_WEEK = first_day_of_week.getSelectedItemPosition() + 1;
+                            WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+                            sWeekManager.refactor(old_fdow);
+                            Util.saveSettings();
+                            //TODO change text so that it changes based on device language
+                            Toast.makeText(getContext(), "Settings saved!", Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
+                    });
 
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                    builder.setNegativeButton("NO\n(Don't Refactor)", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                else
                 {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        // Do nothing
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
+                    Util.saveSettings();
+                    //TODO change text so that it changes based on device language
+                    Toast.makeText(getContext(), "Settings saved!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
