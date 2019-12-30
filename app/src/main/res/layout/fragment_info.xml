@@ -4,5 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main_fragments.InfoFragment">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Work In Progress!\nThis page is currently empty. Eventually, you'll be able to look up here how every part of this app works!"/>
+    </LinearLayout>
 </FrameLayout>

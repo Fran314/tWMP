@@ -21,8 +21,12 @@ import com.baldino.myapp003.singletons.ShoppingListSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.text.DateFormat;
+import java.text.Format;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class EditWeekActivity extends AppCompatActivity
@@ -165,34 +169,31 @@ public class EditWeekActivity extends AppCompatActivity
             }
         }
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, sWeekManager.year);
-        c.set(Calendar.MONTH, sWeekManager.month);
-        c.set(Calendar.DAY_OF_MONTH, sWeekManager.day_of_month);
+        LocalDate date = LocalDate.of(sWeekManager.year, sWeekManager.month, sWeekManager.day_of_month);
 
-        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
-        if(offset < 0) offset += 7;
-        c.add(Calendar.DATE, -offset);
+        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        if(d_offset < 0) d_offset += 7;
+        date = date.minusDays(d_offset);
 
-        days[0].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[0].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[1].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 1) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[1].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[2].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 2) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[2].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[3].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 3) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[3].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[4].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 4) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[4].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[5].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 5) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[5].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[6].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 6) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[6].header.setText(Util.dateToString(date, true));
     }
 
     private void saveWeek()

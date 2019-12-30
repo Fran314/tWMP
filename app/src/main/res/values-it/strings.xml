@@ -61,13 +61,27 @@
     <string name="settings_first_day_of_week">Primo giorno della settimana:</string>
 
     <string-array name="days_of_week">
-        <item>Domenica</item>
         <item>Lunedì</item>
         <item>Martedì</item>
         <item>Mercoledì</item>
         <item>Giovedì</item>
         <item>Venerdì</item>
         <item>Sabato</item>
+        <item>Domenica</item>
+    </string-array>
+    <string-array name="months">
+        <item>gen</item>
+        <item>feb</item>
+        <item>mar</item>
+        <item>apr</item>
+        <item>mag</item>
+        <item>giu</item>
+        <item>lug</item>
+        <item>ago</item>
+        <item>set</item>
+        <item>ott</item>
+        <item>nov</item>
+        <item>dic</item>
     </string-array>
 
     <string name="first_start_dialog_title">Primo Avvio</string>

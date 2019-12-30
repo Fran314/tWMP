@@ -23,8 +23,10 @@ import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class WeeksDataFragment extends Fragment
@@ -84,18 +86,17 @@ public class WeeksDataFragment extends Fragment
         week_name.setLayoutParams(text_params);
 
         int year = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(0, 4));
-        int month = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(4, 6));
-        int day_of_month = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(6, 8));
+        int month = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(5, 7));
+        int day_of_month = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(8, 10));
 
-        Calendar c = Calendar.getInstance();
-        c.set(year, month, day_of_month);
 
-        String name = DateFormat.getDateInstance().format(c.getTime()) + " - ";
+        LocalDate date = LocalDate.of(year, month, day_of_month);
 
-        c.add(Calendar.DATE, 6);
+        String name = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)) + " - ";
 
-        name += DateFormat.getDateInstance().format(c.getTime());
+        date = date.plusDays(6);
 
+        name += date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
 
         week_name.setText(name);
         week_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);

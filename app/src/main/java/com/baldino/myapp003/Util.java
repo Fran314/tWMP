@@ -17,11 +17,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 
 public class Util
 {
@@ -230,16 +228,19 @@ public class Util
         else return 1;
     }
 
-    public static String nameOfDay(int arg)
+    public static String dateToString(LocalDate date, boolean with_day_of_week)
     {
-        arg = (arg-1)%7;
-        if(arg == 0) return context.getResources().getString(R.string.meals_sunday);
-        else if(arg == 1) return context.getResources().getString(R.string.meals_monday);
-        else if(arg == 2) return context.getResources().getString(R.string.meals_tuesday);
-        else if(arg == 3) return context.getResources().getString(R.string.meals_wednesday);
-        else if(arg == 4) return context.getResources().getString(R.string.meals_thursday);
-        else if(arg == 5) return context.getResources().getString(R.string.meals_friday);
-        else return context.getResources().getString(R.string.meals_saturday);
+        String to_return = "";
+
+        String[] days = context.getResources().getStringArray(R.array.days_of_week);
+        String[] months = context.getResources().getStringArray(R.array.months);
+
+        if(with_day_of_week) to_return += days[date.getDayOfWeek().getValue() - 1] + ", ";
+        to_return += date.getDayOfMonth() + " ";
+        to_return += months[date.getMonthValue()-1] + " ";
+        to_return += date.getYear();
+
+        return to_return;
     }
 
     //  Function copied from StackOverflow, can't remember the specific question though //
@@ -382,15 +383,6 @@ public class Util
         {
             CURRENCY = getStringFromLine(lines.get(0));
             FIRST_DAY_OF_WEEK = getIntFromLine(lines.get(1));
-        }
-        else
-        {
-            Currency cur = Currency.getInstance(context.getResources().getConfiguration().locale);
-            CURRENCY = cur.getSymbol();
-
-
-            Calendar cal = Calendar.getInstance();
-            FIRST_DAY_OF_WEEK = cal.getFirstDayOfWeek();
         }
     }
 

@@ -3,6 +3,7 @@ package com.baldino.myapp003.main_fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,10 @@ import com.baldino.myapp003.activities.ShoppingListActivity;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSetListener
 {
@@ -83,14 +86,15 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
 
         week_indicator = root.findViewById(R.id.text_week_indicator);
 
-        loadMeals(sWeekManager.year, sWeekManager.month, sWeekManager.day_of_month);
-        datePickerDialog = new DatePickerDialog(getContext(), this, sWeekManager.year, sWeekManager.month, sWeekManager.day_of_month);
+        //  The -1 is due to DatePicker's months starting with January = 0
+        //  while the LocalDate used for literally everything else uses January = 1
+        datePickerDialog = new DatePickerDialog(getContext(), this, sWeekManager.year, sWeekManager.month-1, sWeekManager.day_of_month);
         buttonCalendar = root.findViewById(R.id.button_calendar);
         buttonCalendar.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
-                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK);
+                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK+1);
                 datePickerDialog.show();
             }
         });
@@ -98,7 +102,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         {
             @Override
             public void onClick(View view) {
-                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK);
+                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK+1);
                 datePickerDialog.show();
             }
         });
@@ -116,7 +120,9 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day_of_month)
     {
-        loadMeals(year, month, day_of_month);
+        //  The +1 is due to DatePicker's months starting with January = 0
+        //  while the LocalDate used for literally everything else uses January = 1
+        loadMeals(year, month+1, day_of_month);
     }
 
     private void loadMeals(int year, int month, int day_of_month)
@@ -179,39 +185,36 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
             }
         }
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, sWeekManager.year);
-        c.set(Calendar.MONTH, sWeekManager.month);
-        c.set(Calendar.DAY_OF_MONTH, sWeekManager.day_of_month);
+        LocalDate date = LocalDate.of(sWeekManager.year, sWeekManager.month, sWeekManager.day_of_month);
 
-        String week_text = "";
-        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
-        if(offset < 0) offset += 7;
-        c.add(Calendar.DATE, -offset);
-        week_text += DateFormat.getDateInstance().format(c.getTime());
+        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        if(d_offset < 0) d_offset += 7;
+        date = date.minusDays(d_offset);
+
+        String week_text = Util.dateToString(date, false);
         week_text += " - ";
 
-        days[0].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        days[0].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[1].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 1) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[1].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[2].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 2) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[2].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[3].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 3) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[3].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[4].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 4) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[4].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[5].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 5) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[5].header.setText(Util.dateToString(date, true));
 
-        c.add(Calendar.DATE, 1);
-        days[6].header.setText(Util.nameOfDay(Util.FIRST_DAY_OF_WEEK + 6) + ", " + DateFormat.getDateInstance().format(c.getTime()));
+        date = date.plusDays(1);
+        days[6].header.setText(Util.dateToString(date, true));
 
-        week_text += DateFormat.getDateInstance().format(c.getTime());
+        week_text += Util.dateToString(date, false);
         week_indicator.setText(week_text);
     }
 }

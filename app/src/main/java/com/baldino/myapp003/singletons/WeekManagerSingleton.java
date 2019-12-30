@@ -1,6 +1,7 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baldino.myapp003.Day;
 import com.baldino.myapp003.MealFormat;
@@ -14,8 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class WeekManagerSingleton
@@ -24,7 +25,7 @@ public class WeekManagerSingleton
 
     private Context context;
 
-    public int year = 1970, month = 0, day_of_month = 1;
+    public int year = 1970, month = 1, day_of_month = 1;
 
     public List<String> saved_weeks;
     public List<MealFormat> daily_meals;
@@ -44,11 +45,8 @@ public class WeekManagerSingleton
         courses_per_meal = new ArrayList<>();
         meal_names = new ArrayList<>();
 
-        Calendar c = Calendar.getInstance();
-        int curr_year = c.get(Calendar.YEAR);
-        int curr_month = c.get(Calendar.MONTH);
-        int curr_day_of_month = c.get(Calendar.DAY_OF_MONTH);
-        setCalendar(curr_year, curr_month, curr_day_of_month);
+        LocalDate curr_date = LocalDate.now();
+        setCalendar(curr_date.getYear(), curr_date.getMonthValue(), curr_date.getDayOfMonth());
     }
 
     public synchronized static WeekManagerSingleton getInstance()
@@ -160,19 +158,15 @@ public class WeekManagerSingleton
         File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
         folder.mkdirs();
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day_of_month);
+        LocalDate date = LocalDate.of(year, month, day_of_month);
 
-        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
-        if(offset < 0) offset += 7;
-        c.add(Calendar.DATE, -offset);
+        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        if(d_offset < 0) d_offset += 7;
+        date = date.minusDays(d_offset);
 
-        String week_file_path = "";
-        week_file_path += String.format("%04d", c.get(Calendar.YEAR));
-        week_file_path += String.format("%02d", c.get(Calendar.MONTH));
-        week_file_path += String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
+        String week_file_path = String.format("%04d", date.getYear()) + "-";
+        week_file_path += String.format("%02d", date.getMonthValue()) + "-";
+        week_file_path += String.format("%02d", date.getDayOfMonth());
         week_file_path += ".txt";
 
         addWeek(week_file_path);
@@ -229,19 +223,15 @@ public class WeekManagerSingleton
         courses_per_meal = new ArrayList<>();
         meal_names = new ArrayList<>();
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day_of_month);
+        LocalDate date = LocalDate.of(year, month, day_of_month);
 
-        int offset = c.get(Calendar.DAY_OF_WEEK) - Util.FIRST_DAY_OF_WEEK;
-        if(offset < 0) offset += 7;
-        c.add(Calendar.DATE, -offset);
+        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        if(d_offset < 0) d_offset += 7;
+        date = date.minusDays(d_offset);
 
-        String week_file_path = "";
-        week_file_path += String.format("%04d", c.get(Calendar.YEAR));
-        week_file_path += String.format("%02d", c.get(Calendar.MONTH));
-        week_file_path += String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
+        String week_file_path = String.format("%04d", date.getYear()) + "-";
+        week_file_path += String.format("%02d", date.getMonthValue()) + "-";
+        week_file_path += String.format("%02d", date.getDayOfMonth());
         week_file_path += ".txt";
 
         if(!binaryExists(week_file_path))
@@ -467,5 +457,35 @@ public class WeekManagerSingleton
     public void refactor(int old_first_day_of_week)
     {
         //TODO actually implement this refactoring thing
+    }
+
+    private class DateRange
+    {
+        public int b_year, b_month, b_day_of_month;
+        public int e_year, e_month, e_day_of_month;
+
+        public void DateRange()
+        {
+            b_year = 0;
+            b_month = 0;
+            b_day_of_month = 0;
+            e_year = 0;
+            e_month = 0;
+            e_day_of_month = 0;
+        }
+
+        public void setBeginning(int b_year, int b_month, int b_day_of_month)
+        {
+            this.b_year = b_year;
+            this.b_month = b_month;
+            this.b_day_of_month = b_day_of_month;
+        }
+
+        public void setEnding(int e_year, int e_month, int e_day_of_month)
+        {
+            this.e_year = e_year;
+            this.e_month = e_month;
+            this.e_day_of_month = e_day_of_month;
+        }
     }
 }

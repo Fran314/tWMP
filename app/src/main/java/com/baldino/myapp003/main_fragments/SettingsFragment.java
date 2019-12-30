@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -19,6 +20,11 @@ import android.widget.Toast;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsFragment extends Fragment
 {
@@ -61,10 +67,7 @@ public class SettingsFragment extends Fragment
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            int old_fdow = Util.FIRST_DAY_OF_WEEK;
                             Util.FIRST_DAY_OF_WEEK = first_day_of_week.getSelectedItemPosition() + 1;
-                            WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-                            sWeekManager.refactor(old_fdow);
                             Util.saveSettings();
                             //TODO change text so that it changes based on device language
                             Toast.makeText(getContext(), "Settings saved!", Toast.LENGTH_LONG).show();
@@ -90,6 +93,13 @@ public class SettingsFragment extends Fragment
                     Util.saveSettings();
                     //TODO change text so that it changes based on device language
                     Toast.makeText(getContext(), "Settings saved!", Toast.LENGTH_LONG).show();
+
+                    //  TODO
+                    //  THESE THREE LINES OF CODE ARE HERE ONLY FOR TESTING
+                    //  They should be moved in builder.setPositiveButton later
+                    int old_fdow = Util.FIRST_DAY_OF_WEEK;
+                    WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+                    sWeekManager.refactor(old_fdow);
                 }
             }
         });

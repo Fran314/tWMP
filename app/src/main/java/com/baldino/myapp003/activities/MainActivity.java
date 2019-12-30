@@ -41,6 +41,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //--- The following block of code should always be the first to be run, before
+        //    anything else, and should stay in this order, too. Not strictly, but it's better if
+        //    it stays this way ---//
+        Util.context = this;
+
+        sIngredientManager = IngredientManagerSingleton.getInstance();
+        sRecipeManager = RecipeManagerSingleton.getInstance();
+        sWeekManager = WeekManagerSingleton.getInstance();
+        sShoppingList = ShoppingListSingleton.getInstance();
+
+        sIngredientManager.setContext(this);
+        sRecipeManager.setContext(this);
+        sWeekManager.setContext(this);
+        sShoppingList.setContext(this);
+        //--- ---//
+
         //--- Code created by the toolkit. Don't really know what it does. Don't touch it ---//
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -57,23 +73,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        //--- ---//
-
-
-        //--- The following block of code should always be the first to be run, before
-        //    anything else, and should stay in this order, too. Not strictly, but it's better if
-        //    it stays this way ---//
-        Util.context = this;
-
-        sIngredientManager = IngredientManagerSingleton.getInstance();
-        sRecipeManager = RecipeManagerSingleton.getInstance();
-        sWeekManager = WeekManagerSingleton.getInstance();
-        sShoppingList = ShoppingListSingleton.getInstance();
-
-        sIngredientManager.setContext(this);
-        sRecipeManager.setContext(this);
-        sWeekManager.setContext(this);
-        sShoppingList.setContext(this);
         //--- ---//
 
         final MainActivity mainActivity = this;
