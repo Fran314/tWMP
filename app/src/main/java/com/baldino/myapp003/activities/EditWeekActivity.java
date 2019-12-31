@@ -216,7 +216,9 @@ public class EditWeekActivity extends AppCompatActivity
                 sWeekManager.days[i].addMeal(courses_of_this_meal);
             }
         }
+
         sWeekManager.has_same_format = true;
+        sWeekManager.is_new_week = false;
 
         sWeekManager.saveData();
         sShoppingList.updateShoppingList();

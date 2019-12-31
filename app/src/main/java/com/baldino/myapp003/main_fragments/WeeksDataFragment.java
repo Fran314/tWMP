@@ -139,6 +139,11 @@ public class WeeksDataFragment extends Fragment
 
         sWeekManager.saved_weeks.remove(pos);
         sWeekManager.saveWeeks();
+        //TODO
+        //  I don't really need to reload sWeekManager data at any row removal. I could just check
+        //  if the removed row is relative to the currently loaded data and THEN reload the
+        //  (not existing anymore) data. That would save some time and make the app somewhat faster
+        sWeekManager.loadData();
         data_container.removeViewAt(2*pos + 1);
         data_container.removeViewAt(2*pos);
         delete_buttons.remove(pos);

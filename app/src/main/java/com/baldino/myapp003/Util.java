@@ -243,6 +243,22 @@ public class Util
         return to_return;
     }
 
+    public static LocalDate fileNameToDate(String file_name)
+    {
+        return LocalDate.of(Util.stringToInt(file_name.substring(0, 4)),
+                Util.stringToInt(file_name.substring(5, 7)),
+                Util.stringToInt(file_name.substring(8, 10)));
+    }
+    public static String dateToFileName(LocalDate date)
+    {
+        String to_return = String.format("%04d", date.getYear()) + "-";
+        to_return += String.format("%02d", date.getMonthValue()) + "-";
+        to_return += String.format("%02d", date.getDayOfMonth());
+        to_return += ".txt";
+
+        return to_return;
+    }
+
     public static List<String> readFile(File file)
     {
         List<String> lines = new ArrayList<>();

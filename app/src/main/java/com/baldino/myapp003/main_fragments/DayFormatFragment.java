@@ -125,6 +125,9 @@ public class DayFormatFragment extends Fragment
             new_daily_meals.add(new_meal_format);
         }
 
+        //TODO
+        //  I should probably be changing some stuff here, like setting the sWeekManager has_same_format
+        //  to false if the format changed
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
 
         sWeekManager.daily_meals = new_daily_meals;

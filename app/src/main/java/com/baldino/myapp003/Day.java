@@ -12,24 +12,6 @@ public class Day
     public Day()
     {
         meals = new ArrayList<>();
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        if(true)
-        {
-            for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
-            {
-                List<String> meal = new ArrayList<>();
-                for(int k = 0; k < sWeekManager.daily_meals.get(j).getDim(); k++)
-                {
-                    meal.add("-");
-                }
-                meals.add(meal);
-            }
-        }
-        else
-        {
-            meals = new ArrayList<>();
-        }
-
     }
 
     public String getCourseOfmeal(int course, int meal)

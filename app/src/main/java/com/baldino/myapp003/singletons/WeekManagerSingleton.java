@@ -1,8 +1,6 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
-import android.provider.ContactsContract;
-import android.util.Log;
 
 import com.baldino.myapp003.Day;
 import com.baldino.myapp003.MealFormat;
@@ -33,13 +31,13 @@ public class WeekManagerSingleton
     public List<String> saved_weeks;
     public List<MealFormat> daily_meals;
 
-    //---- Variables relative to the currently loaded week ----//
+    //---  Variables relative to the currently loaded week  ---//
     public boolean has_same_format, is_new_week;
     public List<Integer> courses_per_meal;
     public List<String> meal_names;
-    //---- ----//
 
     public Day days[] = new Day[7];
+    //---   ---//
 
     private WeekManagerSingleton()
     {
@@ -158,68 +156,30 @@ public class WeekManagerSingleton
 
     public void saveData()
     {
-        File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
-        folder.mkdirs();
-
         LocalDate date = LocalDate.of(year, month, day_of_month);
 
         int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
         if(d_offset < 0) d_offset += 7;
         date = date.minusDays(d_offset);
 
-        String week_file_path = String.format("%04d", date.getYear()) + "-";
-        week_file_path += String.format("%02d", date.getMonthValue()) + "-";
-        week_file_path += String.format("%02d", date.getDayOfMonth());
-        week_file_path += ".txt";
+        String week_file_path = Util.dateToFileName(date);
 
         addWeek(week_file_path);
         saveWeeks();
 
-        StringBuilder output_string = new StringBuilder("");
-        output_string.append("[").append(daily_meals.size()).append("]\n");
+        WeekData data = new WeekData();
+
         for(int i = 0; i < daily_meals.size(); i++)
         {
-            output_string.append("[");
-            output_string.append(daily_meals.get(i).getName());
-            output_string.append("]");
-        }
-        output_string.append("\n");
-        for(int i = 0; i < daily_meals.size(); i++)
-        {
-            output_string.append("[");
-            output_string.append(daily_meals.get(i).getDim());
-            output_string.append("]");
-        }
-        output_string.append("\n");
-
-        for(int i = 0; i < 7; i++)
-        {
-            for(int j = 0; j < daily_meals.size(); j++)
-            {
-                for(int k = 0; k < daily_meals.get(j).getDim(); k++)
-                {
-                    output_string.append("[");
-                    output_string.append(days[i].getCourseOfmeal(k, j));
-                    output_string.append("]");
-                }
-                output_string.append("\n");
-            }
+            data.meal_names.add(daily_meals.get(i).getName());
+            data.courses_per_meal.add(daily_meals.get(i).getDim());
         }
 
-        try
-        {
-            FileOutputStream fos = new FileOutputStream(new File(folder, week_file_path));
-            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
-            fos.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        data.is_new_week = true;
+        data.meals_per_day = daily_meals.size();
+        data.days = days;
+
+        saveData(data, week_file_path);
     }
     public void loadData()
     {
@@ -232,18 +192,11 @@ public class WeekManagerSingleton
         if(d_offset < 0) d_offset += 7;
         date = date.minusDays(d_offset);
 
-        String week_file_path = String.format("%04d", date.getYear()) + "-";
-        week_file_path += String.format("%02d", date.getMonthValue()) + "-";
-        week_file_path += String.format("%02d", date.getDayOfMonth());
-        week_file_path += ".txt";
+        String week_file_path = Util.dateToFileName(date);
 
-        if(!binaryExists(week_file_path))
-        {
-            initWeekAsNull();
-            return;
-        }
-
-        WeekData week_data = loadData(week_file_path);
+        WeekData week_data;
+        if(!binaryExists(week_file_path)) week_data = initWeekAsNull();
+        else week_data = loadData(week_file_path);
 
         boolean check = true;
         if(daily_meals.size() != week_data.meal_names.size()) check = false;
@@ -256,13 +209,59 @@ public class WeekManagerSingleton
             if(Util.compareStrings(daily_meals.get(i).getName(), week_data.meal_names.get(i)) != 0) check = false;
         }
 
-        has_same_format = check;
-        is_new_week = false;
-        days = week_data.days;
+        this.has_same_format = check;
+        this.is_new_week = week_data.is_new_week;
+        this.days = week_data.days;
         this.courses_per_meal = week_data.courses_per_meal;
         this.meal_names = week_data.meal_names;
     }
 
+    public void saveData(WeekData data, String path)
+    {
+        StringBuilder output_string = new StringBuilder("");
+        output_string.append("[").append(data.meals_per_day).append("]\n");
+        for(int i = 0; i < data.meals_per_day; i++)
+        {
+            output_string.append("[");
+            output_string.append(data.meal_names.get(i));
+            output_string.append("]");
+        }
+        output_string.append("\n");
+        for(int i = 0; i < data.meals_per_day; i++)
+        {
+            output_string.append("[");
+            output_string.append(data.courses_per_meal.get(i));
+            output_string.append("]");
+        }
+        output_string.append("\n");
+
+        for(int i = 0; i < 7; i++)
+        {
+            for(int j = 0; j < data.meals_per_day; j++)
+            {
+                for(int k = 0; k < data.courses_per_meal.get(j); k++)
+                {
+                    output_string.append("[");
+                    output_string.append(data.days[i].getCourseOfmeal(k, j));
+                    output_string.append("]");
+                }
+                output_string.append("\n");
+            }
+        }
+
+        File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
+        folder.mkdirs();
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(folder, path));
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
+            fos.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
     public WeekData loadData(String path)
     {
         WeekData to_return = new WeekData();
@@ -295,6 +294,7 @@ public class WeekManagerSingleton
             }
         }
 
+        to_return.is_new_week = false;
         to_return.meals_per_day = curr_meals_per_day;
         to_return.courses_per_meal = curr_courses_per_meal;
         to_return.meal_names = curr_meal_names;
@@ -302,11 +302,22 @@ public class WeekManagerSingleton
         return to_return;
     }
 
-    private void initWeekAsNull()
+    private WeekData initWeekAsNull()
     {
+        WeekData to_return = new WeekData();
+
+        to_return.is_new_week = true;
+        to_return.meals_per_day = daily_meals.size();
+
+        for(int i = 0; i < daily_meals.size(); i++)
+        {
+            to_return.meal_names.add(daily_meals.get(i).getName());
+            to_return.courses_per_meal.add(daily_meals.get(i).getDim());
+        }
+
         for(int i = 0; i < 7; i++)
         {
-            days[i] = new Day();
+            to_return.days[i] = new Day();
             for(int j = 0; j < daily_meals.size(); j++)
             {
                 List<String> meal = new ArrayList<>();
@@ -314,16 +325,11 @@ public class WeekManagerSingleton
                 {
                     meal.add("-");
                 }
-                days[i].addMeal(meal);
+                to_return.days[i].addMeal(meal);
             }
         }
-        is_new_week = true;
-        has_same_format = true;
-        for(int i = 0; i < daily_meals.size(); i++)
-        {
-            this.meal_names.add(daily_meals.get(i).getName());
-            this.courses_per_meal.add(daily_meals.get(i).getDim());
-        }
+
+        return to_return;
     }
 
     public void saveWeeks()
@@ -422,113 +428,235 @@ public class WeekManagerSingleton
 
     public void refactor(int old_first_day_of_week, int new_first_day_of_week)
     {
-        //TODO actually implement this refactoring thing
+        if(saved_weeks.size() == 0) return;
+
+        //---   Divide the saved weeks in ranges of consecutive weeks   ---//
         List<DateRange> ranges = new ArrayList<>();
 
-        LocalDate oldDate;
-        LocalDate newDate;
+        LocalDate oldDate, newDate;
 
-        int b_year = 0, b_month = 0, b_day_of_month = 0;
-        int n_year = 0, n_month = 0, n_day_of_month = 0;
+        int begin_index = 0;
 
-        if(saved_weeks.size() > 0)
+        oldDate = Util.fileNameToDate(saved_weeks.get(0));
+
+        for(int i = 1; i < saved_weeks.size(); i++)
         {
-            b_year = Util.stringToInt(saved_weeks.get(0).substring(0, 4));
-            b_month = Util.stringToInt(saved_weeks.get(0).substring(5, 7));
-            b_day_of_month = Util.stringToInt(saved_weeks.get(0).substring(8, 10));
+            newDate = Util.fileNameToDate(saved_weeks.get(i));
 
-            oldDate = LocalDate.of(b_year, b_month, b_day_of_month);
-
-            for(int i = 1; i < saved_weeks.size(); i++)
+            if(DAYS.between(oldDate, newDate) > 7)
             {
-                n_year = Util.stringToInt(saved_weeks.get(i).substring(0, 4));
-                n_month = Util.stringToInt(saved_weeks.get(i).substring(5, 7));
-                n_day_of_month = Util.stringToInt(saved_weeks.get(i).substring(8, 10));
+                DateRange new_rage = new DateRange();
 
-                newDate = LocalDate.of(n_year, n_month, n_day_of_month);
-
-                if(DAYS.between(oldDate, newDate) > 7)
+                for(int j = begin_index; j < i; j++)
                 {
-                    DateRange new_rage = new DateRange();
-                    new_rage.setBeginning(b_year, b_month, b_day_of_month);
-                    new_rage.setEnding(oldDate.getYear(), oldDate.getMonthValue(), oldDate.getDayOfMonth());
-
-                    ranges.add(new_rage);
-
-                    b_year = n_year;
-                    b_month = n_month;
-                    b_day_of_month = n_day_of_month;
+                    new_rage.files.add(saved_weeks.get(j));
                 }
 
-                oldDate = LocalDate.of(n_year, n_month, n_day_of_month);
+                ranges.add(new_rage);
+
+                begin_index = i;
             }
 
-            DateRange last_rage = new DateRange();
-            last_rage.setBeginning(b_year, b_month, b_day_of_month);
-            last_rage.setEnding(oldDate.getYear(), oldDate.getMonthValue(), oldDate.getDayOfMonth());
+            oldDate = LocalDate.of(newDate.getYear(), newDate.getMonthValue(), newDate.getDayOfMonth());
+        }
 
-            ranges.add(last_rage);
+        DateRange last_rage = new DateRange();
 
-            for(DateRange range : ranges)
+        for(int j = begin_index; j < saved_weeks.size(); j++)
+        {
+            last_rage.files.add(saved_weeks.get(j));
+        }
+
+        ranges.add(last_rage);
+        //---   ---//
+
+
+        int offset = new_first_day_of_week - old_first_day_of_week;
+        if(offset < 0) offset += 7;
+
+        List<String> new_saved_weeks = new ArrayList<>();
+
+        for(DateRange range : ranges)
+        {
+            WeekData first_week_data, second_week_data, shifted_week_data;
+
+            //---   Create a fake empty first week  ---//
+            first_week_data = loadData(range.files.get(0));
+            for(int i = 0; i < 7; i++)
             {
-                Log.w("AAA", range.b_day_of_month + "/" + range.b_month + "/" + range.b_year + " - " +
-                                        range.e_day_of_month + "/" + range.e_month + "/"+ range.e_year);
+                first_week_data.days[i] = new Day();
+                for(int j = 0; j < first_week_data.meals_per_day; j++)
+                {
+                    List<String> meal = new ArrayList<>();
+                    for(int k = 0; k < first_week_data.courses_per_meal.get(j); k++)
+                    {
+                        meal.add("-");
+                    }
+                    first_week_data.days[i].addMeal(meal);
+                }
             }
+            //---   ---//
 
-            //  Get all ranges
-            //  For each range
-            //      create 14 days
-            //      initiate the first 7 days as
-            for(DateRange range : ranges)
+            for(int i = 0; i < range.files.size() + 1; i++)
             {
-                List<Integer> first_courses_per_meal, second_courses_per_meal;
-                List<String> first_meal_names, second_meal_namesdesxza;
-                Day[] refactor_days = new Day[14];
+                if(i < range.files.size()) second_week_data = loadData(range.files.get(i));
+                else
+                {
+                    //---   Create a fake empty last week   ---//
+                    second_week_data = loadData(range.files.get(i-1));
+                    for(int j = 0; j < offset; j++)
+                    {
+                        second_week_data.days[j] = new Day();
+                        for(int k = 0; k < second_week_data.meals_per_day; k++)
+                        {
+                            List<String> meal = new ArrayList<>();
+                            for(int h = 0; h < second_week_data.courses_per_meal.get(k); h++)
+                            {
+                                meal.add("-");
+                            }
+                            second_week_data.days[j].addMeal(meal);
+                        }
+                    }
+                    //---   ---//
+                }
+                LocalDate first_date, shifted_date;
+                if(i > 0) first_date = Util.fileNameToDate(range.files.get(i-1));
+                else first_date = Util.fileNameToDate(range.files.get(0)).minusDays(7);
+                shifted_date = first_date.plusDays(offset);
+                shifted_week_data = new WeekData();
+
+                if(second_week_data.sameFormatAs(first_week_data))
+                {
+                    shifted_week_data.courses_per_meal = second_week_data.courses_per_meal;
+                    shifted_week_data.meal_names = second_week_data.meal_names;
+                    shifted_week_data.meals_per_day = second_week_data.meals_per_day;
+
+                    for(int j = 0; j < 7 - offset; j++)
+                    {
+                        shifted_week_data.days[j] = first_week_data.days[j+offset];
+                    }
+                    for(int j = 7 - offset; j < 7; j++)
+                    {
+                        shifted_week_data.days[j] = second_week_data.days[j - (7 - offset)];
+                    }
+                }
+                else
+                {
+                    //---   Check how big is the offset in order to lose as little data as possible
+                    //      when cutting off data from either the first or the second week  ---//
+                    if(offset < 4)
+                    {
+                        shifted_week_data.courses_per_meal = first_week_data.courses_per_meal;
+                        shifted_week_data.meal_names = first_week_data.meal_names;
+                        shifted_week_data.meals_per_day = first_week_data.meals_per_day;
+
+                        //---   Save data from first week and ignore the data from second week  ---//
+                        for(int j = 0; j < 7 - offset; j++)
+                        {
+                            shifted_week_data.days[j] = first_week_data.days[j+offset];
+                        }
+                        for(int j = 7 - offset; j < 7; j++)
+                        {
+                            shifted_week_data.days[j] = new Day();
+                            for(int k = 0; k < shifted_week_data.meals_per_day; k++)
+                            {
+                                List<String> meal = new ArrayList<>();
+                                for(int h = 0; h < shifted_week_data.courses_per_meal.get(k); h++)
+                                {
+                                    meal.add("-");
+                                }
+                                shifted_week_data.days[j].addMeal(meal);
+                            }
+                        }
+                        //---   ---//
+                    }
+                    else
+                    {
+                        shifted_week_data.courses_per_meal = second_week_data.courses_per_meal;
+                        shifted_week_data.meal_names = second_week_data.meal_names;
+                        shifted_week_data.meals_per_day = second_week_data.meals_per_day;
+
+                        //---   Save data from second week and ignore the data from first week  ---//
+                        for(int j = 0; j < 7 - offset; j++)
+                        {
+                            shifted_week_data.days[j] = new Day();
+                            for(int k = 0; k < shifted_week_data.meals_per_day; k++)
+                            {
+                                List<String> meal = new ArrayList<>();
+                                for(int h = 0; h < shifted_week_data.courses_per_meal.get(k); h++)
+                                {
+                                    meal.add("-");
+                                }
+                                shifted_week_data.days[j].addMeal(meal);
+                            }
+                        }
+                        for(int j = 7 - offset; j < 7; j++)
+                        {
+                            shifted_week_data.days[j] = second_week_data.days[j - (7 - offset)];
+                        }
+                        //---   ---//
+                    }
+                }
+
+                //---   Save the new shifted data, delete the first (now useless) week and make
+                //      "current second week" the first week for the next loop  ---//
+                String path = Util.dateToFileName(shifted_date);
+                new_saved_weeks.add(path);
+                saveData(shifted_week_data, path);
+
+                String file_to_delete = Util.dateToFileName(first_date);
+                File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
+                folder.mkdirs();
+                File old_file = new File(folder, file_to_delete);
+                if(old_file.exists()) old_file.delete();
+
+                first_week_data = second_week_data;
+                //---   ---//
             }
         }
+
+        saved_weeks = new_saved_weeks;
+        saveWeeks();
     }
 
-    private class WeekData
+    public class WeekData
     {
-        public List<Integer> courses_per_meal;
-        public List<String> meal_names;
-        public int meals_per_day;
+        private List<Integer> courses_per_meal;
+        private List<String> meal_names;
+        private int meals_per_day = 0;
+        private boolean is_new_week = true;
 
-        public Day[] days = new Day[7];
+        private Day[] days = new Day[7];
 
-        public WeekData()
+        private WeekData()
         {
+            courses_per_meal = new ArrayList<>();
+            meal_names = new ArrayList<>();
+        }
 
+        public boolean sameFormatAs(WeekData arg)
+        {
+            boolean to_return = true;
+            if(meals_per_day != arg.meals_per_day) to_return = false;
+            if(to_return && courses_per_meal.size() != arg.courses_per_meal.size()) to_return = false;
+            if(to_return && meal_names.size() != arg.meal_names.size()) to_return = false;
+            for(int i = 0; to_return && i < meals_per_day; i++)
+            {
+                if(courses_per_meal.get(i) != arg.courses_per_meal.get(i)) to_return = false;
+                if(Util.compareStrings(meal_names.get(i), arg.meal_names.get(i)) != 0) to_return = false;
+            }
+
+            return to_return;
         }
     }
 
     private class DateRange
     {
-        public int b_year, b_month, b_day_of_month;
-        public int e_year, e_month, e_day_of_month;
+        List<String> files;
 
-        public void DateRange()
+        private DateRange()
         {
-            b_year = 0;
-            b_month = 0;
-            b_day_of_month = 0;
-            e_year = 0;
-            e_month = 0;
-            e_day_of_month = 0;
-        }
-
-        public void setBeginning(int b_year, int b_month, int b_day_of_month)
-        {
-            this.b_year = b_year;
-            this.b_month = b_month;
-            this.b_day_of_month = b_day_of_month;
-        }
-
-        public void setEnding(int e_year, int e_month, int e_day_of_month)
-        {
-            this.e_year = e_year;
-            this.e_month = e_month;
-            this.e_day_of_month = e_day_of_month;
+            files = new ArrayList<>();
         }
     }
 }
