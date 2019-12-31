@@ -50,7 +50,7 @@ public class RecipesFragment extends Fragment
             public void onClick(View view) {
                 int pos = sRecipeManager.typesSize();
 
-                //TODO: change New Meal to a string based on the device language
+                //TODO: translate text
                 RecipeType new_recipe_type = new RecipeType("New Recipe Type", getContext());
                 sRecipeManager.addRecType(new_recipe_type);
                 addRecipeType(pos);
@@ -140,8 +140,7 @@ public class RecipesFragment extends Fragment
                         }
                         else if(item.getItemId() == R.id.item_delete_list)
                         {
-                            //TODO: change this text to something that makes more sense and is based on
-                            // the device language
+                            //TODO: translate text
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Confirm");
                             builder.setMessage("Are you sure?");

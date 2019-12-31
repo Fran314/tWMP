@@ -57,7 +57,7 @@ public class DayFormatFragment extends Fragment
             @Override
             public void onClick(View view) {
                 int pos = sWeekManager.daily_meals.size();
-                //TODO: change New Meal to a string based on the device language
+                //TODO: translate text
                 MealFormat new_meal = new MealFormat("New Meal");
                 new_meal.addMeal(0, 0);
                 sWeekManager.daily_meals.add(new_meal);
@@ -133,7 +133,7 @@ public class DayFormatFragment extends Fragment
         sWeekManager.daily_meals = new_daily_meals;
         sWeekManager.saveDailyMeals();
 
-        //TODO change text so that it changes based on device language
+        //TODO: translate text
         Toast.makeText(getContext(), "Daily Meals saved!", Toast.LENGTH_LONG).show();
     }
 }

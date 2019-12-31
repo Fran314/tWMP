@@ -134,23 +134,25 @@ public class EditWeekActivity extends AppCompatActivity
             spinners.add(daily_spinners);
         }
 
-        //TODO set the spinners to some value if it's the case, else set to standard value
-        for(int i = 0; i < 7; i++)
+        if(sWeekManager.is_new_week || !sWeekManager.has_same_format)
         {
-            if(sWeekManager.is_new_week || !sWeekManager.has_same_format)
+            for (int i = 0; i < 7; i++)
             {
-                //  Init at std values
-                for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+                //  Init to standard values
+                for (int j = 0; j < sWeekManager.daily_meals.size(); j++)
                 {
-                    for(int k = 0; k <sWeekManager.daily_meals.get(j).getDim(); k++)
+                    for (int k = 0; k < sWeekManager.daily_meals.get(j).getDim(); k++)
                     {
                         spinners.get(i).get(j).get(k).setSelection(sWeekManager.daily_meals.get(j).getStd(k));
                     }
                 }
             }
-            else
+        }
+        else
+        {
+            for(int i = 0; i < 7; i++)
             {
-                //  Init at loaded values
+                //  Init to loaded values
                 for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
                 {
                     for(int k = 0; k <sWeekManager.daily_meals.get(j).getDim(); k++)

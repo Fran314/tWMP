@@ -11,10 +11,9 @@ import android.widget.EditText;
 
 import com.baldino.myapp003.Ingredient;
 import com.baldino.myapp003.R;
+import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.databinding.ActivityEditIngredientBinding;
-
-import static com.baldino.myapp003.Util.stringToFloat;
 
 public class EditIngredientActivity extends AppCompatActivity {
 
@@ -34,8 +33,6 @@ public class EditIngredientActivity extends AppCompatActivity {
         ingr_pos = intent.getIntExtra("Ingredient_Position", -1);
         ingr_new = intent.getBooleanExtra("Ingredient_New", true);
         is_standard = intent.getBooleanExtra("Is_Standard", true);
-
-        //TODO finish implementing is standard
 
         name = findViewById(R.id.edit_ingredient_name);
         amount = findViewById(R.id.edit_ingredient_amount);
@@ -59,8 +56,8 @@ public class EditIngredientActivity extends AppCompatActivity {
     {
         String s_name = name.getText().toString();
         String s_unit = unit.getText().toString();
-        Float f_amount = stringToFloat(amount.getText().toString());
-        Float f_price = stringToFloat(price.getText().toString());
+        Float f_amount = Util.stringToFloat(amount.getText().toString());
+        Float f_price = Util.stringToFloat(price.getText().toString());
 
         Ingredient new_ingredient = new Ingredient(s_name, f_amount, s_unit, f_price);
 
