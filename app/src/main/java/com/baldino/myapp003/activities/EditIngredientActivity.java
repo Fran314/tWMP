@@ -13,20 +13,19 @@ import com.baldino.myapp003.Ingredient;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
-import com.baldino.myapp003.databinding.ActivityEditIngredientBinding;
 
 public class EditIngredientActivity extends AppCompatActivity {
 
     private int ingr_pos;
     private boolean ingr_new, is_standard;
-    private EditText name, amount, unit, price;
+    private EditText name, amount, price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        ActivityEditIngredientBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_ingredient);
+        setContentView(R.layout.activity_edit_ingredient);
 
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
 
@@ -36,7 +35,6 @@ public class EditIngredientActivity extends AppCompatActivity {
 
         name = findViewById(R.id.edit_ingredient_name);
         amount = findViewById(R.id.edit_ingredient_amount);
-        unit = findViewById(R.id.edit_ingredient_unit);
         price = findViewById(R.id.edit_ingredient_price);
 
         if(ingr_pos != -1)
@@ -46,7 +44,6 @@ public class EditIngredientActivity extends AppCompatActivity {
             else ingr = sIngredientManager.minor_ingredients.get(ingr_pos);
             name.setText(ingr.getName());
             amount.setText(Float.toString(ingr.getAmount()));
-            unit.setText(ingr.getUnit());
             price.setText(Float.toString(ingr.getPrice()));
         }
 
@@ -55,11 +52,10 @@ public class EditIngredientActivity extends AppCompatActivity {
     private void saveIngredient()
     {
         String s_name = name.getText().toString();
-        String s_unit = unit.getText().toString();
         Float f_amount = Util.stringToFloat(amount.getText().toString());
         Float f_price = Util.stringToFloat(price.getText().toString());
 
-        Ingredient new_ingredient = new Ingredient(s_name, f_amount, s_unit, f_price);
+        Ingredient new_ingredient = new Ingredient(s_name, f_amount, f_price);
 
         IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
 

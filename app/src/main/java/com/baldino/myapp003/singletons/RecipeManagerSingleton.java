@@ -3,7 +3,7 @@ package com.baldino.myapp003.singletons;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.baldino.myapp003.RecipeType;
+import com.baldino.myapp003.RecipeCollection;
 import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
@@ -23,7 +23,7 @@ public class RecipeManagerSingleton {
 
     private Context context;
 
-    private List<RecipeType> recipe_types;
+    private List<RecipeCollection> recipe_types;
     private List<String> type_names;
     public ArrayAdapter<String> type_names_adapter = null;
 
@@ -75,17 +75,17 @@ public class RecipeManagerSingleton {
 
         for(int i = 0; i < lines.size(); i++)
         {
-            RecipeType new_recipe_type;
+            RecipeCollection new_recipe_type;
             String name = Util.getStringFromLine(lines.get(i));
 
-            new_recipe_type = new RecipeType(name, context);
+            new_recipe_type = new RecipeCollection(name, i, context);
 
             new_recipe_type.loadRecipes();
             recipe_types.add(new_recipe_type);
         }
 
         type_names = new ArrayList<>();
-        for(RecipeType rec_type : recipe_types)
+        for(RecipeCollection rec_type : recipe_types)
         {
             type_names.add(rec_type.getName());
         }
@@ -119,19 +119,28 @@ public class RecipeManagerSingleton {
         }
     }
 
-    public RecipeType getType(int pos)
+    public RecipeCollection getType(int pos)
     {
         return recipe_types.get(pos);
     }
 
-    public void addRecType(RecipeType new_rec_type)
+    public void addRecType(RecipeCollection new_rec_type)
     {
         recipe_types.add(new_rec_type);
     }
 
     public void removeRecType(int pos)
     {
+        File folder = new File(context.getFilesDir(), Util.TYPES_FOLDER);
+        folder.mkdirs();
+        File to_delete = new File(folder, Util.nameToFileName(recipe_types.get(pos).getName()) + ".txt");
+        if(to_delete.exists()) to_delete.delete();
         recipe_types.remove(pos);
+
+        for(int i = 0; i < recipe_types.size(); i++)
+        {
+            recipe_types.get(i).resetIndex(i);
+        }
     }
 
     public int typesSize()

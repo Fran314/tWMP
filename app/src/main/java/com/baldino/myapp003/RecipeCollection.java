@@ -3,6 +3,8 @@ package com.baldino.myapp003;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import com.baldino.myapp003.singletons.WeekManagerSingleton;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeType
+public class RecipeCollection
 {
     private Context context;
 
@@ -24,14 +26,19 @@ public class RecipeType
     private RecipeListAdapter recipe_list_adapter;
     private ArrayAdapter<String> names_adapter = null;
 
-    public RecipeType(String name, Context context)
+    public RecipeCollection(String name, int index, Context context)
     {
         setName(name);
         this.context = context;
 
         recipes = new ArrayList<>();
 
-        recipe_list_adapter = new RecipeListAdapter(this);
+        recipe_list_adapter = new RecipeListAdapter(index);
+    }
+
+    public void resetIndex(int index)
+    {
+        recipe_list_adapter.collection_index = index;
     }
 
     public void loadRecipes()

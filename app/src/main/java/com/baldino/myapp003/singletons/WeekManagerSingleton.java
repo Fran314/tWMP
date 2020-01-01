@@ -154,6 +154,78 @@ public class WeekManagerSingleton
         }
     }
 
+    public void addedRecipe(int collection_index, int pos)
+    {
+        for(int i = 0; i < daily_meals.size(); i++)
+        {
+            for(int j = 0; j < daily_meals.get(i).getDim(); j++)
+            {
+                if(daily_meals.get(i).getType(j) == collection_index)
+                {
+                    int std = daily_meals.get(i).getStd(j);
+                    if(std-1 >= pos)
+                    {
+                        daily_meals.get(i).setStd(j, std+1);
+                    }
+                }
+            }
+        }
+    }
+    public void addedCollection(int pos)
+    {
+        for(int i = 0; i < daily_meals.size(); i++)
+        {
+            for(int j = 0; j < daily_meals.get(i).getDim(); j++)
+            {
+                int type = daily_meals.get(i).getType(j);
+                if(type >= pos)
+                {
+                    daily_meals.get(i).setType(j, type+1);
+                }
+            }
+        }
+    }
+    public void removedRecipe(int collection_index, int pos)
+    {
+        for(int i = 0; i < daily_meals.size(); i++)
+        {
+            for(int j = 0; j < daily_meals.get(i).getDim(); j++)
+            {
+                if(daily_meals.get(i).getType(j) == collection_index)
+                {
+                    int std = daily_meals.get(i).getStd(j);
+                    if(std-1 == pos)
+                    {
+                        daily_meals.get(i).setStd(j, 0);
+                    }
+                    else if(std-1 > pos)
+                    {
+                        daily_meals.get(i).setStd(j, std-1);
+                    }
+                }
+            }
+        }
+    }
+    public void removedCollection(int pos)
+    {
+        for(int i = 0; i < daily_meals.size(); i++)
+        {
+            for(int j = 0; j < daily_meals.get(i).getDim(); j++)
+            {
+                int type = daily_meals.get(i).getType(j);
+                if(type == pos)
+                {
+                    daily_meals.get(i).setStd(j, 0);
+                    daily_meals.get(i).setType(j, 0);
+                }
+                else if(type > pos)
+                {
+                    daily_meals.get(i).setType(j, type-1);
+                }
+            }
+        }
+    }
+
     public void saveData()
     {
         LocalDate date = LocalDate.of(year, month, day_of_month);

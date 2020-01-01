@@ -1,7 +1,6 @@
 package com.baldino.myapp003.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,8 +21,8 @@ import com.baldino.myapp003.R;
 import com.baldino.myapp003.RecIngredient;
 import com.baldino.myapp003.Recipe;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.databinding.ActivityEditRecipeBinding;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class EditRecipeActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        ActivityEditRecipeBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_recipe);
+        setContentView(R.layout.activity_edit_recipe);
 
         rec_type = intent.getIntExtra("Recipe_Type", 0);
         rec_pos = intent.getIntExtra("Recipe_Position", -1);
@@ -85,8 +84,7 @@ public class EditRecipeActivity extends AppCompatActivity
         new_recipe.setName(name.getText().toString());
         for(int i = rec_ingredients.size()-1; i >= 0; i--)
         {
-            //TODO maybe I should leave the option to have 0 as amount?
-            if(Util.compareStrings(rec_ingredients.get(i).getName(), "") == 0 || rec_ingredients.get(i).getAmount() == 0f) rec_ingredients.remove(i);
+            if(Util.compareStrings(rec_ingredients.get(i).getName(), "") == 0) rec_ingredients.remove(i);
         }
         new_recipe.ingredients = rec_ingredients;
 
@@ -97,8 +95,18 @@ public class EditRecipeActivity extends AppCompatActivity
             sRecipeManager.getType(rec_type).removeRecipe(rec_pos);
         }
 
+        //TODO I should check if it actually adds a new recipe or if one with the same name already
+        // exists. Maybe show an error dialog if it does. Definitely handle the
+        // sWeekManager.addedRecipe() better depending on if it actually adds something or not
         sRecipeManager.getType(rec_type).addRecipe(new_recipe);
         sRecipeManager.getType(rec_type).saveRecipes();
+
+        if(rec_new)
+        {
+            WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+            sWeekManager.addedRecipe(rec_type, rec_pos);
+            sWeekManager.saveDailyMeals();
+        }
 
         finish();
     }

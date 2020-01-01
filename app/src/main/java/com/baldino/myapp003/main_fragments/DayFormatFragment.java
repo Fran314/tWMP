@@ -123,13 +123,16 @@ public class DayFormatFragment extends Fragment
             new_daily_meals.add(new_meal_format);
         }
 
-        //TODO
-        //  I should probably be changing some stuff here, like setting the sWeekManager has_same_format
-        //  to false if the format changed
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
 
         sWeekManager.daily_meals = new_daily_meals;
         sWeekManager.saveDailyMeals();
+        //  This load data is to handle the change in day format, because the currently loaded
+        //  data won't have the same format as the new format, but has_same_format might still
+        //  be set on true
+        //TODO: there is probably a much more elegant way than calling a loadData, also because
+        // this might be very inefficient
+        sWeekManager.loadData();
 
         Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_day_format_saved), Toast.LENGTH_LONG).show();
     }

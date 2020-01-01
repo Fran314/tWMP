@@ -124,25 +124,23 @@ public class Util
     {
         String name = "ERROR_NAME";
         float amount = 0f;
-        String unit = "ERR";
         float price = 0f;
 
-        int pos[] = isValidAndGetPos(line, 4);
+        int pos[] = isValidAndGetPos(line, 3);
         if(pos[0] != -1)
         {
-            name = line.substring(pos[0]+1, pos[4+0]);
-            unit = line.substring(pos[2]+1, pos[4+2]);
+            name = line.substring(pos[0]+1, pos[3+0]);
             try
             {
-                amount = stringToFloat(line.substring(pos[1]+1, pos[4+1]));
-                price = stringToFloat(line.substring(pos[3]+1, pos[4+3]));
+                amount = stringToFloat(line.substring(pos[1]+1, pos[3+1]));
+                price = stringToFloat(line.substring(pos[2]+1, pos[3+2]));
             }
             catch(NumberFormatException nfe)
             {
             }
         }
 
-        return new Ingredient(name, amount, unit, price);
+        return new Ingredient(name, amount, price);
     }
 
     public static int[] isValidAndGetPos(String s, int n_par)

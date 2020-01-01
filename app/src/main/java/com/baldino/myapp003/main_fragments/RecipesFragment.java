@@ -19,10 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditRecipeTypeDialog;
 import com.baldino.myapp003.custom_views.ExpandableRecipeListView;
-import com.baldino.myapp003.RecipeType;
+import com.baldino.myapp003.RecipeCollection;
 import com.baldino.myapp003.activities.EditRecipeActivity;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,7 @@ public class RecipesFragment extends Fragment
 {
     private RecipeManagerSingleton sRecipeManager;
 
-    LinearLayout rv_container;
-    private ImageButton button_add;
+    private LinearLayout rv_container;
     private List<ExpandableRecipeListView> eLists;
     private int expanded_value = 0;
 
@@ -43,18 +43,22 @@ public class RecipesFragment extends Fragment
         sRecipeManager = RecipeManagerSingleton.getInstance();
 
         rv_container = root.findViewById(R.id.container_recipe_types_recyclerview);
-        button_add = root.findViewById(R.id.button_add_recipe_type);
+        ImageButton button_add = root.findViewById(R.id.button_add_recipe_type);
         button_add.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 int pos = sRecipeManager.typesSize();
 
-                RecipeType new_recipe_type = new RecipeType(getContext().getResources().getString(R.string.standard_new_recipe_collection), getContext());
+                RecipeCollection new_recipe_type = new RecipeCollection(getContext().getResources().getString(R.string.standard_new_recipe_collection), pos, getContext());
                 sRecipeManager.addRecType(new_recipe_type);
                 addRecipeType(pos);
                 setButtons(pos);
                 sRecipeManager.saveTypeNames();
+
+                WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+                sWeekManager.addedCollection(pos);
+                sWeekManager.saveDailyMeals();
             }
         });
 
@@ -78,7 +82,7 @@ public class RecipesFragment extends Fragment
 
     private void addRecipeType(int pos)
     {
-        RecipeType rec_type = sRecipeManager.getType(pos);
+        RecipeCollection rec_type = sRecipeManager.getType(pos);
         ExpandableRecipeListView erl = new ExpandableRecipeListView(getContext());
         erl.header_text.setText(rec_type.getName());
         if(pos != expanded_value) erl.rv_recipes.setVisibility(View.GONE);
@@ -93,7 +97,7 @@ public class RecipesFragment extends Fragment
     }
     public void updateList(int pos)
     {
-        RecipeType rec_type = sRecipeManager.getType(pos);
+        RecipeCollection rec_type = sRecipeManager.getType(pos);
         eLists.get(pos).header_text.setText(rec_type.getName());
         rec_type.getListAdapter().recipes_fragment = this;
         eLists.get(pos).rv_recipes.setAdapter(rec_type.getListAdapter());
@@ -184,16 +188,17 @@ public class RecipesFragment extends Fragment
 
     private void removeRecipeType(int pos)
     {
+        //TODO don't know if this is the actual proper way to handle expanded_value
         if(expanded_value == pos) expanded_value = -1;
         else if(expanded_value > pos) expanded_value--;
         rv_container.removeViewAt(pos);
         eLists.remove(pos);
         sRecipeManager.removeRecType(pos);
-
-        //TODO: elimina file
-
-        //TODO: gestisci la scomparsa di un ricettario nei daily meals
         sRecipeManager.saveTypeNames();
+
+        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+        sWeekManager.removedCollection(pos);
+        sWeekManager.saveDailyMeals();
 
         for(int i = 0; i < eLists.size(); i++)
         {

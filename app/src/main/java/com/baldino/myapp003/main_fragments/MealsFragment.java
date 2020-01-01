@@ -45,12 +45,6 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         sWeekManager = WeekManagerSingleton.getInstance();
         sRecipeManager = RecipeManagerSingleton.getInstance();
 
-        //TODO eventually remove this
-        TextView output_string = root.findViewById(R.id.output_string);
-        output_string.setVisibility(View.GONE);
-        //output_string.setText(getContext().getResources().getString(Util.getResId(getContext().getResources().getStringArray(R.array.id_array)[0], R.string.class)));
-        //output_string.setText("WATTAAA");
-
         days[0] = root.findViewById(R.id.monday);
         days[1] = root.findViewById(R.id.tuesday);
         days[2] = root.findViewById(R.id.wednesday);

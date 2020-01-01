@@ -167,8 +167,6 @@ public class IngredientManagerSingleton
             output_string.append("][");
             output_string.append(standard_ingredients.get(i).getAmount());
             output_string.append("][");
-            output_string.append(standard_ingredients.get(i).getUnit());
-            output_string.append("][");
             output_string.append(standard_ingredients.get(i).getPrice());
             output_string.append("]\n");
         }
@@ -236,8 +234,6 @@ public class IngredientManagerSingleton
             output_string.append(minor_ingredients.get(i).getName());
             output_string.append("][");
             output_string.append(minor_ingredients.get(i).getAmount());
-            output_string.append("][");
-            output_string.append(minor_ingredients.get(i).getUnit());
             output_string.append("][");
             output_string.append(minor_ingredients.get(i).getPrice());
             output_string.append("]\n");
