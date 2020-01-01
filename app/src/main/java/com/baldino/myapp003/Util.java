@@ -24,6 +24,7 @@ import java.util.List;
 public class Util
 {
     public static final String STD_CHARSET = "UTF-16";
+    public static final String NULL_RECIPE = "-";
 
     public static final String SL_VALUES_PATH = "shopping_list_values.txt";
 
@@ -461,6 +462,7 @@ public class Util
     }
     public static void createInitFiles()
     {
+        //TODO: Finish this, actually create all the needed files
         String[] file_names = context.getResources().getStringArray(R.array.id_array);
 
         String initial_daily_meals = context.getResources().getString(R.string.initial_daily_meals);

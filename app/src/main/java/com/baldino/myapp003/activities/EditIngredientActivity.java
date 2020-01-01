@@ -93,13 +93,13 @@ public class EditIngredientActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.generic_header_menu, menu);
         if(is_standard)
         {
-            if(ingr_new) getSupportActionBar().setTitle(getResources().getString(R.string.new_standard_ingredient_label));
-            else getSupportActionBar().setTitle(getResources().getString(R.string.edit_standard_ingredient_label));
+            if(ingr_new) getSupportActionBar().setTitle(getResources().getString(R.string.header_new_standard_ingredient));
+            else getSupportActionBar().setTitle(getResources().getString(R.string.header_edit_standard_ingredient));
         }
         else
         {
-            if(ingr_new) getSupportActionBar().setTitle(getResources().getString(R.string.new_minor_ingredient_label));
-            else getSupportActionBar().setTitle(getResources().getString(R.string.edit_minor_ingredient_label));
+            if(ingr_new) getSupportActionBar().setTitle(getResources().getString(R.string.header_new_minor_ingredient));
+            else getSupportActionBar().setTitle(getResources().getString(R.string.header_edit_minor_ingredient));
         }
         return super.onCreateOptionsMenu(menu);
     }

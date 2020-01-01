@@ -143,11 +143,11 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                 @Override
                 public void onClick(View view)
                 {
-                    //TODO: translate text
+                    //TODO: probably reload some stuff in Shopping list?
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setTitle("Confirm");
-                    builder.setMessage("Are you sure?");
-                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                    builder.setTitle(view.getContext().getResources().getString(R.string.dialog_title_delete_ingredient));
+                    builder.setMessage(view.getContext().getResources().getString(R.string.dialog_text_delete_ingredient));
+                    builder.setPositiveButton(view.getContext().getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
@@ -165,7 +165,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                         }
                     });
 
-                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                    builder.setNegativeButton(view.getContext().getResources().getString(R.string.no), new DialogInterface.OnClickListener()
                     {
                         @Override
                         public void onClick(DialogInterface dialog, int which)

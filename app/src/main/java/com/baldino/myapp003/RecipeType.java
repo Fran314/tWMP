@@ -192,7 +192,7 @@ public class RecipeType
     {
 
         List<String> recipe_names = new ArrayList<>();
-        recipe_names.add("-");
+        recipe_names.add(Util.NULL_RECIPE);
         for(Recipe rec : recipes)
         {
             recipe_names.add(rec.getName());

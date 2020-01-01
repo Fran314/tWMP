@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +56,7 @@ public class DayFormatFragment extends Fragment
             @Override
             public void onClick(View view) {
                 int pos = sWeekManager.daily_meals.size();
-                //TODO: translate text
-                MealFormat new_meal = new MealFormat("New Meal");
+                MealFormat new_meal = new MealFormat(getContext().getResources().getString(R.string.standard_new_meal));
                 new_meal.addMeal(0, 0);
                 sWeekManager.daily_meals.add(new_meal);
                 addMealFormat(pos);
@@ -133,7 +131,6 @@ public class DayFormatFragment extends Fragment
         sWeekManager.daily_meals = new_daily_meals;
         sWeekManager.saveDailyMeals();
 
-        //TODO: translate text
-        Toast.makeText(getContext(), "Daily Meals saved!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_day_format_saved), Toast.LENGTH_LONG).show();
     }
 }

@@ -45,8 +45,6 @@ public class DayMealsView extends LinearLayout {
 
     public void addFirstRow(String name, String meal, int color)
     {
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-
         TableRow first_row = new TableRow(getContext());
         first_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 

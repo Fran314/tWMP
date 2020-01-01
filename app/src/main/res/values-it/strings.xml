@@ -13,26 +13,14 @@
     <string name="menu_info">Info</string>
     <string name="menu_export">Esporta Dati</string>
 
-    <string name="edit_standard_ingredient_label">Modifica Ingrediente</string>
-    <string name="new_standard_ingredient_label">Nuovo Ingrediente</string>
-    <string name="edit_minor_ingredient_label">Modifica Ingrediente Secondario</string>
-    <string name="new_minor_ingredient_label">Nuovo Ingrediente Secondario</string>
-    <string name="edit_recipe_label">Modifica Ricetta</string>
-    <string name="new_recipe_label">Nuova Ricetta</string>
-    <string name="edit_week_activity_name">Modifica Settimana</string>
-    <string name="shopping_list_activity_name">Lista Della Spesa</string>
-
-    <string name="standard_day_name">[Lunedì]</string>
-    <string name="standard_dish">[Pasto Noioso]</string>
-    <string name="standard_side_dish">[Contorno Noioso]</string>
-
-    <string name="meals_monday">Lunedì</string>
-    <string name="meals_tuesday">Martedì</string>
-    <string name="meals_wednesday">Mercoledì</string>
-    <string name="meals_thursday">Giovedì</string>
-    <string name="meals_friday">Venerdì</string>
-    <string name="meals_saturday">Sabato</string>
-    <string name="meals_sunday">Domenica</string>
+    <string name="header_edit_standard_ingredient">Modifica Ingrediente</string>
+    <string name="header_new_standard_ingredient">Nuovo Ingrediente</string>
+    <string name="header_edit_minor_ingredient">Modifica Ingrediente Secondario</string>
+    <string name="header_new_minor_ingredient">Nuovo Ingrediente Secondario</string>
+    <string name="header_edit_recipe">Modifica Ricetta</string>
+    <string name="header_new_recipe">Nuova Ricetta</string>
+    <string name="header_edit_week_activity">Modifica Settimana</string>
+    <string name="header_shopping_list_activity">Lista Della Spesa</string>
 
     <string name="ingredients_amount_text">Quantità per confezione [kg]:</string>
     <string name="ingredients_price_text">Prezzo:</string>
@@ -47,15 +35,19 @@
     <string name="label_info">Info</string>
     <string name="label_settings">Impostazioni Generali</string>
 
-    <string name="menu_add_recipe">Aggiungi Ricetta</string>
-    <string name="menu_edit_list">Modifica Lista</string>
-    <string name="menu_delete_list">Elimina Lista</string>
+    <string name="popup_menu_add_recipe">Aggiungi Ricetta</string>
+    <string name="popup_menu_edit_collection">Modifica Ricettario</string>
+    <string name="popup_menu_delete_collection">Elimina Ricettario</string>
 
-    <string name="dialog_recipes_type_name">Nome Categoria Ricette:</string>
-    <string name="dialog_file_name">Nome File:</string>
     <string name="toast_cant_save_type_name">Impossibile salvare nome. È troppo simile ad un nome già esistente</string>
+    <string name="toast_day_format_saved">Formato Giorno salvato!</string>
+    <string name="toast_settings_saved">Impostazioni salvate!</string>
+    <string name="toast_settings_saved_lossless">Impostazioni salvate senza alcuna perdita di dati!</string>
 
-    <string name="shopping_list_hint">Aggiungi altri elementi alla lista…</string>
+    <string name="hint_shopping_list">Aggiungi altri elementi alla lista…</string>
+
+    <string name="standard_new_meal">Nuovo Pasto</string>
+    <string name="standard_new_recipe_collection">Nuovo Ricettario</string>
 
     <string name="settings_currency">Valuta:</string>
     <string name="settings_first_day_of_week">Primo giorno della settimana:</string>
@@ -84,21 +76,6 @@
         <item>dic</item>
     </string-array>
 
-    <string name="first_start_dialog_title">Primo Avvio</string>
-    <string name="first_start_dialog_intro">
-        Sembra che sia la prima volta che apri quest\'app. Puoi scegliere una delle seguenti due
-        azioni per il primo avvio (non scegliere avrà lo stesso effetto di scegliere "Inizio Pulito").\n\n
-    </string>
-    <string name="first_start_dialog_fresh_start">Inizio Pulito:</string>
-    <string name="first_start_dialog_fs_explain">
-        (Se hai già utilizzato quest\'app in precedenza) Comincia con un\'app completamente vuota
-        per poter aggiungere subito tutti e soli i tuoi ingredienti, ricette e pasti.\n\n
-    </string>
-    <string name="first_start_dialog_basic_template">Template Di Base:</string>
-    <string name="first_start_dialog_bt_explain">
-        (Consigliato) Crea un template di base che può poi essere modificato o eliminato manualmente.
-        Così facendo avrai un\'idea pi chiara di come dovrebbe funzionare l\'app e le varie opzioni.
-    </string>
-    <string name="button_fresh_start">Inizio\nPulito</string>
-    <string name="button_basic_template">Template\nDi Base</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
 </resources>

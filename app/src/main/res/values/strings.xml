@@ -3,14 +3,14 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <string name="edit_standard_ingredient_label">Edit Ingredient</string>
-    <string name="new_standard_ingredient_label">New Ingredient</string>
-    <string name="edit_minor_ingredient_label">Edit Minor Ingredient</string>
-    <string name="new_minor_ingredient_label">New Minor Ingredient</string>
-    <string name="edit_recipe_label">Edit Recipe</string>
-    <string name="new_recipe_label">New Recipe</string>
-    <string name="edit_week_activity_name">Edit Week</string>
-    <string name="shopping_list_activity_name">Shopping List</string>
+    <string name="header_edit_standard_ingredient">Edit Ingredient</string>
+    <string name="header_new_standard_ingredient">New Ingredient</string>
+    <string name="header_edit_minor_ingredient">Edit Minor Ingredient</string>
+    <string name="header_new_minor_ingredient">New Minor Ingredient</string>
+    <string name="header_edit_recipe">Edit Recipe</string>
+    <string name="header_new_recipe">New Recipe</string>
+    <string name="header_edit_week_activity">Edit Week</string>
+    <string name="header_shopping_list_activity">Shopping List</string>
 
     <string name="menu_settings">Settings</string>
     <string name="menu_home">Meals</string>
@@ -20,18 +20,6 @@
     <string name="menu_weeks_data">Weeks Data</string>
     <string name="menu_info">Info</string>
     <string name="menu_export">Export Data</string>
-
-    <string name="standard_day_name">[Monday]</string>
-    <string name="standard_dish">[Boring Dish]</string>
-    <string name="standard_side_dish">[Boring Side Dish]</string>
-
-    <string name="meals_monday">Monday</string>
-    <string name="meals_tuesday">Tuesday</string>
-    <string name="meals_wednesday">Wednesday</string>
-    <string name="meals_thursday">Thursday</string>
-    <string name="meals_friday">Friday</string>
-    <string name="meals_saturday">Saturday</string>
-    <string name="meals_sunday">Sunday</string>
 
     <string name="ingredients_amount_text">Amount in package [kg]:</string>
     <string name="ingredients_price_text">Price:</string>
@@ -46,15 +34,19 @@
     <string name="label_info">Info</string>
     <string name="label_settings">General Settings</string>
 
-    <string name="menu_add_recipe">Add Recipe</string>
-    <string name="menu_edit_list">Edit List</string>
-    <string name="menu_delete_list">Delete List</string>
+    <string name="popup_menu_add_recipe">Add Recipe</string>
+    <string name="popup_menu_edit_collection">Edit Collection</string>
+    <string name="popup_menu_delete_collection">Delete Collection</string>
 
-    <string name="dialog_recipes_type_name">Recipes Type Name:</string>
-    <string name="dialog_file_name">File Name:</string>
     <string name="toast_cant_save_type_name">Couldn\'t save name. It\'s too similar to an already existing one</string>
+    <string name="toast_day_format_saved">Day Format saved!</string>
+    <string name="toast_settings_saved">Settings saved!</string>
+    <string name="toast_settings_saved_lossless">Settings saved and no data was lost!</string>
 
-    <string name="shopping_list_hint">Add other items to the list…</string>
+    <string name="hint_shopping_list">Add other items to the list…</string>
+
+    <string name="standard_new_meal">New Meal</string>
+    <string name="standard_new_recipe_collection">New Recipe Collection</string>
 
     <string name="settings_currency">Currency:</string>
     <string name="settings_first_day_of_week">First day of the week:</string>
@@ -83,23 +75,6 @@
         <item>Dec</item>
     </string-array>
 
-    <string name="first_start_dialog_title">First Start</string>
-    <string name="first_start_dialog_intro">
-        It seems this is the first time you open this app. You can choose between one of the two
-        following options for your first install (not choosing will have the same effect as
-        choosing "Fresh Start").\n\n
-    </string>
-    <string name="first_start_dialog_fresh_start">Fresh Start:</string>
-    <string name="first_start_dialog_fs_explain">
-        (If you have already used this app in the past) Start with a completely empty app so that
-        you can directly add all and only your ingredients, recipes and meals.\n\n
-    </string>
-    <string name="first_start_dialog_basic_template">Basic Template:</string>
-    <string name="first_start_dialog_bt_explain">
-        (Suggested) Create a basic template that can be manually modified or deleted later. This
-        way you\'ll have a rough idea of what the app should look like and how each functionality
-        works.
-    </string>
-    <string name="button_fresh_start">Fresh\nStart</string>
-    <string name="button_basic_template">Basic\nTemplate</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

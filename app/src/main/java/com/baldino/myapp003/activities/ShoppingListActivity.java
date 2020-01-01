@@ -26,10 +26,7 @@ import java.util.List;
 public class ShoppingListActivity extends AppCompatActivity
 {
     private LinearLayout container;
-    private List<RecIngredient> shopping_list;
 
-    WeekManagerSingleton sWeekManager;
-    RecipeManagerSingleton sRecipeManager;
     ShoppingListSingleton sShoppingList;
 
     @Override

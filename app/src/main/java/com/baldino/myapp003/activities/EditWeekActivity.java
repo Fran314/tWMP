@@ -157,7 +157,7 @@ public class EditWeekActivity extends AppCompatActivity
                 {
                     for(int k = 0; k <sWeekManager.daily_meals.get(j).getDim(); k++)
                     {
-                        if(Util.compareStrings(sWeekManager.days[i].getCourseOfmeal(k, j), "-") == 0)
+                        if(Util.compareStrings(sWeekManager.days[i].getCourseOfmeal(k, j), Util.NULL_RECIPE) == 0)
                         {
                             spinners.get(i).get(j).get(k).setSelection(0);
                         }
@@ -209,7 +209,7 @@ public class EditWeekActivity extends AppCompatActivity
                 for(int k = 0; k < sWeekManager.daily_meals.get(j).getDim(); k++)
                 {
                     String course_name;
-                    if(spinners.get(i).get(j).get(k).getSelectedItemPosition() == 0) course_name = "-";
+                    if(spinners.get(i).get(j).get(k).getSelectedItemPosition() == 0) course_name = Util.NULL_RECIPE;
                     //  I know... I know... waaaaaaaay too long of a line. Should work tho
                     else course_name = sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).getRecipe(spinners.get(i).get(j).get(k).getSelectedItemPosition() - 1).getName();
                     courses_of_this_meal.add(course_name);

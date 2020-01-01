@@ -159,7 +159,7 @@ public class IngredientManagerSingleton
 
     public void saveStdIngr()
     {
-        StringBuilder output_string = new StringBuilder("");
+        StringBuilder output_string = new StringBuilder();
         for(int i = 0; i < standard_ingredients.size(); i++)
         {
             output_string.append('[');
@@ -229,7 +229,7 @@ public class IngredientManagerSingleton
 
     public void saveMnrIngr()
     {
-        StringBuilder output_string = new StringBuilder("");
+        StringBuilder output_string = new StringBuilder();
         for(int i = 0; i < minor_ingredients.size(); i++)
         {
             output_string.append('[');

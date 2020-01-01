@@ -180,21 +180,21 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             {
                 @Override
                 public void onClick(View view) {
-                    //TODO: translate text
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setTitle("Confirm");
-                    builder.setMessage("Are you sure?");
-                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                    builder.setTitle(view.getContext().getResources().getString(R.string.dialog_title_delete_recipe));
+                    builder.setMessage(view.getContext().getResources().getString(R.string.dialog_text_delete_recipe));
+                    builder.setPositiveButton(view.getContext().getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
+                            //TODO: gestisci la scomparsa di una ricetta nei daily meals
                             recipe_type.removeRecipe(expanded_value);
                             recipe_type.saveRecipes();
                             dialog.dismiss();
                         }
                     });
 
-                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                    builder.setNegativeButton(view.getContext().getResources().getString(R.string.no), new DialogInterface.OnClickListener()
                     {
                         @Override
                         public void onClick(DialogInterface dialog, int which)

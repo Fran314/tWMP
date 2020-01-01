@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 
-public class ExpandableRecipeListView extends LinearLayout {
-
+public class ExpandableRecipeListView extends LinearLayout
+{
     public LinearLayout header_bar;
     public TextView header_text;
     public ImageView image_arrow;

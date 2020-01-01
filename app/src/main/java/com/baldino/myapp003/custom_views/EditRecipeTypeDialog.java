@@ -22,15 +22,13 @@ import java.io.File;
 
 public class EditRecipeTypeDialog extends Dialog
 {
-    RecipeManagerSingleton sRecipeManager;
+    private RecipeManagerSingleton sRecipeManager;
     public EditText editable_recipes_name;
     public TextView file_name_output;
 
     public ImageButton button_save;
 
     public int curr_pos;
-
-    private RecipesFragment fragment;
 
     public EditRecipeTypeDialog(@NonNull final Context context, int pos, final RecipesFragment fragment)
     {
@@ -41,7 +39,6 @@ public class EditRecipeTypeDialog extends Dialog
         sRecipeManager = RecipeManagerSingleton.getInstance();
 
         this.curr_pos = pos;
-        this.fragment = fragment;
 
         editable_recipes_name = this.findViewById(R.id.editable_recipe_type_name);
         file_name_output = this.findViewById(R.id.text_file_name_output);

@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="com.baldino.myapp003.activities.ShoppingListActivity"
-            android:label="@string/shopping_list_activity_name"
+            android:label="@string/header_shopping_list_activity"
             android:parentActivityName="com.baldino.myapp003.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -28,7 +28,7 @@
         </activity>
         <activity
             android:name="com.baldino.myapp003.activities.EditWeekActivity"
-            android:label="@string/edit_week_activity_name"
+            android:label="@string/header_edit_week_activity"
             android:parentActivityName="com.baldino.myapp003.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

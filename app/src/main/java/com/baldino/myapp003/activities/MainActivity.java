@@ -80,12 +80,14 @@ public class MainActivity extends AppCompatActivity {
         if(Util.isFirstStart())
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getResources().getString(R.string.first_start_dialog_title));
-            String intro = getResources().getString(R.string.first_start_dialog_intro);
-            String fresh_start = getResources().getString(R.string.first_start_dialog_fresh_start);
-            String fs_explain = " " + getResources().getString(R.string.first_start_dialog_fs_explain);
-            String basic_template = getResources().getString(R.string.first_start_dialog_basic_template);
-            String bt_explain = " " + getResources().getString(R.string.first_start_dialog_bt_explain);
+            builder.setTitle(getResources().getString(R.string.dialog_title_first_start));
+
+            //  These are split in different blocks so the bolding part is easier
+            String intro = getResources().getString(R.string.dialog_text_first_start_intro);
+            String fresh_start = getResources().getString(R.string.dialog_text_first_start_fresh_start);
+            String fs_explain = " " + getResources().getString(R.string.dialog_text_first_start_fs_explain);
+            String basic_template = getResources().getString(R.string.dialog_text_first_start_basic_template);
+            String bt_explain = " " + getResources().getString(R.string.dialog_text_first_start_bt_explain);
 
             int start, end;
             SpannableStringBuilder  dialog_body = new SpannableStringBuilder ();
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             dialog_body.append(bt_explain);
 
             builder.setMessage(dialog_body);
-            builder.setPositiveButton(getResources().getString(R.string.button_basic_template), new DialogInterface.OnClickListener()
+            builder.setPositiveButton(getResources().getString(R.string.dialog_button_first_start_basic_template), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            builder.setNegativeButton(getResources().getString(R.string.button_fresh_start), new DialogInterface.OnClickListener()
+            builder.setNegativeButton(getResources().getString(R.string.dialog_button_first_start_fresh_start), new DialogInterface.OnClickListener()
             {
                 @Override
                 public void onClick(DialogInterface dialog, int which)

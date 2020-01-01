@@ -69,9 +69,6 @@ public class EditRecipeActivity extends AppCompatActivity
         rec_ingredients = new ArrayList<>();
         if(rec_pos != -1)
         {
-            //name.setText(sRecipeManager.getRecipe(rec_pos, rec_type).getName());
-            //rec_ingredients = sRecipeManager.getRecipe(rec_pos, rec_type).standard_ingredients;
-
             name.setText(sRecipeManager.getType(rec_type).getRecipe(rec_pos).getName());
             rec_ingredients = sRecipeManager.getType(rec_type).getRecipe(rec_pos).ingredients;
             updateTable();
@@ -88,6 +85,7 @@ public class EditRecipeActivity extends AppCompatActivity
         new_recipe.setName(name.getText().toString());
         for(int i = rec_ingredients.size()-1; i >= 0; i--)
         {
+            //TODO maybe I should leave the option to have 0 as amount?
             if(Util.compareStrings(rec_ingredients.get(i).getName(), "") == 0 || rec_ingredients.get(i).getAmount() == 0f) rec_ingredients.remove(i);
         }
         new_recipe.ingredients = rec_ingredients;
@@ -199,8 +197,8 @@ public class EditRecipeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.generic_header_menu, menu);
-        if(!rec_new) getSupportActionBar().setTitle(getResources().getString(R.string.edit_recipe_label));
-        else getSupportActionBar().setTitle(getResources().getString(R.string.new_recipe_label));
+        if(!rec_new) getSupportActionBar().setTitle(getResources().getString(R.string.header_edit_recipe));
+        else getSupportActionBar().setTitle(getResources().getString(R.string.header_new_recipe));
         return super.onCreateOptionsMenu(menu);
     }
 

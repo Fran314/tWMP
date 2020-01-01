@@ -323,7 +323,7 @@ public class WeekManagerSingleton
                 List<String> meal = new ArrayList<>();
                 for(int k = 0; k < daily_meals.get(j).getDim(); k++)
                 {
-                    meal.add("-");
+                    meal.add(Util.NULL_RECIPE);
                 }
                 to_return.days[i].addMeal(meal);
             }
@@ -401,7 +401,7 @@ public class WeekManagerSingleton
         int pos = saved_weeks.size();
         for(int i = 0; i < saved_weeks.size() && !exists && !found_place; i++)
         {
-            if(name.equals(saved_weeks.get(i)))     //Only checks if fc_names are the same
+            if(name.equals(saved_weeks.get(i)))
                 exists = true;
             else if(name.compareTo(saved_weeks.get(i)) < 0)
             {
@@ -490,7 +490,7 @@ public class WeekManagerSingleton
                     List<String> meal = new ArrayList<>();
                     for(int k = 0; k < first_week_data.courses_per_meal.get(j); k++)
                     {
-                        meal.add("-");
+                        meal.add(Util.NULL_RECIPE);
                     }
                     first_week_data.days[i].addMeal(meal);
                 }
@@ -512,7 +512,7 @@ public class WeekManagerSingleton
                             List<String> meal = new ArrayList<>();
                             for(int h = 0; h < second_week_data.courses_per_meal.get(k); h++)
                             {
-                                meal.add("-");
+                                meal.add(Util.NULL_RECIPE);
                             }
                             second_week_data.days[j].addMeal(meal);
                         }
@@ -563,7 +563,7 @@ public class WeekManagerSingleton
                                 List<String> meal = new ArrayList<>();
                                 for(int h = 0; h < shifted_week_data.courses_per_meal.get(k); h++)
                                 {
-                                    meal.add("-");
+                                    meal.add(Util.NULL_RECIPE);
                                 }
                                 shifted_week_data.days[j].addMeal(meal);
                             }
@@ -585,7 +585,7 @@ public class WeekManagerSingleton
                                 List<String> meal = new ArrayList<>();
                                 for(int h = 0; h < shifted_week_data.courses_per_meal.get(k); h++)
                                 {
-                                    meal.add("-");
+                                    meal.add(Util.NULL_RECIPE);
                                 }
                                 shifted_week_data.days[j].addMeal(meal);
                             }

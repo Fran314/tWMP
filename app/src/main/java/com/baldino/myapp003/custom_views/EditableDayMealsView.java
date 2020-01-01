@@ -24,8 +24,6 @@ public class EditableDayMealsView extends LinearLayout {
     {
         super(context, attrs);
         initializeViews(context);
-
-        //applyCustomAttrs(context, attrs);
     }
 
     private void initializeViews(Context context)

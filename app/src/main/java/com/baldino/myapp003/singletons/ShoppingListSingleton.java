@@ -111,6 +111,7 @@ public class ShoppingListSingleton
             }
             else
             {
+                //TODO eventually change standard unit measure
                 labels.add(rec_ingr.getName() + " x" + rec_ingr.getAmount() + "kg");
                 colors.add(context.getResources().getColor(R.color.colorErrorRed));
                 values.add(false);

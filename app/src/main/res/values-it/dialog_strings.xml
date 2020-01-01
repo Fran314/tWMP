@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title_first_start">Primo Avvio</string>
+    <string name="dialog_title_delete_recipe_collection">Elimina Ricettario</string>
+    <string name="dialog_title_ask_refactor">Sovrascrivere Primo Giorno Della Settimana</string>
+    <string name="dialog_title_begin_refactor">Inizio Rifattorizzazione</string>
+    <string name="dialog_title_refactoring">Rifattorizzazione Dati</string>
+    <string name="dialog_title_data_corruption">Potenziale Corruzione Dati</string>
+    <string name="dialog_title_delete_ingredient">Elimina Ingrediente</string>
+    <string name="dialog_title_delete_recipe">Elimina Ricetta</string>
+
+
+    <string name="dialog_text_first_start_intro">
+        Sembra che sia la prima volta che apri quest\'app. Puoi scegliere una delle seguenti due
+        azioni per il primo avvio (non scegliere avrà lo stesso effetto di scegliere "Inizio Pulito").\n\n
+    </string>
+    <string name="dialog_text_first_start_fresh_start">Inizio Pulito:</string>
+    <string name="dialog_text_first_start_fs_explain">
+        (Se hai già utilizzato quest\'app in precedenza) Comincia con un\'app completamente vuota
+        per poter aggiungere subito tutti e soli i tuoi ingredienti, ricette e pasti.\n\n
+    </string>
+    <string name="dialog_text_first_start_basic_template">Template Di Base:</string>
+    <string name="dialog_text_first_start_bt_explain">
+        (Consigliato) Crea un template di base che può poi essere modificato o eliminato manualmente.
+        Così facendo avrai un\'idea pi chiara di come dovrebbe funzionare l\'app e le varie opzioni.
+    </string>
+    <string name="dialog_text_recipes_type_name">Nome Ricettario:</string>
+    <string name="dialog_text_recipes_type_file_name">Nome File:</string>
+    <string name="dialog_text_delete_recipe_collection">
+        Vuoi davvero eliminare questo ricettario? TUTTI i relativi dati andranno persi.
+    </string>
+    <string name="dialog_text_ask_refactor">
+        Stai per cambiare il giorno iniziale dei piani settimanali. Se ci sono settimane già
+        salvate, l\'app rifattorizzerà tutti i dati "slittandoli" per farli cominciare con il nuovo
+        primo giorno della settimana. Per fare ciò, verranno creati un po\' di dati-spazzatura
+        (pasti vuoti) e alcune informazioni potrebbero andare perse (nel caso, verrai informato
+        specificamente di quali settimane andranno perse e ti verrà chiesto di confermare o
+        annullare)\n\nProcedere lo stesso?
+    </string>
+    <string name="dialog_text_begin_refactor">Controllo possibili corruzione di dati…</string>
+    <string name="dialog_text_refactoring">Rifattorizzazione… Non chiudere l\'app.</string>
+    <string name="dialog_text_data_corruption">
+        Sembra che ci siano coppie di settimane consecutive dove la prima settimana ha un Formato
+        Giorno (pasti giornalieri) diverso da quello della seconda settimana. Ciò impedisce
+        all\'app di rifattorizzare correttamente le settimane e causerà una parziale perdita di
+        dati di una di queste due settimane. Vuoi comunque cambiare primo giorno della settimana
+        e rifattorizzare?
+        \n\nLista delle coppie di settimane problematiche (se una settimana non appare nella lista,
+        non sarà corrotta e verrà rifattorizzata senza alcuna perdita di dati):\n\n
+    </string>
+    <string name="dialog_text_delete_ingredient">Vuoi davvero eliminare questo ingrediente?</string>
+    <string name="dialog_text_delete_recipe">Vuoi davvero eliminare questa ricetta?</string>
+
+
+    <string name="dialog_button_first_start_fresh_start">Inizio\nPulito</string>
+    <string name="dialog_button_first_start_basic_template">Template\nDi Base</string>
+    <string name="dialog_button_data_corruption_yes">Sì\n(Rifattorizza)</string>
+    <string name="dialog_button_data_corruption_no">NO\n(Non fare niente)</string>
+</resources>

@@ -50,8 +50,7 @@ public class RecipesFragment extends Fragment
             public void onClick(View view) {
                 int pos = sRecipeManager.typesSize();
 
-                //TODO: translate text
-                RecipeType new_recipe_type = new RecipeType("New Recipe Type", getContext());
+                RecipeType new_recipe_type = new RecipeType(getContext().getResources().getString(R.string.standard_new_recipe_collection), getContext());
                 sRecipeManager.addRecType(new_recipe_type);
                 addRecipeType(pos);
                 setButtons(pos);
@@ -140,11 +139,10 @@ public class RecipesFragment extends Fragment
                         }
                         else if(item.getItemId() == R.id.item_delete_list)
                         {
-                            //TODO: translate text
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Confirm");
-                            builder.setMessage("Are you sure?");
-                            builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                            builder.setTitle(getContext().getResources().getString(R.string.dialog_title_delete_recipe_collection));
+                            builder.setMessage(getContext().getResources().getString(R.string.dialog_text_delete_recipe_collection));
+                            builder.setPositiveButton(getContext().getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
                             {
                                 public void onClick(DialogInterface dialog, int which)
                                 {
@@ -153,7 +151,7 @@ public class RecipesFragment extends Fragment
                                 }
                             });
 
-                            builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                            builder.setNegativeButton(getContext().getResources().getString(R.string.no), new DialogInterface.OnClickListener()
                             {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which)
@@ -193,6 +191,8 @@ public class RecipesFragment extends Fragment
         sRecipeManager.removeRecType(pos);
 
         //TODO: elimina file
+
+        //TODO: gestisci la scomparsa di un ricettario nei daily meals
         sRecipeManager.saveTypeNames();
 
         for(int i = 0; i < eLists.size(); i++)

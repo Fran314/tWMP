@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title_first_start">First Start</string>
+    <string name="dialog_title_delete_recipe_collection">Deleting Recipe Collection</string>
+    <string name="dialog_title_ask_refactor">Overriding First Day Of The Week</string>
+    <string name="dialog_title_begin_refactor">Begin Refactor</string>
+    <string name="dialog_title_refactoring">Refactoring Data</string>
+    <string name="dialog_title_data_corruption">Potential Data Corruption</string>
+    <string name="dialog_title_delete_ingredient">Delete Ingredient</string>
+    <string name="dialog_title_delete_recipe">Delete Recipe</string>
+
+    <string name="dialog_text_first_start_intro">
+        It seems this is the first time you open this app. You can choose between one of the two
+        following options for your first install (not choosing will have the same effect as
+        choosing "Fresh Start").\n\n
+    </string>
+    <string name="dialog_text_first_start_fresh_start">Fresh Start:</string>
+    <string name="dialog_text_first_start_fs_explain">
+        (If you have already used this app in the past) Start with a completely empty app so that
+        you can directly add all and only your ingredients, recipes and meals.\n\n
+    </string>
+    <string name="dialog_text_first_start_basic_template">Basic Template:</string>
+    <string name="dialog_text_first_start_bt_explain">
+        (Suggested) Create a basic template that can be manually modified or deleted later. This
+        way you\'ll have a rough idea of what the app should look like and how each functionality
+        works.
+    </string>
+    <string name="dialog_text_recipes_type_name">Recipes Type Name:</string>
+    <string name="dialog_text_recipes_type_file_name">File Name:</string>
+    <string name="dialog_text_delete_recipe_collection">
+        Do you really want to delete this recipe collection? All the relative data will be lost.
+    </string>
+    <string name="dialog_text_ask_refactor">
+        You\'re about to change the first day of your weekly plans. If you have some already saved
+        weeks, the app will have to refactor that data and "shift" it so that they start with the
+        new first day of the week. By doing so, some garbage-filler data (empty meals) will be
+        created and some data might be lost (you\'ll be informed about what (if any) specific data
+        will be lost before proceeding and you\'ll be asked again to confirm later on)
+        \n\nDo you want to proceed?
+    </string>
+    <string name="dialog_text_begin_refactor">Checking for potential data corruption…</string>
+    <string name="dialog_text_refactoring">Refactoring… Do not close this app.</string>
+    <string name="dialog_text_data_corruption">
+        It looks like there are some pairs of consecutive weeks where the first week has a Day
+        Format (Daily Meals) different to the second week\'s. This makes it unable for the app to
+        refactor those two weeks and will end up in losing data relative to half of one of those
+        two weeks. Do you want to change the first day of the week and refactor anyway?
+        \n\nList of problematic pairs (any week not included in this list won\'t go corrupt and
+        will be saved just fine):\n\n
+    </string>
+    <string name="dialog_text_delete_ingredient">Are you sure you want to delete this ingredient?</string>
+    <string name="dialog_text_delete_recipe">Are you sure you want to delete this recipe?</string>
+
+    <string name="dialog_button_first_start_fresh_start">Fresh\nStart</string>
+    <string name="dialog_button_first_start_basic_template">Basic\nTemplate</string>
+    <string name="dialog_button_data_corruption_yes">YES\n(Refactor)</string>
+    <string name="dialog_button_data_corruption_no">NO\n(Do Nothing)</string>
+</resources>

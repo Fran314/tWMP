@@ -57,8 +57,7 @@ public class SettingsFragment extends Fragment
                 else
                 {
                     Util.saveSettings();
-                    //TODO: translate text
-                    Toast.makeText(getContext(), "Settings saved!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -68,27 +67,20 @@ public class SettingsFragment extends Fragment
 
     private void askRefactorWeeks()
     {
-        //TODO: translate text
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(false);
-        builder.setTitle("Override First Day Of Week");
-        builder.setMessage("Changing the first day of the week will make unreadable " +
-                "all the previously saved weeks.\n" +
-                "Do you want to refactor all your previously saved weeks according " +
-                "to the new week format?\n\n" +
-                "(Refactoring might take a while. Do NOT close this app as long as " +
-                "this alert dialog is open!)");
-        builder.setPositiveButton("YES\n(Do Refactor)", new DialogInterface.OnClickListener()
+        builder.setTitle(getContext().getResources().getString(R.string.dialog_title_ask_refactor));
+        builder.setMessage(getContext().getResources().getString(R.string.dialog_text_ask_refactor));
+        builder.setPositiveButton(getContext().getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int which)
             {
-                //TODO: translate text
                 dialog.dismiss();
                 beginRefactorWeeks();
             }
         });
 
-        builder.setNegativeButton("NO\n(Don't Refactor)", new DialogInterface.OnClickListener()
+        builder.setNegativeButton(getContext().getResources().getString(R.string.no), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
@@ -104,13 +96,12 @@ public class SettingsFragment extends Fragment
 
     private void beginRefactorWeeks()
     {
-        //TODO: translate text
         ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Checking for potential data corruption..."); // Setting Message
-        progressDialog.setTitle("Begin Refactor"); // Setting Title
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+        progressDialog.setTitle(getContext().getResources().getString(R.string.dialog_title_begin_refactor));
+        progressDialog.setMessage(getContext().getResources().getString(R.string.dialog_text_begin_refactor));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-        progressDialog.show(); // Display Progress Dialog
+        progressDialog.show();
 
         boolean error = false;
         List<String> error_dates = new ArrayList<>();
@@ -141,32 +132,27 @@ public class SettingsFragment extends Fragment
         if(!error)
         {
             refactorWeeks();
+            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_settings_saved_lossless), Toast.LENGTH_LONG).show();
         }
         else
         {
-            //TODO: translate text
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setCancelable(false);
-            builder.setTitle("Potential Data Corruption");
-            String message = "It looks like there are some pairs of consecutive weeks where the " +
-                    "first week has a Day Format (Daily Meals) different to the second week's. " +
-                    "This makes it unable for the app to refactor those two weeks and will end up " +
-                    "in losing data relative to half of one of those two weeks. Do you want to " +
-                    "change the first day of the week and refactor anyway?\n\n" +
-                    "List of problematic pairs (any week not included in this list won't go corrupt "+
-                    "and will be saved just fine):\n\n";
+            builder.setTitle(getContext().getResources().getString(R.string.dialog_title_data_corruption));
+            String message = getContext().getResources().getString(R.string.dialog_text_data_corruption);
             for(String date : error_dates) message += date + "\n";
             builder.setMessage(message);
-            builder.setPositiveButton("YES\n(Refactor)", new DialogInterface.OnClickListener()
+            builder.setPositiveButton(getContext().getResources().getString(R.string.dialog_button_data_corruption_yes), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
                     dialog.dismiss();
                     refactorWeeks();
+                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_LONG).show();
                 }
             });
 
-            builder.setNegativeButton("NO\n(Do Nothing)", new DialogInterface.OnClickListener()
+            builder.setNegativeButton(getContext().getResources().getString(R.string.dialog_button_data_corruption_no), new DialogInterface.OnClickListener()
             {
                 @Override
                 public void onClick(DialogInterface dialog, int which)
@@ -183,13 +169,12 @@ public class SettingsFragment extends Fragment
 
     private void refactorWeeks()
     {
-        //TODO: translate text
         ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Do not close this app..."); // Setting Message
-        progressDialog.setTitle("Refactoring Data"); // Setting Title
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+        progressDialog.setTitle(getContext().getResources().getString(R.string.dialog_title_refactoring));
+        progressDialog.setMessage(getContext().getResources().getString(R.string.dialog_text_refactoring));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-        progressDialog.show(); // Display Progress Dialog
+        progressDialog.show();
 
         int old_fdow = Util.FIRST_DAY_OF_WEEK;
         Util.FIRST_DAY_OF_WEEK = first_day_of_week.getSelectedItemPosition() + 1;
@@ -200,7 +185,5 @@ public class SettingsFragment extends Fragment
         progressDialog.dismiss();
 
         Util.saveSettings();
-        //TODO: translate text
-        Toast.makeText(getContext(), "Settings saved!", Toast.LENGTH_LONG).show();
     }
 }

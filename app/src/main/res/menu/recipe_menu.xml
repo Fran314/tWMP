@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/item_add_recipe"
-        android:title="@string/menu_add_recipe" />
+        android:title="@string/popup_menu_add_recipe" />
     <item
         android:id="@+id/item_edit_list"
-        android:title="@string/menu_edit_list"/>
+        android:title="@string/popup_menu_edit_collection"/>
     <item
         android:id="@+id/item_delete_list"
-        android:title="@string/menu_delete_list"/>
+        android:title="@string/popup_menu_delete_collection"/>
 </menu>

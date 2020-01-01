@@ -39,7 +39,7 @@
                 android:id="@+id/additonal_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/shopping_list_hint"/>
+                android:hint="@string/hint_shopping_list"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
