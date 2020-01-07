@@ -2,6 +2,7 @@ package com.baldino.myapp003;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.data_classes.Recipe;
-import com.baldino.myapp003.singletons.IngredientManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
@@ -108,7 +109,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
         private void bind(Recipe recipe, int pos)
         {
-            IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
+            Database D = Database.getInstance();
 
             if(pos == expanded_value)
             {
@@ -129,11 +130,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                 boolean mnr_ingr = false;
-                Ingredient curr_ingredient = sIngredientManager.binaryFindStdIngr(recipe.ingredients.get(i).getName());
+                Ingredient curr_ingredient = D.binaryFindStdIngr(recipe.ingredients.get(i).getName());
                 if(curr_ingredient == null)
                 {
                     mnr_ingr = true;
-                    curr_ingredient = sIngredientManager.binaryFindMnrIngr(recipe.ingredients.get(i).getName());
+                    curr_ingredient = D.binaryFindMnrIngr(recipe.ingredients.get(i).getName());
                 }
 
                 TextView name_in_row = new TextView(view.getContext());

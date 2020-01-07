@@ -39,12 +39,12 @@ public class RecipeManager
             output_string.append("]\n");
         }
 
-        Util.saveFile(output_string, new File(context.getFilesDir(), Util.REC_TYPES_PATH), context);
+        Util.saveFile(output_string, new File(context.getFilesDir(), Util.REC_TYPES_PATH));
     }
     public void loadTypeNames(Context context)
     {
         recipe_types = new ArrayList<>();
-        List<String> lines = Util.loadFile(new File(context.getFilesDir(), Util.REC_TYPES_PATH), context);
+        List<String> lines = Util.loadFile(new File(context.getFilesDir(), Util.REC_TYPES_PATH));
 
         if(!"ERR".equals(lines.get(0)))
         {

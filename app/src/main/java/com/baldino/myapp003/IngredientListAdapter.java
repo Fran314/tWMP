@@ -2,6 +2,7 @@ package com.baldino.myapp003;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.data_classes.Ingredient;
-import com.baldino.myapp003.singletons.IngredientManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.main_fragments.IngredientsFragment;
 
 public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.RecViewHolder>
@@ -37,10 +38,11 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     @Override
     public void onBindViewHolder(RecViewHolder holder, int position)
     {
-        IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
+        Database D = Database.getInstance();
+
         final Ingredient ingredient;
-        if(is_standard) ingredient = sIngredientManager.standard_ingredients.get(position);
-        else  ingredient = sIngredientManager.minor_ingredients.get(position);
+        if(is_standard) ingredient = D.getStdIngr(position);
+        else ingredient = D.getMnrIngr(position);
 
         holder.bind(ingredient, position);
 
@@ -48,10 +50,10 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
+                        Database D = Database.getInstance();
                         int curr_position;
-                        if(is_standard) curr_position = sIngredientManager.binaryFindStdIndex(ingredient.getName());
-                        else curr_position = sIngredientManager.binaryFindMnrIndex(ingredient.getName());
+                        if(is_standard) curr_position = D.binaryFindStdIndex(ingredient.getName());
+                        else curr_position = D.binaryFindMnrIndex(ingredient.getName());
 
                         if(curr_position == expanded_val)
                         {
@@ -73,11 +75,9 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     @Override
     public int getItemCount()
     {
-        IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
-        if(is_standard)
-            return sIngredientManager.standard_ingredients == null ? 0 : sIngredientManager.standard_ingredients.size();
-        else
-            return sIngredientManager.minor_ingredients == null ? 0 : sIngredientManager.minor_ingredients.size();
+        Database D = Database.getInstance();
+        if(is_standard) return D.getStdSize();
+        else return D.getMnrSize();
     }
 
     public class RecViewHolder extends RecyclerView.ViewHolder
@@ -113,7 +113,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
         private void bind(Ingredient ingredient, int pos)
         {
-            final IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
+            final Database D = Database.getInstance();
 
             subItem.setVisibility(pos == expanded_val ? View.VISIBLE : View.GONE);
 
@@ -155,13 +155,11 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                         {
                             if(is_standard)
                             {
-                                sIngredientManager.removeStdIngr(expanded_val);
-                                sIngredientManager.saveStdIngr();
+                                D.removeStdIngr(expanded_val);
                             }
                             else
                             {
-                                sIngredientManager.removeMnrIngr(expanded_val);
-                                sIngredientManager.saveMnrIngr();
+                                D.removeMnrIngr(expanded_val);
                             }
                             dialog.dismiss();
                         }

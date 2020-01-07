@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.Database;
-import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 
 import androidx.navigation.NavController;
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    IngredientManagerSingleton sIngredientManager;
     RecipeManagerSingleton sRecipeManager;
     WeekManagerSingleton sWeekManager;
     ShoppingListSingleton sShoppingList;
@@ -50,17 +48,17 @@ public class MainActivity extends AppCompatActivity {
         //    it stays this way ---//
         Util.context = this;
 
-        d = Database.getInstance(this);
-
-        sIngredientManager = IngredientManagerSingleton.getInstance();
         sRecipeManager = RecipeManagerSingleton.getInstance();
         sWeekManager = WeekManagerSingleton.getInstance();
         sShoppingList = ShoppingListSingleton.getInstance();
 
-        sIngredientManager.setContext(this);
+        d = Database.getInstance();
+
         sRecipeManager.setContext(this);
         sWeekManager.setContext(this);
         sShoppingList.setContext(this);
+
+        d.setContext(this);
         //--- ---//
 
         //--- Code created by the toolkit. Don't really know what it does. Don't touch it ---//
@@ -144,9 +142,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Util.loadSettings();
-
-        sIngredientManager.loadStdIngr();
-        sIngredientManager.loadMnrIngr();
 
         sRecipeManager.loadTypeNames();
 

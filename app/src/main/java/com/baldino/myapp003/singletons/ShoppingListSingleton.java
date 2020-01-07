@@ -51,7 +51,7 @@ public class ShoppingListSingleton
     {
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
         RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
-        IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
+        Database D = Database.getInstance();
 
         shopping_list = new ArrayList<>();
         labels = new ArrayList<>();
@@ -84,10 +84,10 @@ public class ShoppingListSingleton
         for(RecIngredient rec_ingr : shopping_list)
         {
             boolean is_std = true;
-            Ingredient ingr = sIngredientManager.binaryFindStdIngr(rec_ingr.getName());
+            Ingredient ingr = D.binaryFindStdIngr(rec_ingr.getName());
             if(ingr == null)
             {
-                ingr = sIngredientManager.binaryFindMnrIngr(rec_ingr.getName());
+                ingr = D.binaryFindMnrIngr(rec_ingr.getName());
                 is_std = false;
             }
 

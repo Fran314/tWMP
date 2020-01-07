@@ -1,10 +1,12 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.IngredientListAdapter;
 import com.baldino.myapp003.Util;
+import com.baldino.myapp003.main_fragments.IngredientsFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,15 +16,48 @@ public class IngredientManager
 {
     private String path;
 
-    public List<Ingredient> ingredients;
-    public IngredientListAdapter ingr_list_adapter;
+    private List<Ingredient> ingredients;
+    private IngredientListAdapter ingr_list_adapter;
 
-    public IngredientManager(String path)
+    public IngredientManager(boolean is_standard)
     {
-        this.path = path;
+        if(is_standard) path = Util.STANDARD_INGR_PATH;
+        else path = Util.MINOR_INGR_PATH;
 
         ingredients = new ArrayList<>();
-        ingr_list_adapter = new IngredientListAdapter(true);
+        ingr_list_adapter = new IngredientListAdapter(is_standard);
+    }
+
+    public void saveIngr(Context context)
+    {
+        StringBuilder output_string = new StringBuilder();
+        for(int i = 0; i < ingredients.size(); i++)
+        {
+            output_string.append('[');
+            output_string.append(ingredients.get(i).getName());
+            output_string.append("][");
+            output_string.append(ingredients.get(i).getAmount());
+            output_string.append("][");
+            output_string.append(ingredients.get(i).getPrice());
+            output_string.append("]\n");
+        }
+
+        //TODO change file path
+        Util.saveFile(output_string, new File(context.getFilesDir(), path));
+    }
+    public void loadIngr(Context context)
+    {
+        ingredients = new ArrayList<>();
+        //TODO change file path
+        List<String> lines = Util.loadFile(new File(context.getFilesDir(), path));
+
+        if(!"ERR".equals(lines.get(0)))
+        {
+            for(int i = 0; i < lines.size(); i++)
+            {
+                addIngr(Util.getIngredient(lines.get(i)));
+            }
+        }
     }
 
     public int addIngr(Ingredient ingredient)
@@ -83,35 +118,13 @@ public class IngredientManager
         else return binaryFindIndex(name, mid+1, right);
     }
 
-    public void saveIngr(Context context)
+    public Ingredient getIngr(int pos)
     {
-        StringBuilder output_string = new StringBuilder();
-        for(int i = 0; i < ingredients.size(); i++)
-        {
-            output_string.append('[');
-            output_string.append(ingredients.get(i).getName());
-            output_string.append("][");
-            output_string.append(ingredients.get(i).getAmount());
-            output_string.append("][");
-            output_string.append(ingredients.get(i).getPrice());
-            output_string.append("]\n");
-        }
-
-        //TODO change file path
-        Util.saveFile(output_string, new File(context.getFilesDir(), path), context);
+        if(pos < 0 || pos >= ingredients.size()) return null;
+        return ingredients.get(pos);
     }
-    public void loadIngr(Context context)
-    {
-        ingredients = new ArrayList<>();
-        //TODO change file path
-        List<String> lines = Util.loadFile(new File(context.getFilesDir(), path), context);
+    public int getSize() { return (ingredients == null ? 0 : ingredients.size()); }
 
-        if(!"ERR".equals(lines.get(0)))
-        {
-            for(int i = 0; i < lines.size(); i++)
-            {
-                addIngr(Util.getIngredient(lines.get(i)));
-            }
-        }
-    }
+    public void setFragment(IngredientsFragment fragment) { ingr_list_adapter.ingredients_fragment = fragment; }
+    public IngredientListAdapter getAdapter() { return ingr_list_adapter; }
 }

@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.singletons.IngredientManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 
 public class EditIngredientActivity extends AppCompatActivity {
 
@@ -19,7 +19,7 @@ public class EditIngredientActivity extends AppCompatActivity {
     private boolean ingr_new, is_standard;
     private EditText name, amount, price;
 
-    IngredientManagerSingleton sIngredientManager;
+    Database D;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,7 +28,7 @@ public class EditIngredientActivity extends AppCompatActivity {
         Intent intent = getIntent();
         setContentView(R.layout.activity_edit_ingredient);
 
-        sIngredientManager = IngredientManagerSingleton.getInstance();
+        D = Database.getInstance();
 
         ingr_pos = intent.getIntExtra("Ingredient_Position", -1);
         ingr_new = intent.getBooleanExtra("Ingredient_New", true);
@@ -41,8 +41,8 @@ public class EditIngredientActivity extends AppCompatActivity {
         if(ingr_pos != -1)
         {
             Ingredient ingr;
-            if(is_standard) ingr = sIngredientManager.standard_ingredients.get(ingr_pos);
-            else ingr = sIngredientManager.minor_ingredients.get(ingr_pos);
+            if(is_standard) ingr = D.getStdIngr(ingr_pos);
+            else ingr = D.getMnrIngr(ingr_pos);
             name.setText(ingr.getName());
             amount.setText(Float.toString(ingr.getAmount()));
             price.setText(Float.toString(ingr.getPrice()));
@@ -58,25 +58,18 @@ public class EditIngredientActivity extends AppCompatActivity {
 
         Ingredient new_ingredient = new Ingredient(s_name, f_amount, f_price);
 
+        //TODO
+        // MAYBE CHECK IF THE INGREDIENT YOU'RE TRYING TO ADD ALREADY EXISTS OR NOT
+        // TO MAKE SURE THAT YOU'RE NOT OVERRIDING ANYTHING
         if(is_standard)
         {
-            if(!ingr_new)
-            {
-                sIngredientManager.removeStdIngr(ingr_pos);
-            }
-
-            sIngredientManager.addStdIngr(new_ingredient);
-            sIngredientManager.saveStdIngr();
+            if(!ingr_new) D.updateStdIngr(ingr_pos, new_ingredient);
+            else D.addStdIngr(new_ingredient);
         }
         else
         {
-            if(!ingr_new)
-            {
-                sIngredientManager.removeMnrIngr(ingr_pos);
-            }
-
-            sIngredientManager.addMnrIngr(new_ingredient);
-            sIngredientManager.saveMnrIngr();
+            if(!ingr_new) D.updateMnrIngr(ingr_pos, new_ingredient);
+            else D.addMnrIngr(new_ingredient);
         }
 
         finish();

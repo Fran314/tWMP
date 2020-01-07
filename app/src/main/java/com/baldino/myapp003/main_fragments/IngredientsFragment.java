@@ -13,28 +13,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.activities.EditIngredientActivity;
-import com.baldino.myapp003.singletons.IngredientManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.R;
 
 public class IngredientsFragment extends Fragment
 {
-    private IngredientManagerSingleton sIngredientManager;
-
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View root = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
-        sIngredientManager = IngredientManagerSingleton.getInstance();
-        sIngredientManager.standard_ingr_list_adapter.ingredients_fragment = this;
-        sIngredientManager.minor_ingr_list_adapter.ingredients_fragment = this;
+        Database D = Database.getInstance();
+        D.setStdFragment(this);
+        D.setMnrFragment(this);
 
         RecyclerView std_ingr_rv = root.findViewById(R.id.recyclerview_ingredients);
         std_ingr_rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        std_ingr_rv.setAdapter(sIngredientManager.standard_ingr_list_adapter);
+        std_ingr_rv.setAdapter(D.getStdAdapter());
 
         RecyclerView mnr_ingr_rv = root.findViewById(R.id.recyclerview_minor_ingredients);
         mnr_ingr_rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mnr_ingr_rv.setAdapter(sIngredientManager.minor_ingr_list_adapter);
+        mnr_ingr_rv.setAdapter(D.getMnrAdapter());
 
         ImageButton button_add_std_ingr = root.findViewById(R.id.button_add_standard_ingredient);
         button_add_std_ingr.setOnClickListener(new View.OnClickListener()

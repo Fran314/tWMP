@@ -76,12 +76,12 @@ public class WeekManager
             }
         }
 
-        Util.saveFile(output_string, new File(context.getFilesDir(), Util.DAILY_MEALS_PATH), context);
+        Util.saveFile(output_string, new File(context.getFilesDir(), Util.DAILY_MEALS_PATH));
     }
     public void loadDailyMeals(Context context)
     {
         daily_meals = new ArrayList<>();
-        List<String> lines = Util.loadFile(new File(context.getFilesDir(), Util.DAILY_MEALS_PATH), context);
+        List<String> lines = Util.loadFile(new File(context.getFilesDir(), Util.DAILY_MEALS_PATH));
 
         if(!"ERR".equals(lines.get(0)))
         {

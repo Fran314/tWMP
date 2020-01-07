@@ -376,7 +376,7 @@ public class Util
         }
     }
 
-    public static int saveFile(StringBuilder output_string, File file, Context context)
+    public static int saveFile(StringBuilder output_string, File file)
     {
         try
         {
@@ -397,13 +397,13 @@ public class Util
 
         return 0;
     }
-    public static List<String> loadFile(File file, Context context)
+    public static List<String> loadFile(File file)
     {
         List<String> lines = new ArrayList<>();
 
         try
         {
-            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.STANDARD_INGR_PATH));
+            FileInputStream fis = new FileInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
             String line = null;
 
