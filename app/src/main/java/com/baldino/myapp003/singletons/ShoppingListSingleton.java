@@ -178,21 +178,24 @@ public class ShoppingListSingleton
             e.printStackTrace();
         }
 
-        int numb_values = Util.getIntFromLine(lines.get(0));
-
-        for(int i = 0; i < numb_values && i < values.size() && i+1 < lines.size(); i++)
+        if(lines.size() > 0)
         {
-            values.set(i, Util.getBooleanFromLine(lines.get(i+1)));
-        }
+            int numb_values = Util.getIntFromLine(lines.get(0));
 
-        StringBuilder temp = new StringBuilder();
-        for(int i = numb_values+1; i < lines.size(); i++)
-        {
-            temp.append(lines.get(i));
-            if(i != lines.size() - 1) temp.append("\n");
-        }
+            for(int i = 0; i < numb_values && i < values.size() && i+1 < lines.size(); i++)
+            {
+                values.set(i, Util.getBooleanFromLine(lines.get(i+1)));
+            }
 
-        additional_text = temp.toString();
+            StringBuilder temp = new StringBuilder();
+            for(int i = numb_values+1; i < lines.size(); i++)
+            {
+                temp.append(lines.get(i));
+                if(i != lines.size() - 1) temp.append("\n");
+            }
+
+            additional_text = temp.toString();
+        }
     }
 
     private void addItem(String name, float amount)

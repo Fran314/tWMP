@@ -20,6 +20,8 @@ public class EditIngredientActivity extends AppCompatActivity {
     private boolean ingr_new, is_standard;
     private EditText name, amount, price;
 
+    IngredientManagerSingleton sIngredientManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -27,7 +29,7 @@ public class EditIngredientActivity extends AppCompatActivity {
         Intent intent = getIntent();
         setContentView(R.layout.activity_edit_ingredient);
 
-        IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
+        sIngredientManager = IngredientManagerSingleton.getInstance();
 
         ingr_pos = intent.getIntExtra("Ingredient_Position", -1);
         ingr_new = intent.getBooleanExtra("Ingredient_New", true);
@@ -56,8 +58,6 @@ public class EditIngredientActivity extends AppCompatActivity {
         Float f_price = Util.stringToFloat(price.getText().toString());
 
         Ingredient new_ingredient = new Ingredient(s_name, f_amount, f_price);
-
-        IngredientManagerSingleton sIngredientManager = IngredientManagerSingleton.getInstance();
 
         if(is_standard)
         {

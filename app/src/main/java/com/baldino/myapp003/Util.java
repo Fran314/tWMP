@@ -17,9 +17,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class Util
 {
@@ -38,7 +42,6 @@ public class Util
     public static final String WEEKS_DATA_FOLDER = "weeks_data";
     public static final String DAILY_MEALS_PATH = "daily_meals.txt";
 
-    private static final String FIRST_START_PATH = "first_start.txt";
     private static final String SETTINGS_PATH = "settings.txt";
 
     public static String CURRENCY;
@@ -370,16 +373,80 @@ public class Util
         }
     }
 
+    public static int saveFile(StringBuilder output_string, File file, Context context)
+    {
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
+            fos.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            return -1;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return -2;
+        }
+
+        return 0;
+    }
+    public static List<String> loadFile(File file, Context context)
+    {
+        List<String> lines = new ArrayList<>();
+
+        try
+        {
+            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.STANDARD_INGR_PATH));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
+            String line = null;
+
+            while((line = reader.readLine()) != null)
+            {
+                if(line.length() > 0 && line.charAt(0) != '%')
+                {
+                    if(line.lastIndexOf(']') != -1) lines.add(line.substring(0, line.lastIndexOf(']') + 1));
+                    else lines.add(line);
+                }
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            //TODO make this error messages different, maybe?
+            e.printStackTrace();
+            if(lines.size() > 0) lines.set(0, "ERR");
+            else lines.add("ERR");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+            if(lines.size() > 0) lines.set(0, "ERR");
+            else lines.add("ERR");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            if(lines.size() > 0) lines.set(0, "ERR");
+            else lines.add("ERR");
+        }
+
+        return lines;
+    }
+
     public static void saveSettings()
     {
         StringBuilder output_string = new StringBuilder();
+        output_string.append("[1.0]\n");
         output_string.append("[").append(CURRENCY).append("]\n");
         output_string.append("[").append(FIRST_DAY_OF_WEEK).append("]");
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.SETTINGS_PATH));
-            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), SETTINGS_PATH));
+            fos.write(output_string.toString().getBytes(STD_CHARSET));
             fos.close();
         }
         catch (FileNotFoundException e)
@@ -393,13 +460,12 @@ public class Util
     }
     public static void loadSettings()
     {
-
         List<String> lines = new ArrayList<>();
 
         try
         {
-            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), Util.SETTINGS_PATH));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Util.STD_CHARSET));
+            FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), SETTINGS_PATH));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, STD_CHARSET));
             String line;
 
             while((line = reader.readLine()) != null)
@@ -424,23 +490,30 @@ public class Util
             e.printStackTrace();
         }
 
-        if(lines.size() >= 2)
+        if(lines.size() >= 3)
         {
-            CURRENCY = getStringFromLine(lines.get(0));
-            FIRST_DAY_OF_WEEK = getIntFromLine(lines.get(1));
+            CURRENCY = getStringFromLine(lines.get(1));
+            FIRST_DAY_OF_WEEK = getIntFromLine(lines.get(2));
         }
     }
 
     public static boolean isFirstStart()
     {
-        File first_start = new File(context.getFilesDir(), FIRST_START_PATH);
+        File first_start = new File(context.getFilesDir(), SETTINGS_PATH);
         if(first_start.exists()) return false;
 
-        String output_string = "Check!";
+        Locale locale = Locale.getDefault();
+        Currency currency = Currency.getInstance(locale);
+        DayOfWeek first_day_of_week = WeekFields.of(locale).getFirstDayOfWeek();
+
+        StringBuilder output_string = new StringBuilder();
+        output_string.append("[1.0]\n");
+        output_string.append("[").append(currency.getSymbol()).append("]\n");
+        output_string.append("[").append(first_day_of_week.getValue()).append("]");
         try
         {
             FileOutputStream fos = new FileOutputStream(first_start);
-            fos.write(output_string.getBytes(STD_CHARSET));
+            fos.write(output_string.toString().getBytes(STD_CHARSET));
             fos.close();
         }
         catch (UnsupportedEncodingException e)
