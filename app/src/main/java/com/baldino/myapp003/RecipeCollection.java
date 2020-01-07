@@ -19,18 +19,15 @@ import java.util.List;
 
 public class RecipeCollection
 {
-    private Context context;
-
     private String name = "";
 
     private List<Recipe> recipes;
     private RecipeListAdapter recipe_list_adapter;
     private ArrayAdapter<String> names_adapter = null;
 
-    public RecipeCollection(String name, int index, Context context)
+    public RecipeCollection(String name, int index)
     {
         setName(name);
-        this.context = context;
 
         recipes = new ArrayList<>();
 
@@ -39,10 +36,10 @@ public class RecipeCollection
 
     public void resetIndex(int index)
     {
-        recipe_list_adapter.collection_index = index;
+        recipe_list_adapter.collection = index;
     }
 
-    public void loadRecipes()
+    public void loadRecipes(Context context)
     {
         //TODO: ma ci va davvero questo?
         if(Util.compareStrings(Util.nameToFileName(name), "") == 0) return;
@@ -50,7 +47,7 @@ public class RecipeCollection
         recipes = new ArrayList<>();
         List<String> lines = new ArrayList<>();
 
-        File folder = new File(context.getFilesDir(), Util.TYPES_FOLDER);
+        File folder = new File(context.getFilesDir(), Util.COLLECTIONS_FOLDER);
         folder.mkdirs();
 
         try
@@ -97,7 +94,7 @@ public class RecipeCollection
             addRecipe(new_recipe);
         }
     }
-    public void saveRecipes()
+    public void saveRecipes(Context context)
     {
         StringBuilder output_string = new StringBuilder("");
         for(int i = 0; i < recipes.size(); i++)
@@ -117,7 +114,7 @@ public class RecipeCollection
             }
         }
 
-        File folder = new File(context.getFilesDir(), Util.TYPES_FOLDER);
+        File folder = new File(context.getFilesDir(), Util.COLLECTIONS_FOLDER);
         folder.mkdirs();
 
         try
@@ -136,7 +133,7 @@ public class RecipeCollection
         }
     }
 
-    public void addRecipe(Recipe recipe)
+    public int addRecipe(Recipe recipe)
     {
         boolean exists = false, found_place = false;
         int pos = recipes.size();
@@ -154,17 +151,20 @@ public class RecipeCollection
         {
             recipes.add(pos, recipe);
             recipe_list_adapter.notifyItemInserted(pos);
+            return 0;
         }
+        else return -1;
     }
-    public void removeRecipe(int pos)
+    public int removeRecipe(int pos)
     {
-        if(pos < 0 || pos >= recipes.size()) return;
+        if(pos < 0 || pos >= recipes.size()) return -1;
         recipes.remove(pos);
         recipe_list_adapter.notifyItemRemoved(pos);
 
         int last_expanded = recipe_list_adapter.expanded_value;
         recipe_list_adapter.expanded_value = -1;
         if(last_expanded != -1) recipe_list_adapter.notifyItemChanged(last_expanded);
+        return 0;
     }
 
     public Recipe getRecipe(int pos)
@@ -196,9 +196,10 @@ public class RecipeCollection
 
     public RecipeListAdapter getListAdapter() { return recipe_list_adapter; }
 
-    public ArrayAdapter<String> getNamesAdapter()
+    public ArrayAdapter<String> getNamesAdapter(Context context)
     {
-
+        //TODO
+        // DO I REALLY HAVE TO REMAKE THEM EVERY SINGLE GODDAMN TIME?
         List<String> recipe_names = new ArrayList<>();
         recipe_names.add(Util.NULL_RECIPE);
         for(Recipe rec : recipes)

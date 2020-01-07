@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <ImageButton
-            android:id="@+id/button_add_recipe_type"
+            android:id="@+id/button_add_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"

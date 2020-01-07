@@ -15,7 +15,7 @@ import com.baldino.myapp003.data_classes.Day;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableDayMealsView;
 import com.baldino.myapp003.R;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.singletons.ShoppingListSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
@@ -30,8 +30,8 @@ public class EditWeekActivity extends AppCompatActivity
     private List<List<List<Spinner>>> spinners;
 
     WeekManagerSingleton sWeekManager;
-    RecipeManagerSingleton sRecipeManager;
     ShoppingListSingleton sShoppingList;
+    Database D;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,8 +40,8 @@ public class EditWeekActivity extends AppCompatActivity
         setContentView(R.layout.activity_edit_week);
 
         sWeekManager = WeekManagerSingleton.getInstance();
-        sRecipeManager = RecipeManagerSingleton.getInstance();
         sShoppingList = ShoppingListSingleton.getInstance();
+        D = Database.getInstance();
 
         days = new EditableDayMealsView[7];
 
@@ -72,7 +72,7 @@ public class EditWeekActivity extends AppCompatActivity
                 meal_name.setLayoutParams(name_params);
 
                 TextView first_type_name = new TextView(this);
-                first_type_name.setText("[" + sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(0)).getName() + "]");
+                first_type_name.setText("[" + D.getNameOfCollection(sWeekManager.daily_meals.get(j).getType(0)) + "]");
                 TableRow.LayoutParams first_type_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
                 first_type_params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
                 first_type_params.leftMargin = Util.intToDp(4);
@@ -80,7 +80,7 @@ public class EditWeekActivity extends AppCompatActivity
                 first_type_name.setLayoutParams(first_type_params);
 
                 Spinner first_course_spinner = new Spinner(this);
-                first_course_spinner.setAdapter(sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(0)).getNamesAdapter());
+                first_course_spinner.setAdapter(D.getNamesAdapterOfCollection(sWeekManager.daily_meals.get(j).getType(0), this));
                 TableRow.LayoutParams first_spinner_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
                 first_spinner_params.gravity = Gravity.CENTER_VERTICAL;
                 first_course_spinner.setLayoutParams(first_spinner_params);
@@ -102,7 +102,7 @@ public class EditWeekActivity extends AppCompatActivity
                     filler.setLayoutParams(new TableRow.LayoutParams(0, 0));
 
                     TextView type_name = new TextView(this);
-                    type_name.setText("[" + sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).getName() + "]");
+                    type_name.setText("[" + D.getNameOfCollection(sWeekManager.daily_meals.get(j).getType(k)) + "]");
                     TableRow.LayoutParams type_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
                     type_params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
                     type_params.leftMargin = Util.intToDp(4);
@@ -110,7 +110,7 @@ public class EditWeekActivity extends AppCompatActivity
                     type_name.setLayoutParams(type_params);
 
                     Spinner course_spinner = new Spinner(this);
-                    course_spinner.setAdapter(sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).getNamesAdapter());
+                    course_spinner.setAdapter(D.getNamesAdapterOfCollection(sWeekManager.daily_meals.get(j).getType(k), this));
                     TableRow.LayoutParams spinner_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
                     spinner_params.gravity = Gravity.CENTER_VERTICAL;
                     course_spinner.setLayoutParams(spinner_params);
@@ -157,7 +157,7 @@ public class EditWeekActivity extends AppCompatActivity
                         }
                         else
                         {
-                            int pos = sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(k, j)) + 1;
+                            int pos = D.findRecipeOfCollectionIndex(sWeekManager.days[i].getCourseOfmeal(k, j), sWeekManager.daily_meals.get(j).getType(k)) + 1;
                             spinners.get(i).get(j).get(k).setSelection(pos);
                         }
                     }
@@ -205,7 +205,7 @@ public class EditWeekActivity extends AppCompatActivity
                     String course_name;
                     if(spinners.get(i).get(j).get(k).getSelectedItemPosition() == 0) course_name = Util.NULL_RECIPE;
                     //  I know... I know... waaaaaaaay too long of a line. Should work tho
-                    else course_name = sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).getRecipe(spinners.get(i).get(j).get(k).getSelectedItemPosition() - 1).getName();
+                    else course_name = D.getNameOfRecipeOfCollection(spinners.get(i).get(j).get(k).getSelectedItemPosition() - 1, sWeekManager.daily_meals.get(j).getType(k));
                     courses_of_this_meal.add(course_name);
                 }
 

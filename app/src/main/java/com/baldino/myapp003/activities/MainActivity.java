@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.Database;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    RecipeManagerSingleton sRecipeManager;
     WeekManagerSingleton sWeekManager;
     ShoppingListSingleton sShoppingList;
 
@@ -48,13 +46,11 @@ public class MainActivity extends AppCompatActivity {
         //    it stays this way ---//
         Util.context = this;
 
-        sRecipeManager = RecipeManagerSingleton.getInstance();
         sWeekManager = WeekManagerSingleton.getInstance();
         sShoppingList = ShoppingListSingleton.getInstance();
 
         d = Database.getInstance();
 
-        sRecipeManager.setContext(this);
         sWeekManager.setContext(this);
         sShoppingList.setContext(this);
 
@@ -142,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Util.loadSettings();
-
-        sRecipeManager.loadTypeNames();
 
         sWeekManager.loadWeeks();
         sWeekManager.loadDailyMeals();

@@ -21,7 +21,7 @@ import com.baldino.myapp003.R;
 import com.baldino.myapp003.data_classes.RecIngredient;
 import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import static com.baldino.myapp003.Util.stringToFloat;
 
 public class EditRecipeActivity extends AppCompatActivity
 {
-    private int rec_type, rec_pos;
+    private int collection, rec_pos;
     private boolean rec_new;
 
     private EditText name;
@@ -46,7 +46,7 @@ public class EditRecipeActivity extends AppCompatActivity
         Intent intent = getIntent();
         setContentView(R.layout.activity_edit_recipe);
 
-        rec_type = intent.getIntExtra("Recipe_Type", 0);
+        collection = intent.getIntExtra("Collection", 0);
         rec_pos = intent.getIntExtra("Recipe_Position", -1);
         rec_new = intent.getBooleanExtra("Recipe_New", true);
 
@@ -60,7 +60,7 @@ public class EditRecipeActivity extends AppCompatActivity
             }
         });
 
-        RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
+        Database D = Database.getInstance();
         name = findViewById(R.id.edit_recipe_name);
 
         ingredients_table = findViewById(R.id.editable_recipe_ingredients_table);
@@ -68,8 +68,8 @@ public class EditRecipeActivity extends AppCompatActivity
         rec_ingredients = new ArrayList<>();
         if(rec_pos != -1)
         {
-            name.setText(sRecipeManager.getType(rec_type).getRecipe(rec_pos).getName());
-            rec_ingredients = sRecipeManager.getType(rec_type).getRecipe(rec_pos).ingredients;
+            name.setText(D.getRecipeOfCollection(rec_pos, collection).getName());
+            rec_ingredients = D.getRecipeOfCollection(rec_pos, collection).ingredients;
             updateTable();
         }
         else
@@ -88,23 +88,20 @@ public class EditRecipeActivity extends AppCompatActivity
         }
         new_recipe.ingredients = rec_ingredients;
 
-        RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
+        Database D = Database.getInstance();
 
-        if(!rec_new && rec_pos != -1)
-        {
-            sRecipeManager.getType(rec_type).removeRecipe(rec_pos);
-        }
+        //TODO
+        // MAYBE CHECK IF THE RECIPE YOU'RE TRYING TO ADD ALREADY EXISTS OR NOT
+        // TO MAKE SURE THAT YOU'RE NOT OVERRIDING ANYTHING
+        if(!rec_new) D.updateRecipeOfCollection(rec_pos, collection, new_recipe);
+        else D.addRecipeOfCollection(new_recipe, collection);
 
-        //TODO I should check if it actually adds a new recipe or if one with the same name already
-        // exists. Maybe show an error dialog if it does. Definitely handle the
-        // sWeekManager.addedRecipe() better depending on if it actually adds something or not
-        sRecipeManager.getType(rec_type).addRecipe(new_recipe);
-        sRecipeManager.getType(rec_type).saveRecipes();
-
+        //TODO
+        // MOVE THIS IN DATABASE
         if(rec_new)
         {
             WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-            sWeekManager.addedRecipe(rec_type, rec_pos);
+            sWeekManager.addedRecipe(collection, rec_pos);
             sWeekManager.saveDailyMeals();
         }
 

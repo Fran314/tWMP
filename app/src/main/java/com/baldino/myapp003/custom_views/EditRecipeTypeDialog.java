@@ -15,14 +15,14 @@ import androidx.annotation.NonNull;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
 
 import java.io.File;
 
 public class EditRecipeTypeDialog extends Dialog
 {
-    private RecipeManagerSingleton sRecipeManager;
+    Database D;
     public EditText editable_recipes_name;
     public TextView file_name_output;
 
@@ -36,7 +36,7 @@ public class EditRecipeTypeDialog extends Dialog
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_edit_recipe_type);
 
-        sRecipeManager = RecipeManagerSingleton.getInstance();
+        D = Database.getInstance();
 
         this.curr_pos = pos;
 
@@ -65,25 +65,15 @@ public class EditRecipeTypeDialog extends Dialog
             public void onClick(View view)
             {
                 boolean sameFileName = false;
-                for(int i = 0; i < sRecipeManager.typesSize() && !sameFileName; i++)
+                for(int i = 0; i < D.getCollectionsSize() && !sameFileName; i++)
                 {
-                    if(i != curr_pos && Util.compareStrings(Util.nameToFileName(editable_recipes_name.getText().toString()), sRecipeManager.getType(i).getName()) == 0)
+                    if(i != curr_pos && Util.compareStrings(Util.nameToFileName(editable_recipes_name.getText().toString()), D.getNameOfCollection(i)) == 0)
                         sameFileName = true;
                 }
 
                 if(!sameFileName)
                 {
-                    String last_name = sRecipeManager.getType(curr_pos).getName();
-                    sRecipeManager.changeName(editable_recipes_name.getText().toString(), curr_pos);
-                    sRecipeManager.getType(curr_pos).saveRecipes();
-                    sRecipeManager.saveTypeNames();
-
-                    File folder = new File(getContext().getFilesDir(), Util.TYPES_FOLDER);
-                    folder.mkdirs();
-
-                    File to_delete = new File(folder, Util.nameToFileName(last_name) + ".txt");
-                    to_delete.delete();
-
+                    D.updateCollectionName(editable_recipes_name.getText().toString(), curr_pos);
                     fragment.updateList(curr_pos);
                     dismiss();
                 }

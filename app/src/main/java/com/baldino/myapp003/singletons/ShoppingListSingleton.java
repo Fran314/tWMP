@@ -50,7 +50,6 @@ public class ShoppingListSingleton
     public void updateShoppingList()
     {
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        RecipeManagerSingleton sRecipeManager = RecipeManagerSingleton.getInstance();
         Database D = Database.getInstance();
 
         shopping_list = new ArrayList<>();
@@ -68,7 +67,7 @@ public class ShoppingListSingleton
                 {
                     for(int k = 0; k < sWeekManager.courses_per_meal.get(j); k++)
                     {
-                        Recipe rec = sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).binaryFind(sWeekManager.days[i].getCourseOfmeal(k,j));
+                        Recipe rec = D.findRecipeOfCollection(sWeekManager.days[i].getCourseOfmeal(k,j), sWeekManager.daily_meals.get(j).getType(k));
                         if(rec != null)
                         {
                             for(int h = 0; h < rec.ingredients.size(); h++)
@@ -84,10 +83,10 @@ public class ShoppingListSingleton
         for(RecIngredient rec_ingr : shopping_list)
         {
             boolean is_std = true;
-            Ingredient ingr = D.binaryFindStdIngr(rec_ingr.getName());
+            Ingredient ingr = D.findStdIngr(rec_ingr.getName());
             if(ingr == null)
             {
-                ingr = D.binaryFindMnrIngr(rec_ingr.getName());
+                ingr = D.findMnrIngr(rec_ingr.getName());
                 is_std = false;
             }
 

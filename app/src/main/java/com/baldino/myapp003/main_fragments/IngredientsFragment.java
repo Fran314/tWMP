@@ -23,16 +23,16 @@ public class IngredientsFragment extends Fragment
         View root = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
         Database D = Database.getInstance();
-        D.setStdFragment(this);
-        D.setMnrFragment(this);
+        D.setStdIngrFragment(this);
+        D.setMnrIngrFragment(this);
 
         RecyclerView std_ingr_rv = root.findViewById(R.id.recyclerview_ingredients);
         std_ingr_rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        std_ingr_rv.setAdapter(D.getStdAdapter());
+        std_ingr_rv.setAdapter(D.getStdIngrAdapter());
 
         RecyclerView mnr_ingr_rv = root.findViewById(R.id.recyclerview_minor_ingredients);
         mnr_ingr_rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mnr_ingr_rv.setAdapter(D.getMnrAdapter());
+        mnr_ingr_rv.setAdapter(D.getMnrIngrAdapter());
 
         ImageButton button_add_std_ingr = root.findViewById(R.id.button_add_standard_ingredient);
         button_add_std_ingr.setOnClickListener(new View.OnClickListener()

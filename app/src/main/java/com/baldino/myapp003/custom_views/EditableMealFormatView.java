@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.List;
 public class EditableMealFormatView extends LinearLayout
 {
     WeekManagerSingleton sWeekManager;
-    RecipeManagerSingleton sRecipeManager;
+    Database D;
 
     private TableLayout table_container;
     public ImageButton delete_whole_button, add_button;
@@ -48,7 +48,7 @@ public class EditableMealFormatView extends LinearLayout
         super(context);
 
         sWeekManager = WeekManagerSingleton.getInstance();
-        sRecipeManager = RecipeManagerSingleton.getInstance();
+        D = Database.getInstance();
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_editable_meal_format, this);
@@ -126,7 +126,7 @@ public class EditableMealFormatView extends LinearLayout
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
             {
-                stds.get(pos).setAdapter(sRecipeManager.getType(selected_index).getNamesAdapter());
+                stds.get(pos).setAdapter(D.getNamesAdapterOfCollection(selected_index, getContext()));
                 stds.get(pos).setSelection(0);
             }
 
@@ -149,10 +149,10 @@ public class EditableMealFormatView extends LinearLayout
 
     public void readRow(int pos)
     {
-        types.get(pos).setAdapter(sRecipeManager.type_names_adapter);
+        types.get(pos).setAdapter(D.getCollectionNamesAdapter());
         types.get(pos).setSelection(sWeekManager.daily_meals.get(meal).getType(pos));
 
-        stds.get(pos).setAdapter(sRecipeManager.getType(sWeekManager.daily_meals.get(meal).getType(pos)).getNamesAdapter());
+        stds.get(pos).setAdapter(D.getNamesAdapterOfCollection(sWeekManager.daily_meals.get(meal).getType(pos), getContext()));
         stds.get(pos).setSelection(sWeekManager.daily_meals.get(meal).getStd(pos));
     }
 

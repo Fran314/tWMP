@@ -2,7 +2,6 @@ package com.baldino.myapp003;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +51,8 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                     public void onClick(View view) {
                         Database D = Database.getInstance();
                         int curr_position;
-                        if(is_standard) curr_position = D.binaryFindStdIndex(ingredient.getName());
-                        else curr_position = D.binaryFindMnrIndex(ingredient.getName());
+                        if(is_standard) curr_position = D.findStdIngrIndex(ingredient.getName());
+                        else curr_position = D.findMnrIngrIndex(ingredient.getName());
 
                         if(curr_position == expanded_val)
                         {
@@ -76,8 +75,8 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     public int getItemCount()
     {
         Database D = Database.getInstance();
-        if(is_standard) return D.getStdSize();
-        else return D.getMnrSize();
+        if(is_standard) return D.getStdIngrSize();
+        else return D.getMnrIngrSize();
     }
 
     public class RecViewHolder extends RecyclerView.ViewHolder

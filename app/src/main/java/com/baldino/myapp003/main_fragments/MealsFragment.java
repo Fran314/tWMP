@@ -20,7 +20,7 @@ import com.baldino.myapp003.custom_views.DayMealsView;
 import com.baldino.myapp003.activities.EditWeekActivity;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.activities.ShoppingListActivity;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.text.SimpleDateFormat;
@@ -36,14 +36,14 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     private DatePickerDialog datePickerDialog;
 
     private WeekManagerSingleton sWeekManager;
-    private RecipeManagerSingleton sRecipeManager;
+    private Database D;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View root = inflater.inflate(R.layout.fragment_meals, container, false);
 
         sWeekManager = WeekManagerSingleton.getInstance();
-        sRecipeManager = RecipeManagerSingleton.getInstance();
+        D = Database.getInstance();
 
         days[0] = root.findViewById(R.id.monday);
         days[1] = root.findViewById(R.id.tuesday);
@@ -147,14 +147,14 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
                 days[i].emptyUI();
                 for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
                 {
-                    if(sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(0)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(0, j)) != -1)
+                    if(D.findRecipeOfCollectionIndex(sWeekManager.days[i].getCourseOfmeal(0, j), sWeekManager.daily_meals.get(j).getType(0)) != -1)
                         days[i].addFirstRow(sWeekManager.daily_meals.get(j).getName(), sWeekManager.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorBlack));
                     else
                         days[i].addFirstRow(sWeekManager.daily_meals.get(j).getName(), sWeekManager.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorErrorRed));
 
                     for(int k = 1; k < sWeekManager.daily_meals.get(j).getDim(); k++)
                     {
-                        if(sRecipeManager.getType(sWeekManager.daily_meals.get(j).getType(k)).binaryFindIndex(sWeekManager.days[i].getCourseOfmeal(k, j)) != -1)
+                        if(D.findRecipeOfCollectionIndex(sWeekManager.days[i].getCourseOfmeal(k, j), sWeekManager.daily_meals.get(j).getType(k)) != -1)
                             days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorBlack));
                         else
                             days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorErrorRed));

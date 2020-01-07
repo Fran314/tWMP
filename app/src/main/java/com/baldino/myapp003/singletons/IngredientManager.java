@@ -85,8 +85,7 @@ public class IngredientManager
     }
     public int removeIngr(int pos)
     {
-        if(pos < 0) return -1;
-        else if(pos >= ingredients.size()) return -2;
+        if(pos < 0 ||pos >= ingredients.size()) return -1;
         ingredients.remove(pos);
         ingr_list_adapter.notifyItemRemoved(pos);
 

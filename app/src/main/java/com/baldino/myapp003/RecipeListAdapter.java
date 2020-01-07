@@ -2,7 +2,6 @@ package com.baldino.myapp003;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,21 +18,20 @@ import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecViewHolder>
 {
-    public int collection_index = 0;
+    public int collection = 0;
     public int expanded_value = -1;
 
     public RecipesFragment recipes_fragment;
-    private RecipeManagerSingleton sRecipeManager;
+    private Database D;
 
-    public RecipeListAdapter(int collection_index)
+    public RecipeListAdapter(int collection)
     {
-        this.collection_index = collection_index;
-        sRecipeManager = RecipeManagerSingleton.getInstance();
+        this.collection = collection;
+        D = Database.getInstance();
     }
 
     @NonNull
@@ -48,7 +46,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     @Override
     public void onBindViewHolder(@NonNull RecipeListAdapter.RecViewHolder holder, int position)
     {
-        final Recipe recipe = sRecipeManager.getType(collection_index).getRecipe(position);
+        final Recipe recipe = D.getRecipeOfCollection(position, collection);
 
         holder.bind(recipe, position);
 
@@ -56,7 +54,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         {
             @Override
             public void onClick(View view) {
-                int curr_position = sRecipeManager.getType(collection_index).binaryFindIndex(recipe.getName());
+                int curr_position = D.findRecipeOfCollectionIndex(recipe.getName(), collection);
 
                 if(curr_position == expanded_value)
                 {
@@ -75,10 +73,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     }
 
     @Override
-    public int getItemCount()
-    {
-        return sRecipeManager.getType(collection_index).getSize();
-    }
+    public int getItemCount() { return D.getSizeOfCollection(collection); }
 
     public class RecViewHolder extends RecyclerView.ViewHolder
     {
@@ -109,7 +104,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
         private void bind(Recipe recipe, int pos)
         {
-            Database D = Database.getInstance();
+            final Database D = Database.getInstance();
 
             if(pos == expanded_value)
             {
@@ -130,11 +125,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                 boolean mnr_ingr = false;
-                Ingredient curr_ingredient = D.binaryFindStdIngr(recipe.ingredients.get(i).getName());
+                Ingredient curr_ingredient = D.findStdIngr(recipe.ingredients.get(i).getName());
                 if(curr_ingredient == null)
                 {
                     mnr_ingr = true;
-                    curr_ingredient = D.binaryFindMnrIngr(recipe.ingredients.get(i).getName());
+                    curr_ingredient = D.findMnrIngr(recipe.ingredients.get(i).getName());
                 }
 
                 TextView name_in_row = new TextView(view.getContext());
@@ -186,11 +181,12 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            sRecipeManager.getType(collection_index).removeRecipe(expanded_value);
-                            sRecipeManager.getType(collection_index).saveRecipes();
+                            D.removeRecipeOfCollection(expanded_value, collection);
 
+                            //TODO
+                            // MOVE THIS IN Database.removeRecipeOfCollection(...)
                             WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-                            sWeekManager.removedRecipe(collection_index, expanded_value);
+                            sWeekManager.removedRecipe(collection, expanded_value);
                             sWeekManager.saveDailyMeals();
 
                             dialog.dismiss();
