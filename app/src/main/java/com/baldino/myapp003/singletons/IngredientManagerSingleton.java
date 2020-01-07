@@ -2,7 +2,7 @@ package com.baldino.myapp003.singletons;
 
 import android.content.Context;
 
-import com.baldino.myapp003.Ingredient;
+import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.IngredientListAdapter;
 import com.baldino.myapp003.Util;
 

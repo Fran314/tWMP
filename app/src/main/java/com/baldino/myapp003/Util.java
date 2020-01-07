@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import com.baldino.myapp003.data_classes.Ingredient;
+import com.baldino.myapp003.data_classes.RecIngredient;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

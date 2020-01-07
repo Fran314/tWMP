@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
+import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 
@@ -24,6 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.ContactsContract;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     WeekManagerSingleton sWeekManager;
     ShoppingListSingleton sShoppingList;
 
+    Database d;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         //    anything else, and should stay in this order, too. Not strictly, but it's better if
         //    it stays this way ---//
         Util.context = this;
+
+        d = Database.getInstance(this);
 
         sIngredientManager = IngredientManagerSingleton.getInstance();
         sRecipeManager = RecipeManagerSingleton.getInstance();
@@ -150,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
 
         sShoppingList.updateShoppingList();
         sShoppingList.loadValues();
+
+        d.loadAll();
     }
 
     @Override

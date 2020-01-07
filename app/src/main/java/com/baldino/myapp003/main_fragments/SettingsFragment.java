@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
+import com.baldino.myapp003.data_classes.WeekData;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.time.LocalDate;
@@ -109,7 +110,7 @@ public class SettingsFragment extends Fragment
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
         if(sWeekManager.saved_weeks.size() > 0)
         {
-            WeekManagerSingleton.WeekData first_data, second_data;
+            WeekData first_data, second_data;
             first_data = sWeekManager.loadData(sWeekManager.saved_weeks.get(0));
             for(int i = 1; i < sWeekManager.saved_weeks.size(); i++)
             {

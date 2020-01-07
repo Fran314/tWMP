@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -13,15 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.baldino.myapp003.R;
-import com.baldino.myapp003.RecIngredient;
-import com.baldino.myapp003.Recipe;
-import com.baldino.myapp003.Util;
-import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.ShoppingListSingleton;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ShoppingListActivity extends AppCompatActivity
 {

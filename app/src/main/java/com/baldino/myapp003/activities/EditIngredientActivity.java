@@ -1,7 +1,6 @@
 package com.baldino.myapp003.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.baldino.myapp003.Ingredient;
+import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;

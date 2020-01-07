@@ -1,4 +1,4 @@
-package com.baldino.myapp003;
+package com.baldino.myapp003.data_classes;
 
 import java.util.ArrayList;
 import java.util.List;

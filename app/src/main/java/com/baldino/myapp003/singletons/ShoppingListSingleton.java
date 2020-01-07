@@ -1,13 +1,11 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.widget.CheckBox;
 
-import com.baldino.myapp003.Ingredient;
+import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.R;
-import com.baldino.myapp003.RecIngredient;
-import com.baldino.myapp003.Recipe;
+import com.baldino.myapp003.data_classes.RecIngredient;
+import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;

@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baldino.myapp003.data_classes.Ingredient;
+import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.singletons.IngredientManagerSingleton;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;

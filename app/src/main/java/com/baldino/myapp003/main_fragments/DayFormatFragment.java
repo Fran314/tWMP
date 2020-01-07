@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.baldino.myapp003.MealFormat;
+import com.baldino.myapp003.data_classes.MealFormat;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableMealFormatView;

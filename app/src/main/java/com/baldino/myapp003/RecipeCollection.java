@@ -3,7 +3,8 @@ package com.baldino.myapp003;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
+import com.baldino.myapp003.data_classes.RecIngredient;
+import com.baldino.myapp003.data_classes.Recipe;
 
 import java.io.BufferedReader;
 import java.io.File;

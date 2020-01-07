@@ -2,28 +2,25 @@ package com.baldino.myapp003.singletons;
 
 import android.content.Context;
 
-import com.baldino.myapp003.Ingredient;
+import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.IngredientListAdapter;
 import com.baldino.myapp003.Util;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientManager
 {
+    private String path;
+
     public List<Ingredient> ingredients;
     public IngredientListAdapter ingr_list_adapter;
 
-    public IngredientManager()
+    public IngredientManager(String path)
     {
+        this.path = path;
+
         ingredients = new ArrayList<>();
         ingr_list_adapter = new IngredientListAdapter(true);
     }
@@ -101,13 +98,13 @@ public class IngredientManager
         }
 
         //TODO change file path
-        Util.saveFile(output_string, new File(context.getFilesDir(), Util.STANDARD_INGR_PATH), context);
+        Util.saveFile(output_string, new File(context.getFilesDir(), path), context);
     }
     public void loadIngr(Context context)
     {
         ingredients = new ArrayList<>();
         //TODO change file path
-        List<String> lines = Util.loadFile(new File(context.getFilesDir(), Util.STANDARD_INGR_PATH), context);
+        List<String> lines = Util.loadFile(new File(context.getFilesDir(), path), context);
 
         if(!"ERR".equals(lines.get(0)))
         {

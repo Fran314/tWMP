@@ -18,8 +18,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import com.baldino.myapp003.R;
-import com.baldino.myapp003.RecIngredient;
-import com.baldino.myapp003.Recipe;
+import com.baldino.myapp003.data_classes.RecIngredient;
+import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.RecipeManagerSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
