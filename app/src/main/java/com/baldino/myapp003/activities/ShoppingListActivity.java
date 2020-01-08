@@ -12,13 +12,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.baldino.myapp003.R;
-import com.baldino.myapp003.singletons.ShoppingListSingleton;
+import com.baldino.myapp003.singletons.Database;
 
 public class ShoppingListActivity extends AppCompatActivity
 {
     private LinearLayout container;
 
-    ShoppingListSingleton sShoppingList;
+    Database D;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,27 +28,26 @@ public class ShoppingListActivity extends AppCompatActivity
 
         container = findViewById(R.id.shopping_list_container);
 
-        sShoppingList = ShoppingListSingleton.getInstance();
+        D = Database.getInstance();
 
-        for(int i = 0; i < sShoppingList.labels.size(); i++)
+        for(int i = 0; i < D.getShoppingListSize(); i++)
         {
             final int pos = i;
             CheckBox new_item = new CheckBox(this);
-            new_item.setText(sShoppingList.labels.get(i));
-            new_item.setTextColor(sShoppingList.colors.get(i));
-            new_item.setChecked(sShoppingList.values.get(i));
+            new_item.setText(D.getShoppingListLabel(i));
+            new_item.setTextColor(D.getShoppingListColor(i));
+            new_item.setChecked(D.getShoppingListValue(i));
             new_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    sShoppingList.values.set(pos, isChecked);
-                    sShoppingList.saveValues();
+                    D.setShoppingListValue(pos, isChecked);
                 }
             });
             container.addView(new_item);
         }
 
         EditText additional_text = findViewById(R.id.additonal_items);
-        additional_text.setText(sShoppingList.additional_text);
+        additional_text.setText(D.getShoppingListAdditionalText());
         additional_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -57,8 +56,7 @@ public class ShoppingListActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s)
             {
-                sShoppingList.additional_text = s.toString();
-                sShoppingList.saveValues();
+                D.setShoppingListAdditionalText(s.toString());
             }
         });
     }

@@ -22,6 +22,7 @@ public class Database
     private IngredientManager std_ingredients, mnr_ingredients;
     private RecipeManager recipes;
     private WeekManager week_manager;
+    private ShoppingListManager shopping_list;
 
     private Database()
     {
@@ -31,8 +32,9 @@ public class Database
         recipes = new RecipeManager();
 
         week_manager = new WeekManager();
-    }
 
+        shopping_list = new ShoppingListManager();
+    }
     public synchronized static Database getInstance()
     {
         if(instance == null) {
@@ -41,11 +43,7 @@ public class Database
 
         return instance;
     }
-
-    public void setContext(Context context)
-    {
-        this.context = context.getApplicationContext();
-    }
+    public void setContext(Context context) { this.context = context.getApplicationContext(); }
 
     public void loadAll()
     {
@@ -60,10 +58,13 @@ public class Database
             week_manager.loadWeeks(context);
             week_manager.loadDailyMeals(context);
             week_manager.loadData(context);
+
+            shopping_list.updateShoppingList(context);
+            shopping_list.loadValues(context);
         }
     }
 
-    //---   STD & MNR INGREDIENTS METHODS   ---//
+    //--- STD & MNR INGREDIENTS METHODS ---//
     public void setStdIngrFragment(IngredientsFragment fragment) { std_ingredients.setFragment(fragment); }
     public void setMnrIngrFragment(IngredientsFragment fragment) { mnr_ingredients.setFragment(fragment); }
     public IngredientListAdapter getStdIngrAdapter() { return std_ingredients.getAdapter(); }
@@ -140,7 +141,7 @@ public class Database
     }
     //---   ---//
 
-    //---   RECIPES METHODS ---//
+    //--- RECIPES METHODS ---//
     public Recipe getRecipeOfCollection(int recipe, int collection_index){ return recipes.getRecipeOfCollection(recipe, collection_index); }
     public int findRecipeOfCollectionIndex(String name, int collection) { return recipes.findRecipeOfCollectionIndex(name, collection); }
     public Recipe findRecipeOfCollection(String name, int collection) { return recipes.findRecipeOfCollection(name, collection); }
@@ -224,5 +225,34 @@ public class Database
     }
     public void setRecipeListAdapterFragment(RecipesFragment fragment, int collection) { recipes.setListAdapterFragment(fragment, collection); }
     public int getExpandedValueOfCollection(int collection) { return recipes.getExpandedValueOfCollection(collection); }
+    //---   ---//
+
+    //--- WEEK MANAGER METHODS ---//
+    public void updateShoppingList() { shopping_list.updateShoppingList(context); }
+    public int getShoppingListSize() { return shopping_list.getSize(); }
+    public String getShoppingListLabel(int pos) { return shopping_list.getLabel(pos); }
+    public boolean getShoppingListValue(int pos) { return shopping_list.getValue(pos); }
+    public int getShoppingListColor(int pos) { return shopping_list.getColor(pos); }
+    public void setShoppingListValue(int pos, boolean new_val)
+    {
+        int result = shopping_list.setValue(pos, new_val);
+        if(result == 0)
+        {
+            //TODO
+            // UPDATE OTHER STUFF
+            shopping_list.saveValues(context);
+        }
+    }
+    public String getShoppingListAdditionalText() { return shopping_list.getAdditionalText(); }
+    public void setShoppingListAdditionalText(String new_additional_text)
+    {
+        int result = shopping_list.setAdditionalText(new_additional_text);
+        if(result == 0)
+        {
+            //TODO
+            // UPDATE OTHER STUFF
+            shopping_list.saveValues(context);
+        }
+    }
     //---   ---//
 }

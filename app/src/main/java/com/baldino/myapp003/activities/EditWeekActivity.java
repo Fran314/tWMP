@@ -16,7 +16,6 @@ import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableDayMealsView;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.Database;
-import com.baldino.myapp003.singletons.ShoppingListSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.time.LocalDate;
@@ -30,7 +29,6 @@ public class EditWeekActivity extends AppCompatActivity
     private List<List<List<Spinner>>> spinners;
 
     WeekManagerSingleton sWeekManager;
-    ShoppingListSingleton sShoppingList;
     Database D;
 
     @Override
@@ -40,7 +38,6 @@ public class EditWeekActivity extends AppCompatActivity
         setContentView(R.layout.activity_edit_week);
 
         sWeekManager = WeekManagerSingleton.getInstance();
-        sShoppingList = ShoppingListSingleton.getInstance();
         D = Database.getInstance();
 
         days = new EditableDayMealsView[7];
@@ -217,7 +214,7 @@ public class EditWeekActivity extends AppCompatActivity
         sWeekManager.is_new_week = false;
 
         sWeekManager.saveData();
-        sShoppingList.updateShoppingList();
+        D.updateShoppingList();
 
         finish();
     }

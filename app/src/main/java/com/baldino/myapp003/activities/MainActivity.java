@@ -14,7 +14,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.baldino.myapp003.singletons.ShoppingListSingleton;
 import com.baldino.myapp003.singletons.WeekManagerSingleton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     WeekManagerSingleton sWeekManager;
-    ShoppingListSingleton sShoppingList;
 
     Database d;
 
@@ -47,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
         Util.context = this;
 
         sWeekManager = WeekManagerSingleton.getInstance();
-        sShoppingList = ShoppingListSingleton.getInstance();
 
         d = Database.getInstance();
 
         sWeekManager.setContext(this);
-        sShoppingList.setContext(this);
 
         d.setContext(this);
         //--- ---//
@@ -142,9 +138,6 @@ public class MainActivity extends AppCompatActivity {
         sWeekManager.loadWeeks();
         sWeekManager.loadDailyMeals();
         sWeekManager.loadData();
-
-        sShoppingList.updateShoppingList();
-        sShoppingList.loadValues();
 
         d.loadAll();
     }

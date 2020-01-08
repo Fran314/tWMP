@@ -2,11 +2,11 @@ package com.baldino.myapp003.singletons;
 
 import android.content.Context;
 
-import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.R;
+import com.baldino.myapp003.Util;
+import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.data_classes.RecIngredient;
 import com.baldino.myapp003.data_classes.Recipe;
-import com.baldino.myapp003.Util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,35 +19,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingListSingleton
+public class ShoppingListManager
 {
-    private static ShoppingListSingleton singleton_instance = null;
+    private List<RecIngredient> shopping_list = null;
+    private List<String> labels = null;
+    private List<Boolean> values = null;
+    private List<Integer> colors = null;
 
-    private Context context;
+    private String additional_text = null;
 
-    private List<RecIngredient> shopping_list;
-    public List<String> labels;
-    public List<Boolean> values;
-    public List<Integer> colors;
 
-    public String additional_text;
-
-    private ShoppingListSingleton()
-    {
-
-    }
-
-    public synchronized static ShoppingListSingleton getInstance()
-    {
-        if(singleton_instance == null)
-            singleton_instance = new ShoppingListSingleton();
-
-        return singleton_instance;
-    }
-
-    public void setContext(Context context) { this.context = context; }
-
-    public void updateShoppingList()
+    public void updateShoppingList(Context context)
     {
         WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
         Database D = Database.getInstance();
@@ -116,7 +98,7 @@ public class ShoppingListSingleton
         }
     }
 
-    public void saveValues()
+    public void saveValues(Context context)
     {
         StringBuilder output_string = new StringBuilder();
         output_string.append("[").append(values.size()).append("]\n");
@@ -128,22 +110,9 @@ public class ShoppingListSingleton
         }
         output_string.append(additional_text);
 
-        try
-        {
-            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.SL_VALUES_PATH));
-            fos.write(output_string.toString().getBytes(Util.STD_CHARSET));
-            fos.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        Util.saveFile(output_string, new File(context.getFilesDir(), Util.SL_VALUES_PATH));
     }
-    public void loadValues()
+    public void loadValues(Context context)
     {
         List<String> lines = new ArrayList<>();
 
@@ -226,5 +195,44 @@ public class ShoppingListSingleton
         if(Util.compareStrings(name, shopping_list.get(mid).getName()) == 0) return mid;
         else if(Util.compareStrings(name, shopping_list.get(mid).getName()) < 0) return binaryFindIndex(name, left, mid-1);
         else return binaryFindIndex(name, mid+1, right);
+    }
+
+    public int getSize()
+    {
+        return (labels == null ? 0 : labels.size());
+    }
+    public String getLabel(int pos)
+    {
+        if(pos < 0 || pos >= getSize()) return "ERR";
+        else return labels.get(pos);
+    }
+    public boolean getValue(int pos)
+    {
+        if(pos < 0 || pos >= getSize()) return false;
+        else return values.get(pos);
+    }
+    public int getColor(int pos)
+    {
+        if(pos < 0 || pos >= getSize()) return -1;
+        else return colors.get(pos);
+    }
+    public int setValue(int pos, boolean new_val)
+    {
+        if(pos < 0 || pos >= getSize()) return -1;
+
+        if(values.get(pos) != new_val)
+        {
+            values.set(pos, new_val);
+            return 0;
+        }
+        else return -1;
+    }
+    public String getAdditionalText() { return (additional_text == null ? "ERR" : additional_text); }
+    public int setAdditionalText(String new_additional_text)
+    {
+        if(additional_text.equals(new_additional_text)) return -1;
+
+        additional_text = new_additional_text;
+        return 0;
     }
 }
