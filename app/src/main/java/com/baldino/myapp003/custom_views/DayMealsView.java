@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 public class DayMealsView extends LinearLayout {
 
@@ -50,7 +49,7 @@ public class DayMealsView extends LinearLayout {
 
         TextView meal_name = new TextView(getContext());
         meal_name.setText(name);
-        meal_name.setTextSize(Util.intToDp(6));
+        meal_name.setTextSize(Util.intToDp(6, getContext()));
         meal_name.setTypeface(Typeface.DEFAULT_BOLD);
         TableRow.LayoutParams name_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         name_params.gravity = Gravity.CENTER_VERTICAL;
@@ -61,8 +60,8 @@ public class DayMealsView extends LinearLayout {
         first_course.setTextColor(color);
         TableRow.LayoutParams first_course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         first_course_params.gravity = Gravity.CENTER_VERTICAL;
-        first_course_params.leftMargin = Util.intToDp(4);
-        first_course_params.rightMargin = Util.intToDp(4);
+        first_course_params.leftMargin = Util.intToDp(4, getContext());
+        first_course_params.rightMargin = Util.intToDp(4, getContext());
         first_course.setLayoutParams(first_course_params);
 
         first_row.addView(meal_name);
@@ -83,8 +82,8 @@ public class DayMealsView extends LinearLayout {
         course.setTextColor(color);
         TableRow.LayoutParams course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         course_params.gravity = Gravity.CENTER_VERTICAL;
-        course_params.leftMargin = Util.intToDp(4);
-        course_params.rightMargin = Util.intToDp(4);
+        course_params.leftMargin = Util.intToDp(4, getContext());
+        course_params.rightMargin = Util.intToDp(4, getContext());
         course.setLayoutParams(course_params);
 
         row.addView(filler);

@@ -21,39 +21,37 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
+import com.baldino.myapp003.data_classes.MealFormat;
 import com.baldino.myapp003.singletons.Database;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditableMealFormatView extends LinearLayout
 {
-    WeekManagerSingleton sWeekManager;
-    Database D;
+    private Database D;
+
+    public MealFormat meal_format;
 
     private TableLayout table_container;
     public ImageButton delete_whole_button, add_button;
     public EditText name;
     public Spinner type, std;
 
-    int meal;
-
     public List<Spinner> types;
     public List<Spinner> stds;
     public List<ImageButton> delete_buttons;
 
-    public EditableMealFormatView(Context context, int i)
+    public EditableMealFormatView(Context context, MealFormat init_format)
     {
         super(context);
 
-        sWeekManager = WeekManagerSingleton.getInstance();
         D = Database.getInstance();
+
+        this.meal_format = init_format;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_editable_meal_format, this);
-
-        meal = i;
 
         types = new ArrayList<>();
         stds = new ArrayList<>();
@@ -65,7 +63,7 @@ public class EditableMealFormatView extends LinearLayout
         std = this.findViewById(R.id.spinner_main_std);
         delete_whole_button = this.findViewById(R.id.button_delete_whole_meal_format);
 
-        name.setText(sWeekManager.daily_meals.get(meal).getName());
+        name.setText(meal_format.getName());
 
         types.add(type);
         stds.add(std);
@@ -76,16 +74,16 @@ public class EditableMealFormatView extends LinearLayout
         {
             @Override
             public void onClick(View view) {
-                int pos = sWeekManager.daily_meals.get(meal).getDim();
+                int pos = meal_format.getDim();
                 addRow(pos);
-                sWeekManager.daily_meals.get(meal).addMeal(0, 0);
+                meal_format.addMeal(0,0);
                 readRow(pos);
                 setListeners(pos);
             }
         });
 
 
-        for(int j = 0; j < sWeekManager.daily_meals.get(meal).getDim(); j++)
+        for(int j = 0; j < meal_format.getDim(); j++)
         {
             if(j > 0) addRow(j);
             readRow(j);
@@ -95,7 +93,7 @@ public class EditableMealFormatView extends LinearLayout
 
     public void removeRow(int pos)
     {
-        sWeekManager.daily_meals.get(meal).removeMeal(pos);
+        meal_format.removeMeal(pos);
         table_container.removeViewAt(2*pos + 1);
         table_container.removeViewAt(2*pos);
         types.remove(pos);
@@ -126,8 +124,22 @@ public class EditableMealFormatView extends LinearLayout
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
             {
+                meal_format.setType(pos, selected_index);
                 stds.get(pos).setAdapter(D.getNamesAdapterOfCollection(selected_index, getContext()));
                 stds.get(pos).setSelection(0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        stds.get(pos).setSelection(stds.get(pos).getSelectedItemPosition(),false);
+        stds.get(pos).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
+            {
+                meal_format.setStd(pos, selected_index);
             }
 
             @Override
@@ -150,10 +162,10 @@ public class EditableMealFormatView extends LinearLayout
     public void readRow(int pos)
     {
         types.get(pos).setAdapter(D.getCollectionNamesAdapter());
-        types.get(pos).setSelection(sWeekManager.daily_meals.get(meal).getType(pos));
+        types.get(pos).setSelection(meal_format.getType(pos));
 
-        stds.get(pos).setAdapter(D.getNamesAdapterOfCollection(sWeekManager.daily_meals.get(meal).getType(pos), getContext()));
-        stds.get(pos).setSelection(sWeekManager.daily_meals.get(meal).getStd(pos));
+        stds.get(pos).setAdapter(D.getNamesAdapterOfCollection(meal_format.getType(pos), getContext()));
+        stds.get(pos).setSelection(meal_format.getStd(pos));
     }
 
     public void addRow(final int pos)

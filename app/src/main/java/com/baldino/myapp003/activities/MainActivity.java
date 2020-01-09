@@ -14,7 +14,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    WeekManagerSingleton sWeekManager;
-
     Database d;
 
     @Override
@@ -42,13 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //--- The following block of code should always be the first to be run, before
         //    anything else, and should stay in this order, too. Not strictly, but it's better if
         //    it stays this way ---//
-        Util.context = this;
-
-        sWeekManager = WeekManagerSingleton.getInstance();
-
         d = Database.getInstance();
-
-        sWeekManager.setContext(this);
 
         d.setContext(this);
         //--- ---//
@@ -73,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         final MainActivity mainActivity = this;
 
-        if(Util.isFirstStart())
+        if(Util.isFirstStart(this))
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getResources().getString(R.string.dialog_title_first_start));
@@ -108,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
-                    Util.createInitFiles();
+                    Util.createInitFiles(mainActivity);
 
                     dialog.dismiss();
 
@@ -133,11 +124,7 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         }
 
-        Util.loadSettings();
-
-        sWeekManager.loadWeeks();
-        sWeekManager.loadDailyMeals();
-        sWeekManager.loadData();
+        Util.loadSettings(this);
 
         d.loadAll();
     }

@@ -60,7 +60,8 @@
                     android:background="@null"
                     android:contentDescription="@null"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_button_add_black_32dp"/>
+                    android:src="@drawable/ic_button_add_32dp"
+                    android:tint="@color/colorBlack"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

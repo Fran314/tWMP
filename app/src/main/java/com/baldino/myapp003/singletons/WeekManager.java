@@ -24,25 +24,22 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class WeekManager
 {
-    public int year = 1970, month = 1, day_of_month = 1;
+    private int year = 1970, month = 1, day_of_month = 1;
 
-    public List<String> saved_weeks;
-    public List<MealFormat> daily_meals;
+    private List<String> saved_weeks;
+    private List<MealFormat> daily_meals = null;
+
 
     //---  Variables relative to the currently loaded week  ---//
-    public boolean has_same_format, is_new_week;
-    public List<Integer> courses_per_meal;
-    public List<String> meal_names;
-
-    public Day days[] = new Day[7];
+    private boolean has_same_format;
+    private WeekData loaded_week = null;
     //---   ---//
 
     public WeekManager()
     {
         saved_weeks = new ArrayList<>();
         daily_meals = new ArrayList<>();
-        courses_per_meal = new ArrayList<>();
-        meal_names = new ArrayList<>();
+        loaded_week = new WeekData();
 
         LocalDate curr_date = LocalDate.now();
         setCalendar(curr_date.getYear(), curr_date.getMonthValue(), curr_date.getDayOfMonth());
@@ -196,25 +193,10 @@ public class WeekManager
         addWeek(week_file_path);
         saveWeeks(context);
 
-        WeekData data = new WeekData();
-
-        for(int i = 0; i < daily_meals.size(); i++)
-        {
-            data.meal_names.add(daily_meals.get(i).getName());
-            data.courses_per_meal.add(daily_meals.get(i).getDim());
-        }
-
-        data.is_new_week = true;
-        data.meals_per_day = daily_meals.size();
-        data.days = days;
-
-        saveData(data, week_file_path, context);
+        saveData(loaded_week, week_file_path, context);
     }
     public void loadData(Context context)
     {
-        courses_per_meal = new ArrayList<>();
-        meal_names = new ArrayList<>();
-
         LocalDate date = LocalDate.of(year, month, day_of_month);
 
         int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
@@ -227,22 +209,23 @@ public class WeekManager
         if(!binaryExists(week_file_path)) week_data = initWeekAsNull();
         else week_data = loadData(week_file_path, context);
 
+        loaded_week = week_data;
+        updateHasSameFormat();
+    }
+    public void updateHasSameFormat()
+    {
         boolean check = true;
-        if(daily_meals.size() != week_data.meal_names.size()) check = false;
+        if(daily_meals.size() != loaded_week.meal_names.size()) check = false;
         for(int i = 0; i < daily_meals.size() && check; i++)
         {
-            if(daily_meals.get(i).getDim() != week_data.courses_per_meal.get(i)) check = false;
+            if(daily_meals.get(i).getDim() != loaded_week.courses_per_meal.get(i)) check = false;
         }
         for(int i = 0; i < daily_meals.size() && check; i++)
         {
-            if(Util.compareStrings(daily_meals.get(i).getName(), week_data.meal_names.get(i)) != 0) check = false;
+            if(Util.compareStrings(daily_meals.get(i).getName(), loaded_week.meal_names.get(i)) != 0) check = false;
         }
 
-        this.has_same_format = check;
-        this.is_new_week = week_data.is_new_week;
-        this.days = week_data.days;
-        this.courses_per_meal = week_data.courses_per_meal;
-        this.meal_names = week_data.meal_names;
+        has_same_format = check;
     }
 
     public void saveData(WeekData data, String path, Context context)
@@ -646,5 +629,108 @@ public class WeekManager
 
         saved_weeks = new_saved_weeks;
         saveWeeks(context);
+    }
+
+    public int getMealsPerDay() { return (daily_meals == null ? 0: daily_meals.size()); }
+    public String getMealName(int meal)
+    {
+        if(meal < 0 || meal >= getMealsPerDay()) return "ERR";
+        else return daily_meals.get(meal).getName();
+    }
+    public int getTypeOfMeal(int type, int meal)
+    {
+        if(meal < 0 || meal >= getMealsPerDay()) return -1;
+        else return daily_meals.get(meal).getType(type);
+    }
+    public int getStdOfMeal(int std, int meal)
+    {
+        if(meal < 0 || meal >= getMealsPerDay()) return -1;
+        else return daily_meals.get(meal).getStd(std);
+    }
+    public int getCoursesDimOfMeal(int meal)
+    {
+        if(meal < 0 || meal >= getMealsPerDay()) return -1;
+        else return daily_meals.get(meal).getDim();
+    }
+
+    public boolean isWeekNew() { return loaded_week.is_new_week; }
+    public boolean hasWeekSameFormat() { return has_same_format; }
+    public String getCourseOfMealOfDay(int course, int meal, int day)
+    {
+        if(day < 0 || day >= 7) return "ERR";
+        if(meal < 0 || meal >= getMealsPerDay()) return "ERR";
+
+        return loaded_week.days[day].getCourseOfmeal(course, meal);
+    }
+    public int getYear() { return year; }
+    public int getMonth() { return month; }
+    public int getDayOfMonth() { return day_of_month; }
+
+    public int setWeekData(WeekData new_week)
+    {
+        //TODO
+        // MMMMMH...
+        loaded_week = new_week;
+        return 0;
+    }
+    public List<MealFormat> getDailyMeals() { return daily_meals; }
+    public int setDailyMeals(List<MealFormat> new_daily_meals)
+    {
+        this.daily_meals = new_daily_meals;
+        return 0;
+    }
+    public WeekData getLoadedWeek() { return loaded_week; }
+
+    public List<String> getProblematicPairs(Context context)
+    {
+        List<String> error_dates = new ArrayList<>();
+        if(saved_weeks.size() > 0)
+        {
+            WeekData first_data, second_data;
+            first_data = loadData(saved_weeks.get(0), context);
+            for(int i = 1; i < saved_weeks.size(); i++)
+            {
+                second_data = loadData(saved_weeks.get(i), context);
+
+                if(!second_data.sameFormatAs(first_data))
+                {
+                    error_dates.add(Util.dateToString(Util.fileNameToDate(saved_weeks.get(i-1)), false, context) +
+                            " - " +
+                            Util.dateToString(Util.fileNameToDate(saved_weeks.get(i)), false, context));
+                }
+
+                first_data = second_data;
+            }
+        }
+
+        return error_dates;
+    }
+
+    public int getSavedWeeksAmount() { return saved_weeks == null ? 0 : saved_weeks.size(); }
+    public List<String> getSavedWeeks() { return saved_weeks; }
+    public int removeSavedWeek(int pos)
+    {
+        if(pos < 0 || pos >= getSavedWeeksAmount()) return -1;
+
+        int to_delete_year = Util.stringToInt(saved_weeks.get(pos).substring(0, 4));
+        int to_delete_month = Util.stringToInt(saved_weeks.get(pos).substring(5, 7));
+        int to_delete_day_of_month = Util.stringToInt(saved_weeks.get(pos).substring(8, 10));
+
+        saved_weeks.remove(pos);
+
+        LocalDate curr_date = LocalDate.of(year, month, day_of_month);
+        int d_offset = curr_date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        if(d_offset < 0) d_offset += 7;
+        curr_date = curr_date.minusDays(d_offset);
+
+        LocalDate to_delete_date = LocalDate.of(to_delete_year, to_delete_month, to_delete_day_of_month);
+        d_offset = to_delete_date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        if(d_offset < 0) d_offset += 7;
+        to_delete_date = curr_date.minusDays(d_offset);
+
+        if(to_delete_date.getYear() == curr_date.getYear() &&
+                to_delete_date.getMonthValue() == curr_date.getMonthValue() &&
+                to_delete_date.getDayOfMonth() == curr_date.getDayOfMonth()) return 1;
+        else return 0;
     }
 }

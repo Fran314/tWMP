@@ -16,8 +16,6 @@ import com.baldino.myapp003.singletons.Database;
 
 public class ShoppingListActivity extends AppCompatActivity
 {
-    private LinearLayout container;
-
     Database D;
 
     @Override
@@ -26,7 +24,7 @@ public class ShoppingListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
 
-        container = findViewById(R.id.shopping_list_container);
+        LinearLayout container = findViewById(R.id.shopping_list_container);
 
         D = Database.getInstance();
 

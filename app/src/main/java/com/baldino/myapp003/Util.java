@@ -50,8 +50,6 @@ public class Util
     public static String CURRENCY;
     public static int FIRST_DAY_OF_WEEK;
 
-    public static Context context;
-
     public static String getStringFromLine(String line)
     {
         int pos[] = isValidAndGetPos(line, 1);
@@ -233,7 +231,7 @@ public class Util
         else return 1;
     }
 
-    public static String dateToString(LocalDate date, boolean with_day_of_week)
+    public static String dateToString(LocalDate date, boolean with_day_of_week, Context context)
     {
         String to_return = "";
 
@@ -295,7 +293,7 @@ public class Util
     }
 
     //  Function copied from StackOverflow, can't remember the specific question though //
-    public static int intToDp(int arg)
+    public static int intToDp(int arg, Context context)
     {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, arg, context.getResources().getDisplayMetrics());
     }
@@ -439,7 +437,7 @@ public class Util
         return lines;
     }
 
-    public static void saveSettings()
+    public static void saveSettings(Context context)
     {
         StringBuilder output_string = new StringBuilder();
         output_string.append("[1.0]\n");
@@ -461,7 +459,7 @@ public class Util
             e.printStackTrace();
         }
     }
-    public static void loadSettings()
+    public static void loadSettings(Context context)
     {
         List<String> lines = new ArrayList<>();
 
@@ -500,7 +498,7 @@ public class Util
         }
     }
 
-    public static boolean isFirstStart()
+    public static boolean isFirstStart(Context context)
     {
         File first_start = new File(context.getFilesDir(), SETTINGS_PATH);
         if(first_start.exists()) return false;
@@ -534,7 +532,7 @@ public class Util
 
         return true;
     }
-    public static void createInitFiles()
+    public static void createInitFiles(Context context)
     {
         //TODO: Finish this, actually create all the needed files
         String[] file_names = context.getResources().getStringArray(R.array.id_array);

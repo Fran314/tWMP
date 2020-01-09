@@ -7,8 +7,8 @@ import static com.baldino.myapp003.Util.normalizeString;
 
 public class MealFormat
 {
-    private String name;
-    private List<Integer> types, std_recs;
+    private String name = null;
+    private List<Integer> types = null, std_recs = null;
 
     public MealFormat(String name)
     {
@@ -24,30 +24,50 @@ public class MealFormat
         std_recs.add(std_rec);
     }
 
-    public void removeMeal(int pos)
+    public int removeMeal(int pos)
     {
+        if(pos < 0 || pos >= getDim()) return -1;
+
         types.remove(pos);
         std_recs.remove(pos);
+        return 0;
     }
 
-    public void setMeal(int pos, int type, int std_rec)
+    public int setMeal(int pos, int type, int std_rec)
     {
+        if(pos < 0 || pos >= getDim()) return -1;
+
         types.set(pos, type);
         std_recs.set(pos, std_rec);
+        return 0;
     }
-    public void setType(int pos, int type)
+    public int setType(int pos, int type)
     {
+        if(pos < 0 || pos >= getDim()) return -1;
+
         types.set(pos, type);
+        return 0;
     }
-    public void setStd(int pos, int std_rec)
+    public int setStd(int pos, int std_rec)
     {
+        if(pos < 0 || pos >= getDim()) return -1;
+
         std_recs.set(pos, std_rec);
+        return 0;
     }
 
-    public int getDim() { return types.size(); }
-    public int getType(int pos) { return types.get(pos); }
-    public int getStd(int pos) { return std_recs.get(pos); }
+    public int getDim(){ return types == null ? 0 : types.size(); }
+    public int getType(int pos)
+    {
+        if(pos < 0 || pos >= getDim()) return -1;
+        else return types.get(pos);
+    }
+    public int getStd(int pos)
+    {
+        if(pos < 0 || pos >= getDim()) return -1;
+        else return std_recs.get(pos);
+    }
 
-    public String getName() { return name; }
+    public String getName() { return name == null ? "ERR" : name; }
     public void setName(String name) { this.name = normalizeString(name); }
 }

@@ -23,7 +23,6 @@ import com.baldino.myapp003.RecipeCollection;
 import com.baldino.myapp003.activities.EditRecipeActivity;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.singletons.Database;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +56,6 @@ public class RecipesFragment extends Fragment
 
                 //TODO
                 // MOVE THIS INSIDE Database.addCollection
-                WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-                sWeekManager.addedCollection(pos);
-                sWeekManager.saveDailyMeals();
             }
         });
 
@@ -198,9 +194,6 @@ public class RecipesFragment extends Fragment
 
         //TODO
         // MOVE THIS IN Database.removeCollection(...)
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        sWeekManager.removedCollection(pos);
-        sWeekManager.saveDailyMeals();
 
         for(int i = 0; i < eLists.size(); i++)
         {

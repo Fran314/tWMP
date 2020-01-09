@@ -31,7 +31,6 @@ public class ShoppingListManager
 
     public void updateShoppingList(Context context)
     {
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
         Database D = Database.getInstance();
 
         shopping_list = new ArrayList<>();
@@ -41,15 +40,15 @@ public class ShoppingListManager
 
         additional_text = "";
 
-        for(int i = 0; i < 7; i++)
+        if(D.hasWeekSameFormat())
         {
-            if(sWeekManager.has_same_format)
+            for(int i = 0; i < 7; i++)
             {
-                for(int j = 0; j < sWeekManager.courses_per_meal.size(); j++)
+                for(int j = 0; j < D.getMealsPerDay(); j++)
                 {
-                    for(int k = 0; k < sWeekManager.courses_per_meal.get(j); k++)
+                    for(int k = 0; k < D.getCoursesDimOfMeal(j); k++)
                     {
-                        Recipe rec = D.findRecipeOfCollection(sWeekManager.days[i].getCourseOfmeal(k,j), sWeekManager.daily_meals.get(j).getType(k));
+                        Recipe rec = D.findRecipeOfCollection(D.getCourseOfMealOfDay(k, j, i), D.getTypeOfMeal(k, j));
                         if(rec != null)
                         {
                             for(int h = 0; h < rec.ingredients.size(); h++)

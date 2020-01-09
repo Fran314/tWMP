@@ -53,13 +53,14 @@
                 android:layout_width="0dp"/>
             <ImageButton
                 android:id="@+id/button_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="8dp"
                 android:background="@null"
                 android:contentDescription="@null"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_button_add_24dp"/>
+                android:src="@drawable/ic_button_add_24dp"
+                android:tint="@color/colorBlack"/>
         </TableRow>
     </TableLayout>
 </merge>

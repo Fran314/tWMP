@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -31,8 +31,7 @@ import java.util.List;
 
 public class WeeksDataFragment extends Fragment
 {
-    private WeekManagerSingleton sWeekManager;
-
+    Database D;
     private TableLayout data_container;
     private List<ImageButton> delete_buttons;
 
@@ -41,7 +40,7 @@ public class WeeksDataFragment extends Fragment
     {
         View root = inflater.inflate(R.layout.fragment_weeks_data, container, false);
 
-        sWeekManager = WeekManagerSingleton.getInstance();
+        D = Database.getInstance();
 
         data_container = root.findViewById(R.id.container_weeks_data);
 
@@ -59,7 +58,7 @@ public class WeeksDataFragment extends Fragment
         delete_buttons = new ArrayList<>();
         data_container.removeAllViews();
 
-        for(int i = 0; i < sWeekManager.saved_weeks.size(); i++)
+        for(int i = 0; i < D.getSavedWeeksAmount(); i++)
         {
             addRow(i);
             setButtons(i);
@@ -74,7 +73,7 @@ public class WeeksDataFragment extends Fragment
         ImageButton button_delete = new ImageButton(getContext());
         button_delete.setImageDrawable(getResources().getDrawable(R.drawable.ic_button_close_20dp));
         button_delete.setBackgroundColor(Color.TRANSPARENT);
-        button_delete.setPadding(Util.intToDp(8), Util.intToDp(8), Util.intToDp(8), Util.intToDp(8));
+        button_delete.setPadding(Util.intToDp(8, getContext()), Util.intToDp(8, getContext()), Util.intToDp(8, getContext()), Util.intToDp(8, getContext()));
         TableRow.LayoutParams button_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         button_params.gravity = Gravity.CENTER_VERTICAL;
         button_delete.setLayoutParams(button_params);
@@ -85,9 +84,9 @@ public class WeeksDataFragment extends Fragment
         text_params.gravity = Gravity.CENTER_VERTICAL;
         week_name.setLayoutParams(text_params);
 
-        int year = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(0, 4));
-        int month = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(5, 7));
-        int day_of_month = Util.stringToInt(sWeekManager.saved_weeks.get(pos).substring(8, 10));
+        int year = Util.stringToInt(D.getSavedWeeks().get(pos).substring(0, 4));
+        int month = Util.stringToInt(D.getSavedWeeks().get(pos).substring(5, 7));
+        int day_of_month = Util.stringToInt(D.getSavedWeeks().get(pos).substring(8, 10));
 
 
         LocalDate date = LocalDate.of(year, month, day_of_month);
@@ -106,8 +105,8 @@ public class WeeksDataFragment extends Fragment
         row.addView(week_name);
 
         View separator = new View(getContext());
-        TableRow.LayoutParams separator_params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, Util.intToDp(1));
-        separator_params.setMargins(Util.intToDp(4), Util.intToDp(4), Util.intToDp(4), Util.intToDp(4));
+        TableRow.LayoutParams separator_params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, Util.intToDp(1, getContext()));
+        separator_params.setMargins(Util.intToDp(4, getContext()), Util.intToDp(4, getContext()), Util.intToDp(4, getContext()), Util.intToDp(4, getContext()));
         //separator_params.span = 1;
         separator.setLayoutParams(separator_params);
         separator.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
@@ -130,20 +129,14 @@ public class WeeksDataFragment extends Fragment
 
     private void removeRow(int pos)
     {
-        String file_name = sWeekManager.saved_weeks.get(pos);
+        String file_name = D.getSavedWeeks().get(pos);
 
         File folder = new File(getContext().getFilesDir(), Util.WEEKS_DATA_FOLDER);
         folder.mkdirs();
         File old_file = new File(folder, file_name);
         if(old_file.exists()) old_file.delete();
 
-        sWeekManager.saved_weeks.remove(pos);
-        sWeekManager.saveWeeks();
-        //TODO
-        //  I don't really need to reload sWeekManager data at any row removal. I could just check
-        //  if the removed row is relative to the currently loaded data and THEN reload the
-        //  (not existing anymore) data. That would save some time and make the app somewhat faster
-        sWeekManager.loadData();
+        D.removeSavedWeek(pos);
         data_container.removeViewAt(2*pos + 1);
         data_container.removeViewAt(2*pos);
         delete_buttons.remove(pos);

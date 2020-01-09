@@ -20,13 +20,10 @@ import com.baldino.myapp003.custom_views.DayMealsView;
 import com.baldino.myapp003.activities.EditWeekActivity;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.activities.ShoppingListActivity;
+import com.baldino.myapp003.data_classes.WeekData;
 import com.baldino.myapp003.singletons.Database;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSetListener
 {
@@ -35,14 +32,12 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     private TextView week_indicator;
     private DatePickerDialog datePickerDialog;
 
-    private WeekManagerSingleton sWeekManager;
     private Database D;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View root = inflater.inflate(R.layout.fragment_meals, container, false);
 
-        sWeekManager = WeekManagerSingleton.getInstance();
         D = Database.getInstance();
 
         days[0] = root.findViewById(R.id.monday);
@@ -82,7 +77,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
 
         //  The -1 is due to DatePicker's months starting with January = 0
         //  while the LocalDate used for literally everything else uses January = 1
-        datePickerDialog = new DatePickerDialog(getContext(), this, sWeekManager.year, sWeekManager.month-1, sWeekManager.day_of_month);
+        datePickerDialog = new DatePickerDialog(getContext(), this, D.getYear(), D.getMonth()-1, D.getDayOfMonth());
         buttonCalendar = root.findViewById(R.id.button_calendar);
         buttonCalendar.setOnClickListener(new View.OnClickListener()
         {
@@ -121,94 +116,86 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
 
     private void loadMeals(int year, int month, int day_of_month)
     {
-        sWeekManager.setCalendar(year, month, day_of_month);
-        sWeekManager.loadData();
+        //TODO
+        // MAYBE loadWeekData SHOULD BE ALREADY INSIDE SETCALENDAR, DUNNO
+        D.setCalendar(year, month, day_of_month);
+        D.loadWeekData();
 
         updateUI();
     }
 
     private void updateUI()
     {
-        boolean check = true;
-        if(sWeekManager.daily_meals.size() != sWeekManager.meal_names.size()) check = false;
-        for(int i = 0; i < sWeekManager.daily_meals.size() && check; i++)
-        {
-            if(sWeekManager.daily_meals.get(i).getDim() != sWeekManager.courses_per_meal.get(i)) check = false;
-        }
-        for(int i = 0; i < sWeekManager.daily_meals.size() && check; i++)
-        {
-            if(Util.compareStrings(sWeekManager.daily_meals.get(i).getName(), sWeekManager.meal_names.get(i)) != 0) check = false;
-        }
-
-        if(check)
+        if(D.hasWeekSameFormat())
         {
             for(int i = 0; i < 7; i++)
             {
                 days[i].emptyUI();
-                for(int j = 0; j < sWeekManager.daily_meals.size(); j++)
+                for(int j = 0; j < D.getMealsPerDay(); j++)
                 {
-                    if(D.findRecipeOfCollectionIndex(sWeekManager.days[i].getCourseOfmeal(0, j), sWeekManager.daily_meals.get(j).getType(0)) != -1)
-                        days[i].addFirstRow(sWeekManager.daily_meals.get(j).getName(), sWeekManager.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorBlack));
+                    if(D.findRecipeOfCollectionIndex(D.getCourseOfMealOfDay(0, j, i), D.getTypeOfMeal(0, j)) != -1)
+                        days[i].addFirstRow(D.getMealName(j), D.getCourseOfMealOfDay(0, j, i), getContext().getResources().getColor(R.color.colorBlack));
                     else
-                        days[i].addFirstRow(sWeekManager.daily_meals.get(j).getName(), sWeekManager.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorErrorRed));
+                        days[i].addFirstRow(D.getMealName(j), D.getCourseOfMealOfDay(0, j, i), getContext().getResources().getColor(R.color.colorErrorRed));
 
-                    for(int k = 1; k < sWeekManager.daily_meals.get(j).getDim(); k++)
+                    for(int k = 1; k < D.getCoursesDimOfMeal(j); k++)
                     {
-                        if(D.findRecipeOfCollectionIndex(sWeekManager.days[i].getCourseOfmeal(k, j), sWeekManager.daily_meals.get(j).getType(k)) != -1)
-                            days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorBlack));
+                        if(D.findRecipeOfCollectionIndex(D.getCourseOfMealOfDay(k, j, i), D.getTypeOfMeal(k, j)) != -1)
+                            days[i].addRow(D.getCourseOfMealOfDay(k, j, i), getContext().getResources().getColor(R.color.colorBlack));
                         else
-                            days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorErrorRed));
+                            days[i].addRow(D.getCourseOfMealOfDay(k, j, i), getContext().getResources().getColor(R.color.colorErrorRed));
                     }
                 }
             }
         }
         else
         {
+            WeekData loaded_week = D.getLoadedWeek();
             for(int i = 0; i < 7; i++)
             {
                 days[i].emptyUI();
-                for(int j = 0; j < sWeekManager.meal_names.size(); j++)
+                for(int j = 0; j < loaded_week.meal_names.size(); j++)
                 {
-                    days[i].addFirstRow(sWeekManager.meal_names.get(j), sWeekManager.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorBlack));
+                    days[i].addFirstRow(loaded_week.meal_names.get(j), loaded_week.days[i].getCourseOfmeal(0, j), getContext().getResources().getColor(R.color.colorBlack));
 
-                    for(int k = 1; k < sWeekManager.courses_per_meal.get(j); k++)
+                    for(int k = 1; k < loaded_week.courses_per_meal.get(j); k++)
                     {
-                        days[i].addRow(sWeekManager.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorBlack));
+                        days[i].addRow(loaded_week.days[i].getCourseOfmeal(k, j), getContext().getResources().getColor(R.color.colorBlack));
                     }
                 }
             }
         }
 
-        LocalDate date = LocalDate.of(sWeekManager.year, sWeekManager.month, sWeekManager.day_of_month);
+        LocalDate date = LocalDate.of(D.getYear(), D.getMonth(), D.getDayOfMonth());
 
         int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
         if(d_offset < 0) d_offset += 7;
         date = date.minusDays(d_offset);
 
-        String week_text = Util.dateToString(date, false);
+        String week_text = Util.dateToString(date, false, getContext());
         week_text += " - ";
 
-        days[0].header.setText(Util.dateToString(date, true));
+        days[0].header.setText(Util.dateToString(date, true, getContext()));
 
         date = date.plusDays(1);
-        days[1].header.setText(Util.dateToString(date, true));
+        days[1].header.setText(Util.dateToString(date, true, getContext()));
 
         date = date.plusDays(1);
-        days[2].header.setText(Util.dateToString(date, true));
+        days[2].header.setText(Util.dateToString(date, true, getContext()));
 
         date = date.plusDays(1);
-        days[3].header.setText(Util.dateToString(date, true));
+        days[3].header.setText(Util.dateToString(date, true, getContext()));
 
         date = date.plusDays(1);
-        days[4].header.setText(Util.dateToString(date, true));
+        days[4].header.setText(Util.dateToString(date, true, getContext()));
 
         date = date.plusDays(1);
-        days[5].header.setText(Util.dateToString(date, true));
+        days[5].header.setText(Util.dateToString(date, true, getContext()));
 
         date = date.plusDays(1);
-        days[6].header.setText(Util.dateToString(date, true));
+        days[6].header.setText(Util.dateToString(date, true, getContext()));
 
-        week_text += Util.dateToString(date, false);
+        week_text += Util.dateToString(date, false, getContext());
         week_indicator.setText(week_text);
     }
 }

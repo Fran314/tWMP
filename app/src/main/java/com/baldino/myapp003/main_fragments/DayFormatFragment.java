@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,15 @@ import com.baldino.myapp003.data_classes.MealFormat;
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.custom_views.EditableMealFormatView;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DayFormatFragment extends Fragment
 {
-    private WeekManagerSingleton sWeekManager;
+    private Database D;
+    private List<MealFormat> daily_meals;
 
     private LinearLayout days_container;
     private List<EditableMealFormatView> emfv_list;
@@ -42,10 +44,12 @@ public class DayFormatFragment extends Fragment
             }
         });
 
-        sWeekManager = WeekManagerSingleton.getInstance();
+        D = Database.getInstance();
+
+        daily_meals = D.getDailyMeals();
 
         emfv_list = new ArrayList<>();
-        for (int i = 0; i < sWeekManager.daily_meals.size(); i++) {
+        for (int i = 0; i < daily_meals.size(); i++) {
             addMealFormat(i);
             setDeleteButton(i);
         }
@@ -55,10 +59,10 @@ public class DayFormatFragment extends Fragment
         {
             @Override
             public void onClick(View view) {
-                int pos = sWeekManager.daily_meals.size();
+                int pos = daily_meals.size();
                 MealFormat new_meal = new MealFormat(getContext().getResources().getString(R.string.standard_new_meal));
                 new_meal.addMeal(0, 0);
-                sWeekManager.daily_meals.add(new_meal);
+                daily_meals.add(new_meal);
                 addMealFormat(pos);
                 setDeleteButton(pos);
             }
@@ -69,11 +73,11 @@ public class DayFormatFragment extends Fragment
 
     public void addMealFormat(int pos)
     {
-        EditableMealFormatView emfv = new EditableMealFormatView(getContext(), pos);
+        EditableMealFormatView emfv = new EditableMealFormatView(getContext(), daily_meals.get(pos));
 
         View separator = new View(getContext());
-        LinearLayout.LayoutParams separator_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Util.intToDp(1));
-        separator_params.setMargins(Util.intToDp(4), Util.intToDp(4), Util.intToDp(4), Util.intToDp(4));
+        LinearLayout.LayoutParams separator_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Util.intToDp(1, getContext()));
+        separator_params.setMargins(Util.intToDp(4, getContext()), Util.intToDp(4, getContext()), Util.intToDp(4, getContext()), Util.intToDp(4, getContext()));
         separator.setLayoutParams(separator_params);
         separator.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
 
@@ -85,7 +89,7 @@ public class DayFormatFragment extends Fragment
 
     public void removeMealFormat(int pos)
     {
-        sWeekManager.daily_meals.remove(pos);
+        daily_meals.remove(pos);
 
         days_container.removeViewAt(2*pos + 1);
         days_container.removeViewAt(2*pos);
@@ -110,7 +114,9 @@ public class DayFormatFragment extends Fragment
 
     public void saveDailyMeals()
     {
-        List<MealFormat> new_daily_meals = new ArrayList<>();
+        //TODO
+        // YEAH JUST, REDO THIS WHOLE THING, LIKE
+        daily_meals = new ArrayList<>();
         for(int i = 0; i < emfv_list.size(); i++)
         {
             MealFormat new_meal_format = new MealFormat(emfv_list.get(i).name.getText().toString());
@@ -120,19 +126,10 @@ public class DayFormatFragment extends Fragment
                 new_meal_format.addMeal(emfv_list.get(i).types.get(j).getSelectedItemPosition(), emfv_list.get(i).stds.get(j).getSelectedItemPosition());
             }
 
-            new_daily_meals.add(new_meal_format);
+            daily_meals.add(new_meal_format);
         }
 
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-
-        sWeekManager.daily_meals = new_daily_meals;
-        sWeekManager.saveDailyMeals();
-        //  This load data is to handle the change in day format, because the currently loaded
-        //  data won't have the same format as the new format, but has_same_format might still
-        //  be set on true
-        //TODO: there is probably a much more elegant way than calling a loadData, also because
-        // this might be very inefficient
-        sWeekManager.loadData();
+        D.setDailyMeals(daily_meals);
 
         Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_day_format_saved), Toast.LENGTH_LONG).show();
     }

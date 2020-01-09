@@ -19,24 +19,24 @@ import android.widget.Toast;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
-import com.baldino.myapp003.data_classes.WeekData;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
+import com.baldino.myapp003.singletons.Database;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsFragment extends Fragment
 {
+    Database D;
     public EditText currency;
     public Spinner first_day_of_week;
 
     public ImageButton save_settings_button;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        D = Database.getInstance();
 
         currency = root.findViewById(R.id.edittext_currency);
         first_day_of_week = root.findViewById(R.id.spinner_first_day_of_week);
@@ -57,7 +57,7 @@ public class SettingsFragment extends Fragment
                 }
                 else
                 {
-                    Util.saveSettings();
+                    Util.saveSettings(getContext());
                     Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_LONG).show();
                 }
             }
@@ -104,33 +104,11 @@ public class SettingsFragment extends Fragment
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        boolean error = false;
-        List<String> error_dates = new ArrayList<>();
-
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        if(sWeekManager.saved_weeks.size() > 0)
-        {
-            WeekData first_data, second_data;
-            first_data = sWeekManager.loadData(sWeekManager.saved_weeks.get(0));
-            for(int i = 1; i < sWeekManager.saved_weeks.size(); i++)
-            {
-                second_data = sWeekManager.loadData(sWeekManager.saved_weeks.get(i));
-
-                if(!second_data.sameFormatAs(first_data))
-                {
-                    error = true;
-                    error_dates.add(Util.dateToString(Util.fileNameToDate(sWeekManager.saved_weeks.get(i-1)), false) +
-                            " - " +
-                            Util.dateToString(Util.fileNameToDate(sWeekManager.saved_weeks.get(i)), false));
-                }
-
-                first_data = second_data;
-            }
-        }
+        List<String> error_dates = D.getProblematicPairs();
 
         progressDialog.dismiss();
 
-        if(!error)
+        if(error_dates.size() == 0)
         {
             refactorWeeks();
             Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_settings_saved_lossless), Toast.LENGTH_LONG).show();
@@ -180,11 +158,10 @@ public class SettingsFragment extends Fragment
         int old_fdow = Util.FIRST_DAY_OF_WEEK;
         Util.FIRST_DAY_OF_WEEK = first_day_of_week.getSelectedItemPosition() + 1;
 
-        WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        sWeekManager.refactor(old_fdow, Util.FIRST_DAY_OF_WEEK);
+        D.refactorWeeks(old_fdow, Util.FIRST_DAY_OF_WEEK);
 
         progressDialog.dismiss();
 
-        Util.saveSettings();
+        Util.saveSettings(getContext());
     }
 }

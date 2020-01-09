@@ -18,6 +18,11 @@ public class WeekData
     {
         courses_per_meal = new ArrayList<>();
         meal_names = new ArrayList<>();
+
+        for(int i = 0; i  < 7; i++)
+        {
+            days[i] = new Day();
+        }
     }
 
     public boolean sameFormatAs(WeekData arg)

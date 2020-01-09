@@ -47,10 +47,12 @@
                     android:id="@+id/button_add_standard_ingredient"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:padding="8dp"
                     android:background="@null"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_button_add_32dp"/>
+                    android:src="@drawable/ic_button_add_32dp"
+                    android:tint="@color/colorWhite"/>
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_ingredients"
@@ -87,7 +89,8 @@
                     android:padding="8dp"
                     android:background="@null"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_button_add_32dp"/>
+                    android:src="@drawable/ic_button_add_32dp"
+                    android:tint="@color/colorWhite"/>
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_minor_ingredients"

@@ -8,11 +8,14 @@ import com.baldino.myapp003.RecipeCollection;
 import com.baldino.myapp003.RecipeListAdapter;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.data_classes.Ingredient;
+import com.baldino.myapp003.data_classes.MealFormat;
 import com.baldino.myapp003.data_classes.Recipe;
+import com.baldino.myapp003.data_classes.WeekData;
 import com.baldino.myapp003.main_fragments.IngredientsFragment;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
 
 import java.io.File;
+import java.util.List;
 
 public class Database
 {
@@ -154,6 +157,10 @@ public class Database
             //TODO
             // UPDATE OTHER STUFF
             recipes.saveCollection(collection, context);
+
+            //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+            //sWeekManager.removedRecipe(collection, expanded_value);
+            //sWeekManager.saveDailyMeals();
         }
     }
     public void updateRecipeOfCollection(int recipe, int collection, Recipe new_recipe)
@@ -175,6 +182,10 @@ public class Database
             //TODO
             // UPDATE OTHER STUFF
             recipes.saveCollectionsList(context);
+
+            //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+            //sWeekManager.addedRecipe(collection, rec_pos);
+            //sWeekManager.saveDailyMeals();
         }
     }
     public String getNameOfCollection(int collection) { return recipes.getNameOfCollection(collection); }
@@ -207,6 +218,10 @@ public class Database
 
         //TODO
         // UPDATE OTHER STUFF
+
+        //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+        //sWeekManager.addedCollection(pos);
+        //sWeekManager.saveDailyMeals();
     }
     public void removeCollection(int pos)
     {
@@ -220,6 +235,10 @@ public class Database
         {
             //TODO
             // UPDATE OTHER STUFF
+
+            //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
+            //sWeekManager.removedCollection(pos);
+            //sWeekManager.saveDailyMeals();
             recipes.saveCollectionsList(context);
         }
     }
@@ -227,7 +246,7 @@ public class Database
     public int getExpandedValueOfCollection(int collection) { return recipes.getExpandedValueOfCollection(collection); }
     //---   ---//
 
-    //--- WEEK MANAGER METHODS ---//
+    //--- SHOPPING LIST MANAGER METHODS ---//
     public void updateShoppingList() { shopping_list.updateShoppingList(context); }
     public int getShoppingListSize() { return shopping_list.getSize(); }
     public String getShoppingListLabel(int pos) { return shopping_list.getLabel(pos); }
@@ -252,6 +271,63 @@ public class Database
             //TODO
             // UPDATE OTHER STUFF
             shopping_list.saveValues(context);
+        }
+    }
+    //---   ---//
+
+    //--- WEEK MANAGER METHODS ---//
+    public int getMealsPerDay() { return week_manager.getMealsPerDay(); }
+    public String getMealName(int meal) { return week_manager.getMealName(meal); }
+    public int getTypeOfMeal(int type, int meal) { return week_manager.getTypeOfMeal(type, meal); }
+    public int getStdOfMeal(int std, int meal) { return week_manager.getStdOfMeal(std, meal); }
+    public int getCoursesDimOfMeal(int meal) { return week_manager.getCoursesDimOfMeal(meal); }
+    public boolean isWeekNew() { return week_manager.isWeekNew(); }
+    public boolean hasWeekSameFormat() { return week_manager.hasWeekSameFormat(); }
+    public String getCourseOfMealOfDay(int course, int meal, int day) { return week_manager.getCourseOfMealOfDay(course, meal, day); }
+    public int getYear() { return week_manager.getYear(); }
+    public int getMonth() { return week_manager.getMonth(); }
+    public int getDayOfMonth() { return week_manager.getDayOfMonth(); }
+    public void setWeekData(WeekData new_week)
+    {
+        int result = week_manager.setWeekData(new_week);
+        if(result == 0)
+        {
+            //TODO
+            // UPDATE OTHER STUFF
+            week_manager.updateHasSameFormat();
+            week_manager.saveData(context);
+        }
+    }
+    public List<MealFormat> getDailyMeals() { return week_manager.getDailyMeals(); }
+    public void setDailyMeals(List<MealFormat> daily_meals)
+    {
+        int result = week_manager.setDailyMeals(daily_meals);
+        if(result == 0)
+        {
+            //TODO
+            // UPDATE OTHER STUFF
+            week_manager.updateHasSameFormat();
+            week_manager.saveDailyMeals(context);
+        }
+    }
+    public WeekData getLoadedWeek() { return week_manager.getLoadedWeek(); }
+    public void setCalendar(int year, int month, int day_of_month) { week_manager.setCalendar(year, month, day_of_month); }
+    public void loadWeekData() { week_manager.loadData(context); }
+    public List<String> getProblematicPairs() { return week_manager.getProblematicPairs(context); }
+    public void refactorWeeks(int old_first_day_of_week, int new_first_day_of_week) { week_manager.refactor(old_first_day_of_week, new_first_day_of_week, context); }
+    public int getSavedWeeksAmount() { return week_manager.getSavedWeeksAmount(); }
+    public List<String> getSavedWeeks() { return week_manager.getSavedWeeks(); }
+    public void removeSavedWeek(int pos)
+    {
+        int result = week_manager.removeSavedWeek(pos);
+        if(result >= 0)
+        {
+            week_manager.saveWeeks(context);
+            if(result == 1)
+            {
+                week_manager.loadData(context);
+                week_manager.updateHasSameFormat();
+            }
         }
     }
     //---   ---//

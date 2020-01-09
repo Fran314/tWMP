@@ -22,7 +22,6 @@ import com.baldino.myapp003.data_classes.RecIngredient;
 import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.Database;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,15 +94,6 @@ public class EditRecipeActivity extends AppCompatActivity
         // TO MAKE SURE THAT YOU'RE NOT OVERRIDING ANYTHING
         if(!rec_new) D.updateRecipeOfCollection(rec_pos, collection, new_recipe);
         else D.addRecipeOfCollection(new_recipe, collection);
-
-        //TODO
-        // MOVE THIS IN DATABASE
-        if(rec_new)
-        {
-            WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-            sWeekManager.addedRecipe(collection, rec_pos);
-            sWeekManager.saveDailyMeals();
-        }
 
         finish();
     }

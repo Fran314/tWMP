@@ -18,7 +18,6 @@ import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
-import com.baldino.myapp003.singletons.WeekManagerSingleton;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecViewHolder>
 {
@@ -182,12 +181,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                         public void onClick(DialogInterface dialog, int which)
                         {
                             D.removeRecipeOfCollection(expanded_value, collection);
-
-                            //TODO
-                            // MOVE THIS IN Database.removeRecipeOfCollection(...)
-                            WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-                            sWeekManager.removedRecipe(collection, expanded_value);
-                            sWeekManager.saveDailyMeals();
 
                             dialog.dismiss();
                         }
