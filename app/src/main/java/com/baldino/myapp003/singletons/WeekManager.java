@@ -1,6 +1,7 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baldino.myapp003.data_classes.DateRange;
 import com.baldino.myapp003.data_classes.Day;

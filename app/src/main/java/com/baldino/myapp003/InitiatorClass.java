@@ -43,7 +43,7 @@ public class InitiatorClass
         try
         {
             FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.MINOR_INGR_PATH));
-            fos.write(initial_standard_ingredients.getBytes(Util.STD_CHARSET));
+            fos.write(initial_minor_ingredients.getBytes(Util.STD_CHARSET));
             fos.close();
         } catch (IOException e)
         {
@@ -120,7 +120,7 @@ public class InitiatorClass
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(recipe_types_folder, Util.REC_COLLECTIONS_PATH));
+            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), Util.REC_COLLECTIONS_PATH));
             fos.write(initial_recipe_collections_file.getBytes(Util.STD_CHARSET));
             fos.close();
         } catch (IOException e)
@@ -137,11 +137,14 @@ public class InitiatorClass
         if(d_offset < 0) d_offset += 7;
         curr_date = curr_date.minusDays(d_offset);
 
+        File folder = new File(context.getFilesDir(), Util.WEEKS_DATA_FOLDER);
+        folder.mkdirs();
+
         String week_file_path = Util.dateToFileName(curr_date);
         String week_file = context.getResources().getString(R.string.initial_week);
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), week_file_path));
+            FileOutputStream fos = new FileOutputStream(new File(folder, week_file_path));
             fos.write(week_file.getBytes(Util.STD_CHARSET));
             fos.close();
         } catch (IOException e)

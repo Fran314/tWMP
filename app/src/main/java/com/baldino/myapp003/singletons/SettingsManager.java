@@ -9,8 +9,8 @@ import java.util.List;
 
 public class SettingsManager
 {
-    private String currency;
-    private int first_day_of_week;
+    private String currency = "";
+    private int first_day_of_week = 1;
 
     public void saveSettings(Context context)
     {
