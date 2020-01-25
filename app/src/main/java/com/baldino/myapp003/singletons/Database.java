@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.baldino.myapp003.IngredientListAdapter;
+import com.baldino.myapp003.InitiatorClass;
 import com.baldino.myapp003.RecipeCollection;
 import com.baldino.myapp003.RecipeListAdapter;
 import com.baldino.myapp003.Util;
@@ -16,13 +17,20 @@ import com.baldino.myapp003.main_fragments.IngredientsFragment;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.temporal.WeekFields;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class Database
 {
     private static Database instance = null;
     private Context context = null;
 
+    private SettingsManager settings;
     private IngredientManager std_ingredients, mnr_ingredients;
     private RecipeManager recipes;
     private WeekManager week_manager;
@@ -30,6 +38,8 @@ public class Database
 
     private Database()
     {
+        settings = new SettingsManager();
+
         std_ingredients = new IngredientManager(true);
         mnr_ingredients = new IngredientManager(false);
 
@@ -53,6 +63,8 @@ public class Database
     {
         if(context != null)
         {
+            settings.loadSettings(context);
+
             std_ingredients.loadIngr(context);
             mnr_ingredients.loadIngr(context);
 
@@ -61,12 +73,59 @@ public class Database
 
             week_manager.loadWeeks(context);
             week_manager.loadDailyMeals(context);
-            week_manager.loadData(context);
+            week_manager.loadData(context, settings.getFirstDayOfWeek());
 
             shopping_list.updateShoppingList(context);
             shopping_list.loadValues(context);
         }
     }
+
+    //--- FIRST INIT METHODS ---//
+    public boolean isFirstStart()
+    {
+        File first_start = new File(context.getFilesDir(), Util.SETTINGS_PATH);
+        if(first_start.exists()) return false;
+
+        Locale locale = Locale.getDefault();
+        Currency currency = Currency.getInstance(locale);
+        DayOfWeek first_day_of_week = WeekFields.of(locale).getFirstDayOfWeek();
+
+        settings.setCurrency(currency.getSymbol());
+        settings.setFirstDayOfWeek(first_day_of_week.getValue());
+        settings.saveSettings(context);
+
+        return true;
+    }
+    public void createInitFiles()
+    {
+        InitiatorClass.initBasicTemplate(context, settings.getFirstDayOfWeek());
+    }
+    //---   ---//
+
+    //--- SETTINGS METHODS ---//
+    public String getCurrency() { return settings.getCurrency(); }
+    public int getFirstDayOfWeek() { return settings.getFirstDayOfWeek(); }
+    public void setCurrency(String new_currency)
+    {
+        int result = settings.setCurrency(new_currency);
+        if(result == 0)
+        {
+            //TODO
+            // UPDATE OTHER STUFF
+            settings.saveSettings(context);
+        }
+    }
+    public void setFirstDayOfWeek(int new_fdow)
+    {
+        int result = settings.setFirstDayOfWeek(new_fdow);
+        if(result == 0)
+        {
+            //TODO
+            // UPDATE OTHER STUFF
+            settings.saveSettings(context);
+        }
+    }
+    //---   ---//
 
     //--- STD & MNR INGREDIENTS METHODS ---//
     public void setStdIngrFragment(IngredientsFragment fragment) { std_ingredients.setFragment(fragment); }
@@ -292,7 +351,7 @@ public class Database
             //TODO
             // UPDATE OTHER STUFF
             week_manager.updateHasSameFormat();
-            week_manager.saveData(context);
+            week_manager.saveData(context, settings.getFirstDayOfWeek());
         }
     }
     public List<MealFormat> getDailyMeals() { return week_manager.getDailyMeals(); }
@@ -309,20 +368,20 @@ public class Database
     }
     public WeekData getLoadedWeek() { return week_manager.getLoadedWeek(); }
     public void setCalendar(int year, int month, int day_of_month) { week_manager.setCalendar(year, month, day_of_month); }
-    public void loadWeekData() { week_manager.loadData(context); }
+    public void loadWeekData() { week_manager.loadData(context, settings.getFirstDayOfWeek()); }
     public List<String> getProblematicPairs() { return week_manager.getProblematicPairs(context); }
     public void refactorWeeks(int old_first_day_of_week, int new_first_day_of_week) { week_manager.refactor(old_first_day_of_week, new_first_day_of_week, context); }
     public int getSavedWeeksAmount() { return week_manager.getSavedWeeksAmount(); }
     public List<String> getSavedWeeks() { return week_manager.getSavedWeeks(); }
     public void removeSavedWeek(int pos)
     {
-        int result = week_manager.removeSavedWeek(pos);
+        int result = week_manager.removeSavedWeek(pos, settings.getFirstDayOfWeek());
         if(result >= 0)
         {
             week_manager.saveWeeks(context);
             if(result == 1)
             {
-                week_manager.loadData(context);
+                week_manager.loadData(context, settings.getFirstDayOfWeek());
                 week_manager.updateHasSameFormat();
             }
         }

@@ -163,7 +163,7 @@ public class EditWeekActivity extends AppCompatActivity
 
         LocalDate date = LocalDate.of(D.getYear(), D.getMonth(), D.getDayOfMonth());
 
-        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        int d_offset = date.getDayOfWeek().getValue() - D.getFirstDayOfWeek();
         if(d_offset < 0) d_offset += 7;
         date = date.minusDays(d_offset);
 

@@ -180,11 +180,11 @@ public class WeekManager
     }
     //---   ---//
 
-    public void saveData(Context context)
+    public void saveData(Context context, int first_day_of_week)
     {
         LocalDate date = LocalDate.of(year, month, day_of_month);
 
-        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        int d_offset = date.getDayOfWeek().getValue() - first_day_of_week;
         if(d_offset < 0) d_offset += 7;
         date = date.minusDays(d_offset);
 
@@ -195,11 +195,11 @@ public class WeekManager
 
         saveData(loaded_week, week_file_path, context);
     }
-    public void loadData(Context context)
+    public void loadData(Context context, int first_day_of_week)
     {
         LocalDate date = LocalDate.of(year, month, day_of_month);
 
-        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        int d_offset = date.getDayOfWeek().getValue() - first_day_of_week;
         if(d_offset < 0) d_offset += 7;
         date = date.minusDays(d_offset);
 
@@ -708,7 +708,7 @@ public class WeekManager
 
     public int getSavedWeeksAmount() { return saved_weeks == null ? 0 : saved_weeks.size(); }
     public List<String> getSavedWeeks() { return saved_weeks; }
-    public int removeSavedWeek(int pos)
+    public int removeSavedWeek(int pos, int first_day_of_week)
     {
         if(pos < 0 || pos >= getSavedWeeksAmount()) return -1;
 
@@ -719,12 +719,12 @@ public class WeekManager
         saved_weeks.remove(pos);
 
         LocalDate curr_date = LocalDate.of(year, month, day_of_month);
-        int d_offset = curr_date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        int d_offset = curr_date.getDayOfWeek().getValue() - first_day_of_week;
         if(d_offset < 0) d_offset += 7;
         curr_date = curr_date.minusDays(d_offset);
 
         LocalDate to_delete_date = LocalDate.of(to_delete_year, to_delete_month, to_delete_day_of_month);
-        d_offset = to_delete_date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        d_offset = to_delete_date.getDayOfWeek().getValue() - first_day_of_week;
         if(d_offset < 0) d_offset += 7;
         to_delete_date = curr_date.minusDays(d_offset);
 

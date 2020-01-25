@@ -83,7 +83,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         {
             @Override
             public void onClick(View view) {
-                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK+1);
+                datePickerDialog.getDatePicker().setFirstDayOfWeek(D.getFirstDayOfWeek() + 1);
                 datePickerDialog.show();
             }
         });
@@ -91,7 +91,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
         {
             @Override
             public void onClick(View view) {
-                datePickerDialog.getDatePicker().setFirstDayOfWeek(Util.FIRST_DAY_OF_WEEK+1);
+                datePickerDialog.getDatePicker().setFirstDayOfWeek(D.getFirstDayOfWeek() + 1);
                 datePickerDialog.show();
             }
         });
@@ -168,7 +168,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
 
         LocalDate date = LocalDate.of(D.getYear(), D.getMonth(), D.getDayOfMonth());
 
-        int d_offset = date.getDayOfWeek().getValue() - Util.FIRST_DAY_OF_WEEK;
+        int d_offset = date.getDayOfWeek().getValue() - D.getFirstDayOfWeek();
         if(d_offset < 0) d_offset += 7;
         date = date.minusDays(d_offset);
 

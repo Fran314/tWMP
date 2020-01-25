@@ -42,22 +42,21 @@ public class SettingsFragment extends Fragment
         first_day_of_week = root.findViewById(R.id.spinner_first_day_of_week);
         save_settings_button = root.findViewById(R.id.button_save_settings);
 
-        currency.setText(Util.CURRENCY);
-        first_day_of_week.setSelection(Util.FIRST_DAY_OF_WEEK - 1);
+        currency.setText(D.getCurrency());
+        first_day_of_week.setSelection(D.getFirstDayOfWeek() - 1);
 
         save_settings_button.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Util.CURRENCY = currency.getText().toString();
-                if(Util.FIRST_DAY_OF_WEEK != first_day_of_week.getSelectedItemPosition() + 1)
+                D.setCurrency(currency.getText().toString());
+                if(D.getFirstDayOfWeek() != first_day_of_week.getSelectedItemPosition() + 1)
                 {
                     askRefactorWeeks();
                 }
                 else
                 {
-                    Util.saveSettings(getContext());
                     Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_settings_saved), Toast.LENGTH_LONG).show();
                 }
             }
@@ -155,13 +154,11 @@ public class SettingsFragment extends Fragment
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        int old_fdow = Util.FIRST_DAY_OF_WEEK;
-        Util.FIRST_DAY_OF_WEEK = first_day_of_week.getSelectedItemPosition() + 1;
+        int old_fdow = D.getFirstDayOfWeek();
+        D.setFirstDayOfWeek(first_day_of_week.getSelectedItemPosition() + 1);
 
-        D.refactorWeeks(old_fdow, Util.FIRST_DAY_OF_WEEK);
+        D.refactorWeeks(old_fdow, D.getFirstDayOfWeek());
 
         progressDialog.dismiss();
-
-        Util.saveSettings(getContext());
     }
 }

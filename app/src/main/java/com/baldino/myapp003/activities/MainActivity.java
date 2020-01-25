@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    Database d;
+    Database D;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,9 +39,8 @@ public class MainActivity extends AppCompatActivity {
         //--- The following block of code should always be the first to be run, before
         //    anything else, and should stay in this order, too. Not strictly, but it's better if
         //    it stays this way ---//
-        d = Database.getInstance();
-
-        d.setContext(this);
+        D = Database.getInstance();
+        D.setContext(this);
         //--- ---//
 
         //--- Code created by the toolkit. Don't really know what it does. Don't touch it ---//
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         final MainActivity mainActivity = this;
 
-        if(Util.isFirstStart(this))
+        if(D.isFirstStart())
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getResources().getString(R.string.dialog_title_first_start));
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
-                    Util.createInitFiles(mainActivity);
+                    D.createInitFiles();
 
                     dialog.dismiss();
 
@@ -124,9 +123,7 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         }
 
-        Util.loadSettings(this);
-
-        d.loadAll();
+        D.loadAll();
     }
 
     @Override
