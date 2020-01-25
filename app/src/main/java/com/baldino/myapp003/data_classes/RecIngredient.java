@@ -18,4 +18,9 @@ public class RecIngredient
 
     public void setName(String name) { this.name = normalizeString(name); }
     public void setAmount(float amount) { this.amount = amount; }
+
+    public RecIngredient copyOf()
+    {
+        return new RecIngredient(name, amount);
+    }
 }

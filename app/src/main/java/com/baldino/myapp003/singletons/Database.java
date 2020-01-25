@@ -1,6 +1,7 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.baldino.myapp003.IngredientListAdapter;
@@ -169,9 +170,10 @@ public class Database
         int add = recipes.addRecipeOfCollection(new_recipe, collection);
         if(remove == 0 || add == 0)
         {
+            Log.w("AAA", "Editing: " + new_recipe.getName() + " at " + recipe);
             //TODO
             // UPDATE OTHER STUFF
-            recipes.saveCollectionsList(context);
+            recipes.saveCollection(collection, context);
         }
     }
     public void addRecipeOfCollection(Recipe new_recipe, int collection)
@@ -181,7 +183,7 @@ public class Database
         {
             //TODO
             // UPDATE OTHER STUFF
-            recipes.saveCollectionsList(context);
+            recipes.saveCollection(collection, context);
 
             //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
             //sWeekManager.addedRecipe(collection, rec_pos);

@@ -51,9 +51,10 @@ public class ShoppingListManager
                         Recipe rec = D.findRecipeOfCollection(D.getCourseOfMealOfDay(k, j, i), D.getTypeOfMeal(k, j));
                         if(rec != null)
                         {
-                            for(int h = 0; h < rec.ingredients.size(); h++)
+                            List<RecIngredient> ingredients = rec.getCopyOfIngredients();
+                            for(int h = 0; h < ingredients.size(); h++)
                             {
-                                addItem(rec.ingredients.get(h).getName(), rec.ingredients.get(h).getAmount());
+                                addItem(ingredients.get(h).getName(), ingredients.get(h).getAmount());
                             }
                         }
                     }

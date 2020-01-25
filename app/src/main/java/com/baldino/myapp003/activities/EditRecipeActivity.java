@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,7 +69,8 @@ public class EditRecipeActivity extends AppCompatActivity
         if(rec_pos != -1)
         {
             name.setText(D.getRecipeOfCollection(rec_pos, collection).getName());
-            rec_ingredients = D.getRecipeOfCollection(rec_pos, collection).ingredients;
+            rec_ingredients = D.getRecipeOfCollection(rec_pos, collection).getCopyOfIngredients();
+
             updateTable();
         }
         else
@@ -85,7 +87,7 @@ public class EditRecipeActivity extends AppCompatActivity
         {
             if(Util.compareStrings(rec_ingredients.get(i).getName(), "") == 0) rec_ingredients.remove(i);
         }
-        new_recipe.ingredients = rec_ingredients;
+        for(RecIngredient r : rec_ingredients) new_recipe.addIngredient(r);
 
         Database D = Database.getInstance();
 
@@ -94,8 +96,6 @@ public class EditRecipeActivity extends AppCompatActivity
         // TO MAKE SURE THAT YOU'RE NOT OVERRIDING ANYTHING
         if(!rec_new) D.updateRecipeOfCollection(rec_pos, collection, new_recipe);
         else D.addRecipeOfCollection(new_recipe, collection);
-
-        finish();
     }
 
     private void updateTable()
@@ -205,6 +205,8 @@ public class EditRecipeActivity extends AppCompatActivity
         {
             case R.id.button_menu_save:
                 saveRecipe();
+                finish();
+                return true;
             case android.R.id.home:
                 finish();
                 return true;

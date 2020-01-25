@@ -15,9 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.baldino.myapp003.data_classes.Ingredient;
+import com.baldino.myapp003.data_classes.RecIngredient;
 import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.singletons.Database;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
+
+import java.util.List;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecViewHolder>
 {
@@ -118,21 +121,22 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
             rec_ingredients.removeAllViews();
 
-            for(int i = 0; i < recipe.ingredients.size(); i++)
+            List<RecIngredient> ingredients = recipe.getCopyOfIngredients();
+            for(int i = 0; i < ingredients.size(); i++)
             {
                 TableRow row = new TableRow(view.getContext());
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                 boolean mnr_ingr = false;
-                Ingredient curr_ingredient = D.findStdIngr(recipe.ingredients.get(i).getName());
+                Ingredient curr_ingredient = D.findStdIngr(ingredients.get(i).getName());
                 if(curr_ingredient == null)
                 {
                     mnr_ingr = true;
-                    curr_ingredient = D.findMnrIngr(recipe.ingredients.get(i).getName());
+                    curr_ingredient = D.findMnrIngr(ingredients.get(i).getName());
                 }
 
                 TextView name_in_row = new TextView(view.getContext());
-                name_in_row.setText(recipe.ingredients.get(i).getName());
+                name_in_row.setText(ingredients.get(i).getName());
                 if(curr_ingredient == null) name_in_row.setTextColor(view.getResources().getColor(R.color.colorErrorRed));
                 name_in_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
@@ -142,7 +146,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                 {
                     //TODO change that kg to some variable stuff
                     TextView amount_in_row = new TextView(view.getContext());
-                    amount_in_row.setText(Float.toString(recipe.ingredients.get(i).getAmount()) + " kg");
+                    amount_in_row.setText(Float.toString(ingredients.get(i).getAmount()) + " kg");
                     if(curr_ingredient == null) amount_in_row.setTextColor(view.getResources().getColor(R.color.colorErrorRed));
                     amount_in_row.setGravity(Gravity.RIGHT);
                     amount_in_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));

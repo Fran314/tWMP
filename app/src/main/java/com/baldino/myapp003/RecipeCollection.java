@@ -88,7 +88,7 @@ public class RecipeCollection
                 if(i < lines.size())
                 {
                     RecIngredient rec_ingredient = Util.getRecipeIngredient(lines.get(i));
-                    new_recipe.ingredients.add(rec_ingredient);
+                    new_recipe.addIngredient(rec_ingredient);
                 }
             }
             addRecipe(new_recipe);
@@ -99,17 +99,18 @@ public class RecipeCollection
         StringBuilder output_string = new StringBuilder("");
         for(int i = 0; i < recipes.size(); i++)
         {
+            List<RecIngredient> ingredients = recipes.get(i).getCopyOfIngredients();
             output_string.append("[");
             output_string.append(recipes.get(i).getName());
             output_string.append("]\n[");
-            output_string.append(recipes.get(i).ingredients.size());
+            output_string.append(ingredients.size());
             output_string.append("]\n");
-            for(int j = 0; j < recipes.get(i).ingredients.size(); j++)
+            for(int j = 0; j < ingredients.size(); j++)
             {
                 output_string.append('[');
-                output_string.append(recipes.get(i).ingredients.get(j).getName());
+                output_string.append(ingredients.get(j).getName());
                 output_string.append("][");
-                output_string.append(recipes.get(i).ingredients.get(j).getAmount());
+                output_string.append(ingredients.get(j).getAmount());
                 output_string.append("]\n");
             }
         }
