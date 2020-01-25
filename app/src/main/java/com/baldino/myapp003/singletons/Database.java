@@ -254,20 +254,15 @@ public class Database
     public String getShoppingListLabel(int pos) { return shopping_list.getLabel(pos); }
     public boolean getShoppingListValue(int pos) { return shopping_list.getValue(pos); }
     public int getShoppingListColor(int pos) { return shopping_list.getColor(pos); }
-    public void setShoppingListValue(int pos, boolean new_val)
-    {
-        int result = shopping_list.setValue(pos, new_val);
-        if(result == 0)
-        {
-            //TODO
-            // UPDATE OTHER STUFF
-            shopping_list.saveValues(context);
-        }
-    }
     public String getShoppingListAdditionalText() { return shopping_list.getAdditionalText(); }
-    public void setShoppingListAdditionalText(String new_additional_text)
+    public void setShoppingListValuesAndText(boolean[] vals, String text)
     {
-        int result = shopping_list.setAdditionalText(new_additional_text);
+        int result = 1;
+        for(int i = 0; i < vals.length; i++)
+        {
+            result *= shopping_list.setValue(i, vals[i]);
+        }
+        result *= shopping_list.setAdditionalText(text);
         if(result == 0)
         {
             //TODO
