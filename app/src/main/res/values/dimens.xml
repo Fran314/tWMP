@@ -23,4 +23,9 @@
     <dimen name="meals_side_dish_marginStart">8dp</dimen>
     <dimen name="meals_side_dish_marginEnd">8dp</dimen>
     <dimen name="meals_side_dish_textSize">16sp</dimen>
+
+
+    <dimen name="bigTextSize">22sp</dimen>
+    <dimen name="mediumTextSize">18sp</dimen>
+    <dimen name="smallTextSize">14sp</dimen>
 </resources>

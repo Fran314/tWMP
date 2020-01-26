@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.baldino.myapp003.IngredientListAdapter;
-import com.baldino.myapp003.InitiatorClass;
 import com.baldino.myapp003.RecipeCollection;
 import com.baldino.myapp003.RecipeListAdapter;
 import com.baldino.myapp003.Util;
@@ -17,8 +16,6 @@ import com.baldino.myapp003.main_fragments.IngredientsFragment;
 import com.baldino.myapp003.main_fragments.RecipesFragment;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.temporal.WeekFields;
 import java.util.Currency;

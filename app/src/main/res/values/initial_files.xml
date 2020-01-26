@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="initial_standard_ingredients">
         [Broccoli Surgelati][99.0][99.0]
-        \n[Cipolla][99.0][99.0]
-        \n[Fagiolini Surgelati][99.0][99.0]
-        \n[Hamburger Surgelato][99.0][99.0]
-        \n[Insalata][99.0][99.0]
+        \n[Cipolla][1][1.18]
+        \n[Fagiolini Surgelati][0.45][1.15]
+        \n[Hamburger Surgelato][0.4][3.2]
+        \n[Insalata][0.25][0.98]
         \n[Latte][99.0][99.0]
-        \n[Merluzzo Surgelato][99.0][99.0]
-        \n[Pancetta][99.0][99.0]
+        \n[Merluzzo Surgelato][0.4][2.8]
+        \n[Pancetta][0.2][0.97]
         \n[Pane][99.0][99.0]
-        \n[Passata Di Pomodoro][99.0][99.0]
-        \n[Pasta][99.0][99.0]
+        \n[Passata Di Pomodoro][0.5][0.84]
+        \n[Pasta][0.5][0.38]
         \n[Pesce Persico][99.0][99.0]
         \n[Platessa Surgelata][99.0][99.0]
         \n[Purè In Polvere][99.0][99.0]
         \n[Riso][99.0][99.0]
         \n[Scaloppine][99.0][99.0]
         \n[Soffritto Surgelato][0.3][2.0]
-        \n[Succo][1.0][99.0]
+        \n[Succo][1.5][1.2]
         \n[Sugo Pronto Al Ragù][0.2][2.0]
-        \n[Tonno][99.0][99.0]
+        \n[Tonno][0.32][2.85]
         \n[Uova][99.0][99.0]
         \n[Vellutata Di Zucca Surgelata][99.0][99.0]
         \n[Yogurt][0.4][99.0]
@@ -48,14 +48,14 @@
     </string>
 
     <string-array name="initial_recipe_collections">
-        <item>Main Courses (Lunch)</item>
-        <item>Main Courses (Dinner)</item>
+        <item>Main (Lunch)</item>
+        <item>Main (Dinner)</item>
         <item>Side Dishes</item>
         <item>Extras</item>
     </string-array>
     <string name="initial_recipe_collections_file">
-        [Main Courses (Lunch)]
-        \n[Main Courses (Dinner)]
+        [Main (Lunch)]
+        \n[Main (Dinner)]
         \n[Side Dishes]
         \n[Extras]
     </string>

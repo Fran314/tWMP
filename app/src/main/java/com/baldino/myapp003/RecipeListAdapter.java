@@ -79,7 +79,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     public class RecViewHolder extends RecyclerView.ViewHolder
     {
-        private TextView name;
+        private TextView name, cost;
         private TableLayout rec_ingredients;
 
         private ImageButton delete, copy, edit;
@@ -98,6 +98,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             rec_ingredients = itemView.findViewById(R.id.recipe_ingredients_table);
 
             subItem = itemView.findViewById(R.id.sub_item);
+
+            cost = itemView.findViewById(R.id.recipe_cost);
 
             delete = itemView.findViewById(R.id.button_delete_recipe);
             copy = itemView.findViewById(R.id.button_copy_recipe);
@@ -122,6 +124,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             rec_ingredients.removeAllViews();
 
             List<RecIngredient> ingredients = recipe.getCopyOfIngredients();
+            float cost_val = 0;
             for(int i = 0; i < ingredients.size(); i++)
             {
                 TableRow row = new TableRow(view.getContext());
@@ -148,6 +151,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
                     TextView amount_in_row = new TextView(view.getContext());
                     amount_in_row.setText(Float.toString(ingredients.get(i).getAmount()) + " kg");
                     if(curr_ingredient == null) amount_in_row.setTextColor(view.getResources().getColor(R.color.colorErrorRed));
+                    else cost_val += (ingredients.get(i).getAmount()*curr_ingredient.getRatio());
                     amount_in_row.setGravity(Gravity.RIGHT);
                     amount_in_row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
@@ -156,6 +160,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
                 rec_ingredients.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
             }
+
+            cost.setText(String.format("%.2f", cost_val) + D.getCurrency());
 
             edit.setOnClickListener(new View.OnClickListener()
             {

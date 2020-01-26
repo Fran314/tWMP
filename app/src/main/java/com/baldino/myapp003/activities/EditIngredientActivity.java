@@ -13,8 +13,8 @@ import com.baldino.myapp003.R;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.Database;
 
-public class EditIngredientActivity extends AppCompatActivity {
-
+public class EditIngredientActivity extends AppCompatActivity
+{
     private int ingr_pos;
     private boolean ingr_new, is_standard;
     private EditText name, amount, price;
@@ -93,7 +93,8 @@ public class EditIngredientActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
 
         switch(id)

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.baldino.myapp003.R;
-import com.baldino.myapp003.Util;
 import com.baldino.myapp003.singletons.Database;
 
 import androidx.navigation.NavController;
@@ -21,14 +20,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.provider.ContactsContract;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.view.Menu;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+{
     private AppBarConfiguration mAppBarConfiguration;
 
     Database D;
@@ -61,73 +59,76 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         //--- ---//
 
-        final MainActivity mainActivity = this;
-
-        if(D.isFirstStart())
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getResources().getString(R.string.dialog_title_first_start));
-
-            //  These are split in different blocks so the bolding part is easier
-            String intro = getResources().getString(R.string.dialog_text_first_start_intro);
-            String fresh_start = getResources().getString(R.string.dialog_text_first_start_fresh_start);
-            String fs_explain = " " + getResources().getString(R.string.dialog_text_first_start_fs_explain);
-            String basic_template = getResources().getString(R.string.dialog_text_first_start_basic_template);
-            String bt_explain = " " + getResources().getString(R.string.dialog_text_first_start_bt_explain);
-
-            int start, end;
-            SpannableStringBuilder  dialog_body = new SpannableStringBuilder ();
-            dialog_body.append(intro);
-
-            start = dialog_body.length();
-            dialog_body.append(fresh_start);
-            end = dialog_body.length();
-            dialog_body.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            dialog_body.append(fs_explain);
-
-            start = dialog_body.length();
-            dialog_body.append(basic_template);
-            end = dialog_body.length();
-            dialog_body.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            dialog_body.append(bt_explain);
-
-            builder.setMessage(dialog_body);
-            builder.setPositiveButton(getResources().getString(R.string.dialog_button_first_start_basic_template), new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    D.createInitFiles();
-
-                    dialog.dismiss();
-
-                    Intent intent = mainActivity.getIntent();
-                    mainActivity.finish();
-                    startActivity(intent);
-                }
-            });
-
-            builder.setNegativeButton(getResources().getString(R.string.dialog_button_first_start_fresh_start), new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    // Do nothing
-                    dialog.dismiss();
-                }
-            });
-            builder.setCancelable(false);
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
+        if(D.isFirstStart()) firstStartRoutine();
 
         D.loadAll();
     }
 
+    public void firstStartRoutine()
+    {
+        final MainActivity mainActivity = this;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.dialog_title_first_start));
+
+        //  These are split in different blocks so the bolding part is easier
+        String intro = getResources().getString(R.string.dialog_text_first_start_intro);
+        String fresh_start = getResources().getString(R.string.dialog_text_first_start_fresh_start);
+        String fs_explain = " " + getResources().getString(R.string.dialog_text_first_start_fs_explain);
+        String basic_template = getResources().getString(R.string.dialog_text_first_start_basic_template);
+        String bt_explain = " " + getResources().getString(R.string.dialog_text_first_start_bt_explain);
+
+        int start, end;
+        SpannableStringBuilder  dialog_body = new SpannableStringBuilder ();
+        dialog_body.append(intro);
+
+        start = dialog_body.length();
+        dialog_body.append(fresh_start);
+        end = dialog_body.length();
+        dialog_body.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        dialog_body.append(fs_explain);
+
+        start = dialog_body.length();
+        dialog_body.append(basic_template);
+        end = dialog_body.length();
+        dialog_body.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        dialog_body.append(bt_explain);
+
+        builder.setMessage(dialog_body);
+        builder.setPositiveButton(getResources().getString(R.string.dialog_button_first_start_basic_template), new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                D.createInitFiles();
+
+                dialog.dismiss();
+
+                Intent intent = mainActivity.getIntent();
+                mainActivity.finish();
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.dialog_button_first_start_fresh_start), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+        builder.setCancelable(false);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
 
         // Currently empty. I don't wanna delete it just yet, just in case I end up using it yknow?
@@ -136,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();

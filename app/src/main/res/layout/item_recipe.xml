@@ -15,8 +15,8 @@
             android:id="@+id/recipe_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="22sp"/>
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/bigTextSize"/>
 
         <LinearLayout
             android:id="@+id/sub_item"
@@ -34,6 +34,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textSize="@dimen/mediumTextSize"
+                    android:text="@string/recipe_cost_text"/>
+                <TextView
+                    android:id="@+id/recipe_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/mediumTextSize"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -68,11 +84,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <View
-        android:id="@+id/item_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@color/colorLightGray"/>
+    <View style="@style/item_divider"/>
 </LinearLayout>

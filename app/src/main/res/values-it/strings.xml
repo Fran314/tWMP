@@ -22,11 +22,15 @@
     <string name="header_edit_week_activity">Modifica Settimana</string>
     <string name="header_shopping_list_activity">Lista Della Spesa</string>
 
-    <string name="ingredients_amount_text">Quantità per confezione [kg]:</string>
+    <string name="ingredients_amount_text_oneliner">Quantità per confezione [kg]:</string>
+    <string name="ingredients_amount_text_two_lines">Quantità per\nconfezione [kg]:</string>
     <string name="ingredients_price_text">Prezzo:</string>
     <string name="ingredients_ratio_text">Rapporto:</string>
     <string name="ingredients_name_text">Nome:</string>
-    <string name="ingredients_unit_text">Unità di misura:</string>
+
+    <string name="recipe_name_text">Nome:</string>
+    <string name="recipe_ingredients">Ingredienti:</string>
+    <string name="recipe_cost_text">Costo ricetta:</string>
 
     <string name="label_ingredients_list">Lista Degli Ingredienti</string>
     <string name="label_minor_ingredients">Lista Degli Ingredienti Secondari</string>

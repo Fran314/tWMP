@@ -1,6 +1,9 @@
-package com.baldino.myapp003;
+package com.baldino.myapp003.singletons;
 
 import android.content.Context;
+
+import com.baldino.myapp003.R;
+import com.baldino.myapp003.Util;
 
 import java.io.File;
 import java.io.FileOutputStream;

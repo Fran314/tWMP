@@ -21,11 +21,15 @@
     <string name="menu_info">Info</string>
     <string name="menu_export">Export Data</string>
 
-    <string name="ingredients_amount_text">Amount in package [kg]:</string>
+    <string name="ingredients_amount_text_oneliner">Amount in package [kg]:</string>
+    <string name="ingredients_amount_text_two_lines">Amount in\npackage [kg]:</string>
     <string name="ingredients_price_text">Price:</string>
     <string name="ingredients_ratio_text">Ratio:</string>
     <string name="ingredients_name_text">Name:</string>
-    <string name="ingredients_unit_text">Unit:</string>
+
+    <string name="recipe_name_text">Name:</string>
+    <string name="recipe_ingredients">Ingredients:</string>
+    <string name="recipe_cost_text">Recipe cost:</string>
 
     <string name="label_ingredients_list">Ingredients List</string>
     <string name="label_minor_ingredients">Minor Ingredients List</string>
