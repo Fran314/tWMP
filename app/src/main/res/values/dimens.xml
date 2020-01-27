@@ -6,24 +6,25 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!--
     <dimen name="meals_day_marginStart">0dp</dimen>
-    <dimen name="meals_day_marginTop">8dp</dimen> <!-- Da Cancellare-->
+    <dimen name="meals_day_marginTop">8dp</dimen>
     <dimen name="meals_day_marginEnd">0dp</dimen>
     <dimen name="meals_day_textSize">22sp</dimen>
 
-    <dimen name="meals_dish_left_weight">.2</dimen> <!-- Da Cancellare-->
-    <dimen name="meals_dish_right_weight">.8</dimen> <!-- Da Cancellare-->
+    <dimen name="meals_dish_left_weight">.2</dimen>
+    <dimen name="meals_dish_right_weight">.8</dimen>
     <dimen name="meals_dish_marginStart">8dp</dimen>
     <dimen name="meals_dish_marginTop">4dp</dimen>
     <dimen name="meals_dish_marginEnd">8dp</dimen>
     <dimen name="meals_dish_textSize">18sp</dimen>
 
-    <dimen name="meals_side_dish_left_weight">.25</dimen> <!-- Da Cancellare-->
-    <dimen name="meals_side_dish_right_weight">.75</dimen> <!-- Da Cancellare-->
+    <dimen name="meals_side_dish_left_weight">.25</dimen>
+    <dimen name="meals_side_dish_right_weight">.75</dimen>
     <dimen name="meals_side_dish_marginStart">8dp</dimen>
     <dimen name="meals_side_dish_marginEnd">8dp</dimen>
     <dimen name="meals_side_dish_textSize">16sp</dimen>
-
+    -->
 
     <dimen name="bigTextSize">22sp</dimen>
     <dimen name="mediumTextSize">18sp</dimen>
