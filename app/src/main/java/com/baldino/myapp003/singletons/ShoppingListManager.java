@@ -21,86 +21,27 @@ import java.util.List;
 
 public class ShoppingListManager
 {
-    private List<RecIngredient> shopping_list = null;
     private List<String> labels = null;
-    private List<Boolean> values = null;
     private List<Integer> colors = null;
+    private List<Boolean> values = null;
 
     private String additional_text = null;
 
-
-    public void updateShoppingList(Context context)
+    public ShoppingListManager()
     {
-        //TODO
-        // It's kind of really bad practice to use Database here as ShoppingListManager is a child
-        // of Database, but it's honestly the quickest way to do this. I could just move this
-        // method inside the function in Database calling updateShoppingList and pass the updated
-        // lists to this class, buuuuuut... later
-        Database D = Database.getInstance();
-
-        shopping_list = new ArrayList<>();
         labels = new ArrayList<>();
-        values = new ArrayList<>();
         colors = new ArrayList<>();
+        values = new ArrayList<>();
 
         additional_text = "";
+    }
 
-        if(D.hasWeekSameFormat())
-        {
-            for(int i = 0; i < 7; i++)
-            {
-                for(int j = 0; j < D.getMealsPerDay(); j++)
-                {
-                    for(int k = 0; k < D.getCoursesDimOfMeal(j); k++)
-                    {
-                        Recipe rec = D.findRecipeOfCollection(D.getCourseOfMealOfDay(k, j, i), D.getTypeOfMeal(k, j));
-                        if(rec != null)
-                        {
-                            List<RecIngredient> ingredients = rec.getCopyOfIngredients();
-                            for(int h = 0; h < ingredients.size(); h++)
-                            {
-                                addItem(ingredients.get(h).getName(), ingredients.get(h).getAmount());
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
-        for(RecIngredient rec_ingr : shopping_list)
-        {
-            boolean is_std = true;
-            Ingredient ingr = D.findStdIngr(rec_ingr.getName());
-            if(ingr == null)
-            {
-                ingr = D.findMnrIngr(rec_ingr.getName());
-                is_std = false;
-            }
-
-            if(ingr != null)
-            {
-                if(is_std)
-                {
-                    int packages = (int) Math.ceil(rec_ingr.getAmount()/ingr.getAmount());
-                    labels.add(rec_ingr.getName() + " x" + packages);
-                    colors.add(context.getResources().getColor(R.color.colorBlack));
-                    values.add(false);
-                }
-                else
-                {
-                    labels.add("" + rec_ingr.getName());
-                    colors.add(context.getResources().getColor(R.color.colorBlack));
-                    values.add(false);
-                }
-            }
-            else
-            {
-                //TODO eventually change standard unit measure
-                labels.add(rec_ingr.getName() + " x" + rec_ingr.getAmount() + "kg");
-                colors.add(context.getResources().getColor(R.color.colorErrorRed));
-                values.add(false);
-            }
-        }
+    public void updateShoppingList(List<String> labels, List<Integer> colors, List<Boolean> values)
+    {
+        this.labels = labels;
+        this.colors = colors;
+        this.values = values;
     }
 
     public void saveValues(Context context)
@@ -169,6 +110,7 @@ public class ShoppingListManager
         }
     }
 
+    /*
     private void addItem(String name, float amount)
     {
         int index = binaryFindIndex(name);
@@ -201,6 +143,7 @@ public class ShoppingListManager
         else if(Util.compareStrings(name, shopping_list.get(mid).getName()) < 0) return binaryFindIndex(name, left, mid-1);
         else return binaryFindIndex(name, mid+1, right);
     }
+     */
 
     public int getSize()
     {

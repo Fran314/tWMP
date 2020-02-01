@@ -144,7 +144,6 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
                 @Override
                 public void onClick(View view)
                 {
-                    //TODO: probably reload some stuff in Shopping list?
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                     builder.setTitle(view.getContext().getResources().getString(R.string.dialog_title_delete_ingredient));
                     builder.setMessage(view.getContext().getResources().getString(R.string.dialog_text_delete_ingredient));

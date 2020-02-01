@@ -115,6 +115,10 @@ public class DayFormatFragment extends Fragment
     public void saveDailyMeals()
     {
         //TODO
+        // Maybe I should ask before changing daily meals since this might corrupt data if
+        // the user decides later to refactor data by changing First Day Of Week
+
+        //TODO
         // YEAH JUST, REDO THIS WHOLE THING, LIKE
         daily_meals = new ArrayList<>();
         for(int i = 0; i < emfv_list.size(); i++)

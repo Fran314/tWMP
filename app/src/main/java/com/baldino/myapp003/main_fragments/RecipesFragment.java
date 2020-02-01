@@ -53,9 +53,6 @@ public class RecipesFragment extends Fragment
                 D.addCollection(new_collection);
                 addRecipeType(pos);
                 setButtons(pos);
-
-                //TODO
-                // MOVE THIS INSIDE Database.addCollection
             }
         });
 
@@ -191,9 +188,6 @@ public class RecipesFragment extends Fragment
         eLists.remove(pos);
 
         D.removeCollection(pos);
-
-        //TODO
-        // MOVE THIS IN Database.removeCollection(...)
 
         for(int i = 0; i < eLists.size(); i++)
         {

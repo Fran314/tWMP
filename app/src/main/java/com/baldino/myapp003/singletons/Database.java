@@ -1,15 +1,16 @@
 package com.baldino.myapp003.singletons;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.baldino.myapp003.IngredientListAdapter;
+import com.baldino.myapp003.R;
 import com.baldino.myapp003.RecipeCollection;
 import com.baldino.myapp003.RecipeListAdapter;
 import com.baldino.myapp003.Util;
 import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.data_classes.MealFormat;
+import com.baldino.myapp003.data_classes.RecIngredient;
 import com.baldino.myapp003.data_classes.Recipe;
 import com.baldino.myapp003.data_classes.WeekData;
 import com.baldino.myapp003.main_fragments.IngredientsFragment;
@@ -18,6 +19,7 @@ import com.baldino.myapp003.main_fragments.RecipesFragment;
 import java.io.File;
 import java.time.DayOfWeek;
 import java.time.temporal.WeekFields;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
@@ -72,7 +74,7 @@ public class Database
             week_manager.loadDailyMeals(context);
             week_manager.loadData(context, settings.getFirstDayOfWeek());
 
-            shopping_list.updateShoppingList(context);
+            updateShoppingList();
             shopping_list.loadValues(context);
         }
     }
@@ -105,20 +107,16 @@ public class Database
     public void setCurrency(String new_currency)
     {
         int result = settings.setCurrency(new_currency);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
             settings.saveSettings(context);
         }
     }
     public void setFirstDayOfWeek(int new_fdow)
     {
         int result = settings.setFirstDayOfWeek(new_fdow);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
             settings.saveSettings(context);
         }
     }
@@ -140,20 +138,20 @@ public class Database
     public void removeStdIngr(int pos)
     {
         int result = std_ingredients.removeIngr(pos);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            updateShoppingList();
+            shopping_list.saveValues(context);
             std_ingredients.saveIngr(context);
         }
     }
     public void removeMnrIngr(int pos)
     {
         int result = mnr_ingredients.removeIngr(pos);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            updateShoppingList();
+            shopping_list.saveValues(context);
             mnr_ingredients.saveIngr(context);
         }
     }
@@ -161,10 +159,10 @@ public class Database
     {
         int remove = std_ingredients.removeIngr(pos);
         int add = std_ingredients.addIngr(new_ingredient);
-        if(remove == 0 || add == 0)
+        if(remove != -1 && add != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            updateShoppingList();
+            shopping_list.saveValues(context);
             std_ingredients.saveIngr(context);
         }
     }
@@ -172,30 +170,30 @@ public class Database
     {
         int remove = mnr_ingredients.removeIngr(pos);
         int add = mnr_ingredients.addIngr(new_ingredient);
-        if(remove == 0 || add == 0)
+        if(remove != -1 && add != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            updateShoppingList();
+            shopping_list.saveValues(context);
             mnr_ingredients.saveIngr(context);
         }
     }
     public void addStdIngr(Ingredient new_ingredient)
     {
         int result = std_ingredients.addIngr(new_ingredient);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            updateShoppingList();
+            shopping_list.saveValues(context);
             std_ingredients.saveIngr(context);
         }
     }
     public void addMnrIngr(Ingredient new_ingredient)
     {
         int result = mnr_ingredients.addIngr(new_ingredient);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            updateShoppingList();
+            shopping_list.saveValues(context);
             mnr_ingredients.saveIngr(context);
         }
     }
@@ -204,46 +202,42 @@ public class Database
     //--- RECIPES METHODS ---//
     public Recipe getRecipeOfCollection(int recipe, int collection_index){ return recipes.getRecipeOfCollection(recipe, collection_index); }
     public int findRecipeOfCollectionIndex(String name, int collection) { return recipes.findRecipeOfCollectionIndex(name, collection); }
-    public Recipe findRecipeOfCollection(String name, int collection) { return recipes.findRecipeOfCollection(name, collection); }
     public int getSizeOfCollection(int collection) { return recipes.getSizeOfCollection(collection); }
     public void removeRecipeOfCollection(int recipe, int collection)
     {
         int result = recipes.removeRecipeOfCollection(recipe, collection);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            week_manager.removedRecipe(collection, recipe);
+            week_manager.saveDailyMeals(context);
+            updateShoppingList();
+            shopping_list.saveValues(context);
             recipes.saveCollection(collection, context);
-
-            //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-            //sWeekManager.removedRecipe(collection, expanded_value);
-            //sWeekManager.saveDailyMeals();
         }
     }
     public void updateRecipeOfCollection(int recipe, int collection, Recipe new_recipe)
     {
         int remove = recipes.removeRecipeOfCollection(recipe, collection);
         int add = recipes.addRecipeOfCollection(new_recipe, collection);
-        if(remove == 0 || add == 0)
+        if(remove != -1 && add != -1)
         {
-            Log.w("AAA", "Editing: " + new_recipe.getName() + " at " + recipe);
-            //TODO
-            // UPDATE OTHER STUFF
+            week_manager.updatedRecipe(collection, recipe, add);
+            week_manager.saveDailyMeals(context);
+            updateShoppingList();
+            shopping_list.saveValues(context);
             recipes.saveCollection(collection, context);
         }
     }
     public void addRecipeOfCollection(Recipe new_recipe, int collection)
     {
         int result = recipes.addRecipeOfCollection(new_recipe, collection);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
+            week_manager.addedRecipe(collection, result);
+            week_manager.saveDailyMeals(context);
+            updateShoppingList();
+            shopping_list.saveValues(context);
             recipes.saveCollection(collection, context);
-
-            //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-            //sWeekManager.addedRecipe(collection, rec_pos);
-            //sWeekManager.saveDailyMeals();
         }
     }
     public String getNameOfCollection(int collection) { return recipes.getNameOfCollection(collection); }
@@ -260,9 +254,6 @@ public class Database
         recipes.saveCollection(collection, context);
         recipes.saveCollectionsList(context);
 
-        //TODO
-        // UPDATE OTHER STUFF
-
         File folder = new File(context.getFilesDir(), Util.COLLECTIONS_FOLDER);
         folder.mkdirs();
 
@@ -271,15 +262,12 @@ public class Database
     }
     public void addCollection(RecipeCollection new_collection)
     {
-        recipes.addCollection(new_collection);
+        int result = recipes.addCollection(new_collection);
+        recipes.saveCollection(result, context);
         recipes.saveCollectionsList(context);
 
-        //TODO
-        // UPDATE OTHER STUFF
-
-        //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-        //sWeekManager.addedCollection(pos);
-        //sWeekManager.saveDailyMeals();
+        week_manager.addedCollection(result);
+        week_manager.saveDailyMeals(context);
     }
     public void removeCollection(int pos)
     {
@@ -289,14 +277,10 @@ public class Database
         if(to_delete.exists()) to_delete.delete();
 
         int result = recipes.removeCollection(pos);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
-
-            //WeekManagerSingleton sWeekManager = WeekManagerSingleton.getInstance();
-            //sWeekManager.removedCollection(pos);
-            //sWeekManager.saveDailyMeals();
+            week_manager.removedCollection(pos);
+            week_manager.saveDailyMeals(context);
             recipes.saveCollectionsList(context);
         }
     }
@@ -319,11 +303,11 @@ public class Database
     public void setWeekData(WeekData new_week)
     {
         int result = week_manager.setWeekData(new_week);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
             week_manager.updateHasSameFormat();
+            updateShoppingList();
+            shopping_list.saveValues(context);
             week_manager.saveData(context, settings.getFirstDayOfWeek());
         }
     }
@@ -331,11 +315,11 @@ public class Database
     public void setDailyMeals(List<MealFormat> daily_meals)
     {
         int result = week_manager.setDailyMeals(daily_meals);
-        if(result == 0)
+        if(result != -1)
         {
-            //TODO
-            // UPDATE OTHER STUFF
             week_manager.updateHasSameFormat();
+            updateShoppingList();
+            shopping_list.saveValues(context);
             week_manager.saveDailyMeals(context);
         }
     }
@@ -349,7 +333,7 @@ public class Database
     public void removeSavedWeek(int pos)
     {
         int result = week_manager.removeSavedWeek(pos, settings.getFirstDayOfWeek());
-        if(result >= 0)
+        if(result != -1)
         {
             week_manager.saveWeeks(context);
             if(result == 1)
@@ -362,7 +346,103 @@ public class Database
     //---   ---//
 
     //--- SHOPPING LIST MANAGER METHODS ---//
-    public void updateShoppingList() { shopping_list.updateShoppingList(context); }
+    public void updateShoppingList()
+    {
+        List<RecIngredient> shopping_list_ingredients = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        List<Boolean> values = new ArrayList<>();
+        List<Integer> colors = new ArrayList<>();
+
+        if(week_manager.hasWeekSameFormat())
+        {
+            for(int i = 0; i < 7; i++)
+            {
+                for(int j = 0; j < week_manager.getMealsPerDay(); j++)
+                {
+                    for(int k = 0; k < week_manager.getCoursesDimOfMeal(j); k++)
+                    {
+                        Recipe rec = recipes.findRecipeOfCollection(week_manager.getCourseOfMealOfDay(k, j, i), week_manager.getTypeOfMeal(k, j));
+                        if(rec != null)
+                        {
+                            List<RecIngredient> ingredients = rec.getCopyOfIngredients();
+                            for(int h = 0; h < ingredients.size(); h++)
+                            {
+                                String ingredient_name = ingredients.get(h).getName();
+                                //--- BinaryFind the item if is already in the list ---//
+                                int left = 0, right = shopping_list_ingredients.size()-1, mid = -1;
+                                boolean found = false;
+                                while(left <= right && !found)
+                                {
+                                    mid = left + ((right - left)/2);
+                                    if(Util.compareStrings(ingredient_name, shopping_list_ingredients.get(mid).getName()) == 0) found = true;
+                                    else if(Util.compareStrings(ingredient_name, shopping_list_ingredients.get(mid).getName()) < 0) right = mid-1;
+                                    else left = mid+1;
+                                }
+                                //--- ---//
+
+                                //--- AddItem to the list if it's not there, increase amount otherwise ---//
+                                if(!found)
+                                {
+                                    int pos = shopping_list_ingredients.size();
+                                    for(int r = 0; r < shopping_list_ingredients.size(); r++)
+                                    {
+                                        if(Util.compareStrings(ingredient_name, shopping_list_ingredients.get(r).getName()) < 0)
+                                        {
+                                            pos = r;
+                                            break;
+                                        }
+                                    }
+                                    shopping_list_ingredients.add(pos, new RecIngredient(ingredient_name, ingredients.get(h).getAmount()));
+                                }
+                                else
+                                {
+                                    shopping_list_ingredients.get(mid).setAmount(shopping_list_ingredients.get(mid).getAmount() + ingredients.get(h).getAmount());
+                                }
+                                //--- ---//
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for(RecIngredient rec_ingr : shopping_list_ingredients)
+        {
+            boolean is_std = true;
+            Ingredient ingr = std_ingredients.binaryFindIngr(rec_ingr.getName());
+            if(ingr == null)
+            {
+                ingr = mnr_ingredients.binaryFindIngr(rec_ingr.getName());
+                is_std = false;
+            }
+
+            if(ingr != null)
+            {
+                if(is_std)
+                {
+                    int packages = (int) Math.ceil(rec_ingr.getAmount()/ingr.getAmount());
+                    labels.add(rec_ingr.getName() + " x" + packages);
+                    colors.add(context.getResources().getColor(R.color.colorBlack));
+                    values.add(false);
+                }
+                else
+                {
+                    labels.add("" + rec_ingr.getName());
+                    colors.add(context.getResources().getColor(R.color.colorBlack));
+                    values.add(false);
+                }
+            }
+            else
+            {
+                //TODO eventually change standard unit measure
+                labels.add(rec_ingr.getName() + " x" + rec_ingr.getAmount() + "kg");
+                colors.add(context.getResources().getColor(R.color.colorErrorRed));
+                values.add(false);
+            }
+        }
+
+        shopping_list.updateShoppingList(labels, colors, values);
+    }
     public int getShoppingListSize() { return shopping_list.getSize(); }
     public String getShoppingListLabel(int pos) { return shopping_list.getLabel(pos); }
     public boolean getShoppingListValue(int pos) { return shopping_list.getValue(pos); }
@@ -378,8 +458,6 @@ public class Database
         result *= shopping_list.setAdditionalText(text);
         if(result == 0)
         {
-            //TODO
-            // UPDATE OTHER STUFF
             shopping_list.saveValues(context);
         }
     }

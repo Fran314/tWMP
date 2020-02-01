@@ -88,7 +88,7 @@ public class RecipeManager
         //TODO
         // ADD NAME TO COLLECTION_NAMES
         recipe_collections.add(new_collection);
-        return 0;
+        return recipe_collections.size()-1;
     }
 
     public int removeCollection(int pos)

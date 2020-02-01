@@ -79,7 +79,7 @@ public class IngredientManager
             //TODO maybe I need to update the list_adapter item pool?
             ingredients.add(pos, ingredient);
             ingr_list_adapter.notifyItemInserted(pos);
-            return 0;
+            return pos;
         }
         else return -1;
     }

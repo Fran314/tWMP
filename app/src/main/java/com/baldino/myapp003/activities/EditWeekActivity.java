@@ -230,12 +230,9 @@ public class EditWeekActivity extends AppCompatActivity
                 }
             }
         }
-
          */
-        //TODO
-        // MAYBE YOU SHOULD PUT updateShoppingList INSIDE setWeekData AND REMOVE IT HERE
+
         D.setWeekData(new_week);
-        D.updateShoppingList();
 
         finish();
     }

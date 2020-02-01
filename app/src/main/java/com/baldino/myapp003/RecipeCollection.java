@@ -152,7 +152,7 @@ public class RecipeCollection
         {
             recipes.add(pos, recipe);
             recipe_list_adapter.notifyItemInserted(pos);
-            return 0;
+            return pos;
         }
         else return -1;
     }

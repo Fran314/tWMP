@@ -178,6 +178,51 @@ public class WeekManager
             }
         }
     }
+    public void updatedRecipe(int collection_index, int old_pos, int new_pos)
+    {
+        if(old_pos < new_pos)
+        {
+            for(int i = 0; i < daily_meals.size(); i++)
+            {
+                for(int j = 0; j < daily_meals.get(i).getDim(); j++)
+                {
+                    if(daily_meals.get(i).getType(j) == collection_index)
+                    {
+                        int std = daily_meals.get(i).getStd(j);
+                        if(std-1 == old_pos)
+                        {
+                            daily_meals.get(i).setStd(j, new_pos+1);
+                        }
+                        else if(old_pos < std-1 && std-1 <= new_pos)
+                        {
+                            daily_meals.get(i).setStd(j, std-1);
+                        }
+                    }
+                }
+            }
+        }
+        else if(old_pos > new_pos)
+        {
+            for(int i = 0; i < daily_meals.size(); i++)
+            {
+                for(int j = 0; j < daily_meals.get(i).getDim(); j++)
+                {
+                    if(daily_meals.get(i).getType(j) == collection_index)
+                    {
+                        int std = daily_meals.get(i).getStd(j);
+                        if(std-1 == old_pos)
+                        {
+                            daily_meals.get(i).setStd(j, new_pos+1);
+                        }
+                        else if(old_pos > std-1 && std-1 >= new_pos)
+                        {
+                            daily_meals.get(i).setStd(j, std+1);
+                        }
+                    }
+                }
+            }
+        }
+    }
     //---   ---//
 
     public void saveData(Context context, int first_day_of_week)
@@ -629,6 +674,8 @@ public class WeekManager
 
         saved_weeks = new_saved_weeks;
         saveWeeks(context);
+
+        loadData(context, new_first_day_of_week);
     }
 
     public int getMealsPerDay() { return (daily_meals == null ? 0: daily_meals.size()); }
@@ -676,6 +723,8 @@ public class WeekManager
     public List<MealFormat> getDailyMeals() { return daily_meals; }
     public int setDailyMeals(List<MealFormat> new_daily_meals)
     {
+        //TODO
+        // MMMMMH...
         this.daily_meals = new_daily_meals;
         return 0;
     }
