@@ -30,7 +30,6 @@ public class WeekManager
     private List<String> saved_weeks;
     private List<MealFormat> daily_meals = null;
 
-
     //---  Variables relative to the currently loaded week  ---//
     private boolean has_same_format;
     private WeekData loaded_week = null;

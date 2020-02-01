@@ -304,30 +304,6 @@ public class Database
     public int getExpandedValueOfCollection(int collection) { return recipes.getExpandedValueOfCollection(collection); }
     //---   ---//
 
-    //--- SHOPPING LIST MANAGER METHODS ---//
-    public void updateShoppingList() { shopping_list.updateShoppingList(context); }
-    public int getShoppingListSize() { return shopping_list.getSize(); }
-    public String getShoppingListLabel(int pos) { return shopping_list.getLabel(pos); }
-    public boolean getShoppingListValue(int pos) { return shopping_list.getValue(pos); }
-    public int getShoppingListColor(int pos) { return shopping_list.getColor(pos); }
-    public String getShoppingListAdditionalText() { return shopping_list.getAdditionalText(); }
-    public void setShoppingListValuesAndText(boolean[] vals, String text)
-    {
-        int result = 1;
-        for(int i = 0; i < vals.length; i++)
-        {
-            result *= shopping_list.setValue(i, vals[i]);
-        }
-        result *= shopping_list.setAdditionalText(text);
-        if(result == 0)
-        {
-            //TODO
-            // UPDATE OTHER STUFF
-            shopping_list.saveValues(context);
-        }
-    }
-    //---   ---//
-
     //--- WEEK MANAGER METHODS ---//
     public int getMealsPerDay() { return week_manager.getMealsPerDay(); }
     public String getMealName(int meal) { return week_manager.getMealName(meal); }
@@ -381,6 +357,30 @@ public class Database
                 week_manager.loadData(context, settings.getFirstDayOfWeek());
                 week_manager.updateHasSameFormat();
             }
+        }
+    }
+    //---   ---//
+
+    //--- SHOPPING LIST MANAGER METHODS ---//
+    public void updateShoppingList() { shopping_list.updateShoppingList(context); }
+    public int getShoppingListSize() { return shopping_list.getSize(); }
+    public String getShoppingListLabel(int pos) { return shopping_list.getLabel(pos); }
+    public boolean getShoppingListValue(int pos) { return shopping_list.getValue(pos); }
+    public int getShoppingListColor(int pos) { return shopping_list.getColor(pos); }
+    public String getShoppingListAdditionalText() { return shopping_list.getAdditionalText(); }
+    public void setShoppingListValuesAndText(boolean[] vals, String text)
+    {
+        int result = 1;
+        for(int i = 0; i < vals.length; i++)
+        {
+            result *= shopping_list.setValue(i, vals[i]);
+        }
+        result *= shopping_list.setAdditionalText(text);
+        if(result == 0)
+        {
+            //TODO
+            // UPDATE OTHER STUFF
+            shopping_list.saveValues(context);
         }
     }
     //---   ---//

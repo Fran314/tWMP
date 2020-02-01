@@ -1,6 +1,7 @@
 package com.baldino.myapp003.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.view.Menu;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -139,6 +144,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onSupportNavigateUp()
     {
+        //--- HIDE INPUT METHODS ---//
+        // The following code is to make so that if at any point the user presses the navigation
+        //  button while being focused on an EditText, the cursor will disappear and the keyboard
+        //  will hide.
+        // Thanks to StackOverflow (https://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press)
+        //  for the first two lines.
+        // Thanks to StackOverflow (https://stackoverflow.com/questions/6117967/how-to-remove-focus-without-setting-focus-to-another-control)
+        //  for the last two lines.
+        // Yes, it is just 4 lines, why?
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        View myLayout = this.findViewById(R.id.my_layout);
+        myLayout.requestFocus();
+        //--- ---//
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();

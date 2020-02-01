@@ -7,12 +7,12 @@ import com.baldino.myapp003.Util;
 import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.data_classes.RecIngredient;
 import com.baldino.myapp003.data_classes.Recipe;
+import com.baldino.myapp003.data_classes.WeekData;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -31,6 +31,11 @@ public class ShoppingListManager
 
     public void updateShoppingList(Context context)
     {
+        //TODO
+        // It's kind of really bad practice to use Database here as ShoppingListManager is a child
+        // of Database, but it's honestly the quickest way to do this. I could just move this
+        // method inside the function in Database calling updateShoppingList and pass the updated
+        // lists to this class, buuuuuut... later
         Database D = Database.getInstance();
 
         shopping_list = new ArrayList<>();
