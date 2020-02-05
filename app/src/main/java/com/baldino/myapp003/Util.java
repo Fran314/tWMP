@@ -411,7 +411,6 @@ public class Util
         }
         catch (FileNotFoundException e)
         {
-            //TODO make this error messages different, maybe?
             e.printStackTrace();
             if(lines.size() > 0) lines.set(0, "ERR");
             else lines.add("ERR");

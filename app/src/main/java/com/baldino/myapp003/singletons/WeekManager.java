@@ -715,16 +715,12 @@ public class WeekManager
 
     public int setWeekData(WeekData new_week)
     {
-        //TODO
-        // MMMMMH...
         loaded_week = new_week;
         return 0;
     }
     public List<MealFormat> getDailyMeals() { return daily_meals; }
     public int setDailyMeals(List<MealFormat> new_daily_meals)
     {
-        //TODO
-        // MMMMMH...
         this.daily_meals = new_daily_meals;
         return 0;
     }

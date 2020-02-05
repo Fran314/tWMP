@@ -1,11 +1,12 @@
 package com.baldino.myapp003.main_fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class DayFormatFragment extends Fragment
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveDailyMeals();
+                askSaveDailyMeals();
             }
         });
 
@@ -112,12 +113,37 @@ public class DayFormatFragment extends Fragment
         });
     }
 
+    public void askSaveDailyMeals()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(getResources().getString(R.string.dialog_title_save_daily_meals));
+        builder.setMessage(getResources().getString(R.string.dialog_text_save_daily_meals));
+        builder.setPositiveButton(getResources().getString(R.string.dialog_button_save_daily_meals_yes), new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                saveDailyMeals();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.dialog_button_save_daily_meals_no), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+        builder.setCancelable(false);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     public void saveDailyMeals()
     {
-        //TODO
-        // Maybe I should ask before changing daily meals since this might corrupt data if
-        // the user decides later to refactor data by changing First Day Of Week
-
         daily_meals = new ArrayList<>();
         for(int i = 0; i < emfv_list.size(); i++)
         {

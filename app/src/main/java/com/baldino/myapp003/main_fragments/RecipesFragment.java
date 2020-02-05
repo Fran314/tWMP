@@ -137,9 +137,7 @@ public class RecipesFragment extends Fragment
                         else if(item.getItemId() == R.id.item_delete_list)
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            //TODO
-                            // Specify the name of the collection you're deleting just to be sure
-                            builder.setTitle(getContext().getResources().getString(R.string.dialog_title_delete_recipe_collection));
+                            builder.setTitle(getContext().getResources().getString(R.string.dialog_title_delete_recipe_collection) + " \"" + D.getNameOfCollection(pos) + "\"");
                             builder.setMessage(getContext().getResources().getString(R.string.dialog_text_delete_recipe_collection));
                             builder.setPositiveButton(getContext().getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
                             {

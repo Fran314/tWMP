@@ -8,7 +8,7 @@
     <string name="dialog_title_data_corruption">Potenziale Corruzione Dati</string>
     <string name="dialog_title_delete_ingredient">Elimina Ingrediente</string>
     <string name="dialog_title_delete_recipe">Elimina Ricetta</string>
-
+    <string name="dialog_title_save_daily_meals">Salva Pasti Giornalieri</string>
 
     <string name="dialog_text_first_start_intro">
         Sembra che sia la prima volta che apri quest\'app. Puoi scegliere una delle seguenti due
@@ -50,10 +50,20 @@
     </string>
     <string name="dialog_text_delete_ingredient">Vuoi davvero eliminare questo ingrediente?</string>
     <string name="dialog_text_delete_recipe">Vuoi davvero eliminare questa ricetta?</string>
-
+    <string name="dialog_text_save_daily_meals">
+        Sei sicuro di voler cambiare i pasti giornalieri? Se sono già state salvate settimane con
+        dei formati giorno diversi, e se tu decidessi in futuro di cambiare il Primo Giorno della
+        Settimana (Impostazioni), rifattorizzando quindi tutti i dati salvati, potrebbero accadere
+        delle piccole corruzioni di dati.
+        \nCiò non causerà alcun problema a meno che non siano state salvate due settimane consecutive
+        con formati giorno diversi.
+        \n\nProcedere lo stesso?
+    </string>
 
     <string name="dialog_button_first_start_fresh_start">Inizio\nPulito</string>
     <string name="dialog_button_first_start_basic_template">Template\nDi Base</string>
     <string name="dialog_button_data_corruption_yes">Sì\n(Rifattorizza)</string>
     <string name="dialog_button_data_corruption_no">NO\n(Non fare niente)</string>
+    <string name="dialog_button_save_daily_meals_yes">Sì\n(Salva)</string>
+    <string name="dialog_button_save_daily_meals_no">NO\n(Non fare niente)</string>
 </resources>

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import com.baldino.myapp003.R;
 import com.baldino.myapp003.data_classes.RecIngredient;
@@ -91,11 +92,25 @@ public class EditRecipeActivity extends AppCompatActivity
 
         Database D = Database.getInstance();
 
-        //TODO
-        // MAYBE CHECK IF THE RECIPE YOU'RE TRYING TO ADD ALREADY EXISTS OR NOT
-        // TO MAKE SURE THAT YOU'RE NOT OVERRIDING ANYTHING
-        if(!rec_new) D.updateRecipeOfCollection(rec_pos, collection, new_recipe);
-        else D.addRecipeOfCollection(new_recipe, collection);
+        int index = D.findRecipeOfCollectionIndex(new_recipe.getName(), collection);
+        if(!rec_new)
+        {
+            if(index == -1 || index == rec_pos)
+            {
+                D.updateRecipeOfCollection(rec_pos, collection, new_recipe);
+                finish();
+            }
+            else Toast.makeText(this, getResources().getString(R.string.toast_cant_save_recipe), Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            if(index == -1)
+            {
+                D.addRecipeOfCollection(new_recipe, collection);
+                finish();
+            }
+            else Toast.makeText(this, getResources().getString(R.string.toast_cant_save_recipe), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void updateTable()
@@ -205,7 +220,6 @@ public class EditRecipeActivity extends AppCompatActivity
         {
             case R.id.button_menu_save:
                 saveRecipe();
-                finish();
                 return true;
             case android.R.id.home:
                 finish();

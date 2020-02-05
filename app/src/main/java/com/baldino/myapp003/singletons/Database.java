@@ -324,7 +324,14 @@ public class Database
         }
     }
     public WeekData getLoadedWeek() { return week_manager.getLoadedWeek(); }
-    public void setCalendar(int year, int month, int day_of_month) { week_manager.setCalendar(year, month, day_of_month); }
+    public void setCalendar(int year, int month, int day_of_month)
+    {
+        week_manager.setCalendar(year, month, day_of_month);
+
+        week_manager.loadData(context, settings.getFirstDayOfWeek());
+        updateShoppingList();
+        shopping_list.saveValues(context);
+    }
     public void loadWeekData()
     {
         week_manager.loadData(context, settings.getFirstDayOfWeek());

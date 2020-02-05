@@ -44,6 +44,7 @@
 
     <string name="toast_cant_save_type_name">Couldn\'t save name. It\'s too similar to an already existing one!</string>
     <string name="toast_cant_save_ingredient">Couldn\'t save this ingredient. There\'s already one with the same name!</string>
+    <string name="toast_cant_save_recipe">Couldn\'t save this recipe. There\'s already one with the same name!</string>
     <string name="toast_day_format_saved">Day Format saved!</string>
     <string name="toast_settings_saved">Settings saved!</string>
     <string name="toast_settings_saved_lossless">Settings saved and no data was lost!</string>

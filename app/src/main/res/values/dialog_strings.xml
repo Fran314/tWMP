@@ -8,6 +8,7 @@
     <string name="dialog_title_data_corruption">Potential Data Corruption</string>
     <string name="dialog_title_delete_ingredient">Delete Ingredient</string>
     <string name="dialog_title_delete_recipe">Delete Recipe</string>
+    <string name="dialog_title_save_daily_meals">Save Daily Meals</string>
 
     <string name="dialog_text_first_start_intro">
         It seems this is the first time you open this app. You can choose between one of the two
@@ -50,9 +51,19 @@
     </string>
     <string name="dialog_text_delete_ingredient">Are you sure you want to delete this ingredient?</string>
     <string name="dialog_text_delete_recipe">Are you sure you want to delete this recipe?</string>
+    <string name="dialog_text_save_daily_meals">
+        Are you sure you want to change the daily meals? If you have other weeks saved with a
+        different day format and later on decide to change the First Day of the Week (Settings),
+        and hence refactoring all the saved data, it might lead to a small partial data corruption.
+        \nThis won\'t cause any issue unless there are two consecutive weeks saved with different
+        day formats.
+        \n\nDo you want to proceed?
+    </string>
 
     <string name="dialog_button_first_start_fresh_start">Fresh\nStart</string>
     <string name="dialog_button_first_start_basic_template">Basic\nTemplate</string>
     <string name="dialog_button_data_corruption_yes">YES\n(Refactor)</string>
     <string name="dialog_button_data_corruption_no">NO\n(Do Nothing)</string>
+    <string name="dialog_button_save_daily_meals_yes">YES\n(Save)</string>
+    <string name="dialog_button_save_daily_meals_no">NO\n(Do Nothing)</string>
 </resources>

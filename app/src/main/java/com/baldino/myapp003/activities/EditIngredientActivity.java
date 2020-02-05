@@ -68,10 +68,7 @@ public class EditIngredientActivity extends AppCompatActivity
                     D.updateStdIngr(ingr_pos, new_ingredient);
                     finish();
                 }
-                else
-                {
-                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
-                }
+                else Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -80,10 +77,7 @@ public class EditIngredientActivity extends AppCompatActivity
                     D.addStdIngr(new_ingredient);
                     finish();
                 }
-                else
-                {
-                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
-                }
+                else Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
             }
         }
         else
@@ -96,10 +90,7 @@ public class EditIngredientActivity extends AppCompatActivity
                     D.updateMnrIngr(ingr_pos, new_ingredient);
                     finish();
                 }
-                else
-                {
-                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
-                }
+                else Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -108,10 +99,7 @@ public class EditIngredientActivity extends AppCompatActivity
                     D.addMnrIngr(new_ingredient);
                     finish();
                 }
-                else
-                {
-                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
-                }
+                else Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
             }
         }
     }
