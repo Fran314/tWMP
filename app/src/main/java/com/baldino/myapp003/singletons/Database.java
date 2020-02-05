@@ -243,7 +243,7 @@ public class Database
     public String getNameOfCollection(int collection) { return recipes.getNameOfCollection(collection); }
     public ArrayAdapter<String> getNamesAdapterOfCollection(int collection, Context curr_context) { return recipes.getNamesAdapterOfCollection(collection, curr_context); }
     public String getNameOfRecipeOfCollection(int recipe, int collection) { return recipes.getNameOfRecipeOfCollection(recipe, collection); }
-    public ArrayAdapter<String> getCollectionNamesAdapter() { return recipes.getCollectionNamesAdapter(); }
+    public ArrayAdapter<String> getCollectionNamesAdapter(Context curr_context) { return recipes.getCollectionNamesAdapter(curr_context); }
     public RecipeListAdapter getRecipeListAdapterOfCollection(int collection) { return recipes.getListAdapterOfCollection(collection); }
     public int getCollectionsSize() { return recipes.getCollectionsSize(); }
     public void updateCollectionName(String name, int collection)
@@ -325,7 +325,12 @@ public class Database
     }
     public WeekData getLoadedWeek() { return week_manager.getLoadedWeek(); }
     public void setCalendar(int year, int month, int day_of_month) { week_manager.setCalendar(year, month, day_of_month); }
-    public void loadWeekData() { week_manager.loadData(context, settings.getFirstDayOfWeek()); }
+    public void loadWeekData()
+    {
+        week_manager.loadData(context, settings.getFirstDayOfWeek());
+        updateShoppingList();
+        shopping_list.saveValues(context);
+    }
     public List<String> getProblematicPairs() { return week_manager.getProblematicPairs(context); }
     public void refactorWeeks(int old_first_day_of_week, int new_first_day_of_week) { week_manager.refactor(old_first_day_of_week, new_first_day_of_week, context); }
     public int getSavedWeeksAmount() { return week_manager.getSavedWeeksAmount(); }

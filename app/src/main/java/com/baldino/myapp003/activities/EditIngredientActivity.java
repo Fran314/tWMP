@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.baldino.myapp003.data_classes.Ingredient;
 import com.baldino.myapp003.R;
@@ -57,22 +58,62 @@ public class EditIngredientActivity extends AppCompatActivity
         Float f_price = Util.stringToFloat(price.getText().toString());
 
         Ingredient new_ingredient = new Ingredient(s_name, f_amount, f_price);
-
-        //TODO
-        // MAYBE CHECK IF THE INGREDIENT YOU'RE TRYING TO ADD ALREADY EXISTS OR NOT
-        // TO MAKE SURE THAT YOU'RE NOT OVERRIDING ANYTHING
         if(is_standard)
         {
-            if(!ingr_new) D.updateStdIngr(ingr_pos, new_ingredient);
-            else D.addStdIngr(new_ingredient);
+            int index = D.findStdIngrIndex(new_ingredient.getName());
+            if(!ingr_new)
+            {
+                if(index == -1 || index == ingr_pos)
+                {
+                    D.updateStdIngr(ingr_pos, new_ingredient);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                if(index == -1)
+                {
+                    D.addStdIngr(new_ingredient);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
+                }
+            }
         }
         else
         {
-            if(!ingr_new) D.updateMnrIngr(ingr_pos, new_ingredient);
-            else D.addMnrIngr(new_ingredient);
+            int index = D.findMnrIngrIndex(new_ingredient.getName());
+            if(!ingr_new)
+            {
+                if(index == -1 || index == ingr_pos)
+                {
+                    D.updateMnrIngr(ingr_pos, new_ingredient);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                if(index == -1)
+                {
+                    D.addMnrIngr(new_ingredient);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(this, getResources().getString(R.string.toast_cant_save_ingredient), Toast.LENGTH_LONG).show();
+                }
+            }
         }
-
-        finish();
     }
 
     @Override

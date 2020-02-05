@@ -117,7 +117,7 @@ public class MealsFragment extends Fragment implements DatePickerDialog.OnDateSe
     private void loadMeals(int year, int month, int day_of_month)
     {
         //TODO
-        // MAYBE loadWeekData SHOULD BE ALREADY INSIDE SETCALENDAR, DUNNO
+        // MAYBE loadWeekData SHOULD BE ALREADY INSIDE setCalendar, DUNNO
         D.setCalendar(year, month, day_of_month);
         D.loadWeekData();
 

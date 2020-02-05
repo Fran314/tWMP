@@ -147,7 +147,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
                 if(curr_ingredient == null || !mnr_ingr)
                 {
-                    //TODO change that kg to some variable stuff
+                    //TODO eventually change standard unit measure
                     TextView amount_in_row = new TextView(view.getContext());
                     amount_in_row.setText(Float.toString(ingredients.get(i).getAmount()) + " kg");
                     if(curr_ingredient == null) amount_in_row.setTextColor(view.getResources().getColor(R.color.colorErrorRed));

@@ -118,7 +118,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
             name.setText(ingredient.getName());
 
-            //TODO: change this kg to some variable stuff
+            //TODO eventually change standard unit measure
             amount.setText(String.format("%.2f", ingredient.getAmount()) + " kg");
             price.setText(String.format("%.2f", ingredient.getPrice()) + " " + D.getCurrency());
             ratio.setText(String.format("%.2f", ingredient.getRatio()) + " "  + D.getCurrency() + "/kg");

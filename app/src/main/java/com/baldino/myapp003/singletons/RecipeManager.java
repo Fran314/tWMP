@@ -60,9 +60,6 @@ public class RecipeManager
         {
             collection_names.add(collection.getName());
         }
-
-        collection_names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, collection_names);
-        collection_names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
     public void saveCollections(Context context)
     {
@@ -85,9 +82,8 @@ public class RecipeManager
 
     public int addCollection(RecipeCollection new_collection)
     {
-        //TODO
-        // ADD NAME TO COLLECTION_NAMES
         recipe_collections.add(new_collection);
+        collection_names.add(new_collection.getName());
         return recipe_collections.size()-1;
     }
 
@@ -95,9 +91,8 @@ public class RecipeManager
     {
         if(pos < 0 || pos >= getCollectionsSize()) return -1;
 
-        //TODO
-        // REMOVE NAME FROM COLLECTION_NAMES
         recipe_collections.remove(pos);
+        collection_names.remove(pos);
         for(int i = 0; i < recipe_collections.size(); i++)
         {
             recipe_collections.get(i).resetIndex(i);
@@ -166,7 +161,13 @@ public class RecipeManager
                 || recipe < 0 || recipe >= recipe_collections.get(collection).getSize()) return "ERR";
         else return recipe_collections.get(collection).getRecipe(recipe).getName();
     }
-    public ArrayAdapter<String> getCollectionNamesAdapter() { return collection_names_adapter; }
+    public ArrayAdapter<String> getCollectionNamesAdapter(Context context)
+    {
+        collection_names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, collection_names);
+        collection_names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        return collection_names_adapter;
+    }
     public RecipeListAdapter getListAdapterOfCollection(int collection)
     {
         if(collection < 0 || collection >= getCollectionsSize()) return null;

@@ -23,6 +23,7 @@ public class RecipeCollection
 
     private List<Recipe> recipes;
     private RecipeListAdapter recipe_list_adapter;
+    private List<String> recipe_names = null;
     private ArrayAdapter<String> names_adapter = null;
 
     public RecipeCollection(String name, int index)
@@ -30,6 +31,8 @@ public class RecipeCollection
         setName(name);
 
         recipes = new ArrayList<>();
+        recipe_names = new ArrayList<>();
+        recipe_names.add(Util.NULL_RECIPE);
 
         recipe_list_adapter = new RecipeListAdapter(index);
     }
@@ -151,6 +154,7 @@ public class RecipeCollection
         if(!exists)
         {
             recipes.add(pos, recipe);
+            recipe_names.add(pos+1, recipe.getName());
             recipe_list_adapter.notifyItemInserted(pos);
             return pos;
         }
@@ -160,6 +164,7 @@ public class RecipeCollection
     {
         if(pos < 0 || pos >= recipes.size()) return -1;
         recipes.remove(pos);
+        recipe_names.remove(pos+1);
         recipe_list_adapter.notifyItemRemoved(pos);
 
         int last_expanded = recipe_list_adapter.expanded_value;
@@ -199,15 +204,6 @@ public class RecipeCollection
 
     public ArrayAdapter<String> getNamesAdapter(Context context)
     {
-        //TODO
-        // DO I REALLY HAVE TO REMAKE THEM EVERY SINGLE GODDAMN TIME?
-        List<String> recipe_names = new ArrayList<>();
-        recipe_names.add(Util.NULL_RECIPE);
-        for(Recipe rec : recipes)
-        {
-            recipe_names.add(rec.getName());
-        }
-
         names_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, recipe_names);
         names_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

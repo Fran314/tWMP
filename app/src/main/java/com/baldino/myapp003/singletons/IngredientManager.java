@@ -42,13 +42,12 @@ public class IngredientManager
             output_string.append("]\n");
         }
 
-        //TODO change file path
         Util.saveFile(output_string, new File(context.getFilesDir(), path));
     }
     public void loadIngr(Context context)
     {
         ingredients = new ArrayList<>();
-        //TODO change file path
+
         List<String> lines = Util.loadFile(new File(context.getFilesDir(), path));
 
         if(!"ERR".equals(lines.get(0)))
@@ -76,7 +75,6 @@ public class IngredientManager
         }
         if(!exists)
         {
-            //TODO maybe I need to update the list_adapter item pool?
             ingredients.add(pos, ingredient);
             ingr_list_adapter.notifyItemInserted(pos);
             return pos;

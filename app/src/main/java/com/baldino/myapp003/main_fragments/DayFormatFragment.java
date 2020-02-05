@@ -118,19 +118,10 @@ public class DayFormatFragment extends Fragment
         // Maybe I should ask before changing daily meals since this might corrupt data if
         // the user decides later to refactor data by changing First Day Of Week
 
-        //TODO
-        // YEAH JUST, REDO THIS WHOLE THING, LIKE
         daily_meals = new ArrayList<>();
         for(int i = 0; i < emfv_list.size(); i++)
         {
-            MealFormat new_meal_format = new MealFormat(emfv_list.get(i).name.getText().toString());
-
-            for(int j = 0; j < emfv_list.get(i).types.size(); j++)
-            {
-                new_meal_format.addMeal(emfv_list.get(i).types.get(j).getSelectedItemPosition(), emfv_list.get(i).stds.get(j).getSelectedItemPosition());
-            }
-
-            daily_meals.add(new_meal_format);
+            daily_meals.add(emfv_list.get(i).getMealFormat());
         }
 
         D.setDailyMeals(daily_meals);

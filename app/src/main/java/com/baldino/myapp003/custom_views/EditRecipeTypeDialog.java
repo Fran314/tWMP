@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -65,6 +66,7 @@ public class EditRecipeTypeDialog extends Dialog
             public void onClick(View view)
             {
                 boolean sameFileName = false;
+                Log.w("AAA", "Funge");
                 for(int i = 0; i < D.getCollectionsSize() && !sameFileName; i++)
                 {
                     if(i != curr_pos && Util.compareStrings(Util.nameToFileName(editable_recipes_name.getText().toString()), D.getNameOfCollection(i)) == 0)

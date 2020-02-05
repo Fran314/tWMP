@@ -2,6 +2,8 @@ package com.baldino.myapp003.custom_views;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -64,6 +66,20 @@ public class EditableMealFormatView extends LinearLayout
         delete_whole_button = this.findViewById(R.id.button_delete_whole_meal_format);
 
         name.setText(meal_format.getName());
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                meal_format.setName(editable.toString());
+            }
+        });
 
         types.add(type);
         stds.add(std);
@@ -125,6 +141,7 @@ public class EditableMealFormatView extends LinearLayout
             public void onItemSelected(AdapterView<?> adapterView, View view, int selected_index, long id)
             {
                 meal_format.setType(pos, selected_index);
+                meal_format.setStd(pos, 0);
                 stds.get(pos).setAdapter(D.getNamesAdapterOfCollection(selected_index, getContext()));
                 stds.get(pos).setSelection(0);
             }
@@ -161,7 +178,7 @@ public class EditableMealFormatView extends LinearLayout
 
     public void readRow(int pos)
     {
-        types.get(pos).setAdapter(D.getCollectionNamesAdapter());
+        types.get(pos).setAdapter(D.getCollectionNamesAdapter(getContext()));
         types.get(pos).setSelection(meal_format.getType(pos));
 
         stds.get(pos).setAdapter(D.getNamesAdapterOfCollection(meal_format.getType(pos), getContext()));
@@ -218,4 +235,6 @@ public class EditableMealFormatView extends LinearLayout
         table_container.addView(row_one, 2*pos);
         table_container.addView(row_two, 2*pos + 1);
     }
+
+    public MealFormat getMealFormat() { return meal_format; }
 }

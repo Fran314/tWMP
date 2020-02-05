@@ -33,7 +33,7 @@ public class RecipesFragment extends Fragment
 
     private LinearLayout rv_container;
     private List<ExpandableRecipeListView> eLists;
-    private int expanded_value = 0;
+    private int expanded_collection = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -79,7 +79,7 @@ public class RecipesFragment extends Fragment
     {
         ExpandableRecipeListView erl = new ExpandableRecipeListView(getContext());
         erl.header_text.setText(D.getNameOfCollection(pos));
-        if(pos != expanded_value) erl.rv_recipes.setVisibility(View.GONE);
+        if(pos != expanded_collection) erl.rv_recipes.setVisibility(View.GONE);
         else erl.image_arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up));
 
         erl.rv_recipes.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -137,6 +137,8 @@ public class RecipesFragment extends Fragment
                         else if(item.getItemId() == R.id.item_delete_list)
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            //TODO
+                            // Specify the name of the collection you're deleting just to be sure
                             builder.setTitle(getContext().getResources().getString(R.string.dialog_title_delete_recipe_collection));
                             builder.setMessage(getContext().getResources().getString(R.string.dialog_text_delete_recipe_collection));
                             builder.setPositiveButton(getContext().getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
@@ -181,9 +183,8 @@ public class RecipesFragment extends Fragment
 
     private void removeRecipeType(int pos)
     {
-        //TODO don't know if this is the actual proper way to handle expanded_value
-        if(expanded_value == pos) expanded_value = -1;
-        else if(expanded_value > pos) expanded_value--;
+        if(expanded_collection == pos) expanded_collection = -1;
+        else if(expanded_collection > pos) expanded_collection--;
         rv_container.removeViewAt(pos);
         eLists.remove(pos);
 
@@ -197,30 +198,30 @@ public class RecipesFragment extends Fragment
 
     private void expand(int pos)
     {
-        if(expanded_value == -1)
+        if(expanded_collection == -1)
         {
             eLists.get(pos).expand();
-            expanded_value = pos;
+            expanded_collection = pos;
         }
-        else if(expanded_value == pos)
+        else if(expanded_collection == pos)
         {
             eLists.get(pos).collapse();
-            expanded_value = -1;
+            expanded_collection = -1;
         }
         else
         {
-            eLists.get(expanded_value).collapse();
+            eLists.get(expanded_collection).collapse();
             eLists.get(pos).expand();
 
-            expanded_value = pos;
+            expanded_collection = pos;
         }
     }
 
     public void editExpandedRecipe()
     {
         Intent intent = new Intent(getActivity(), EditRecipeActivity.class);
-        intent.putExtra("Collection", expanded_value);
-        intent.putExtra("Recipe_Position", D.getExpandedValueOfCollection(expanded_value));
+        intent.putExtra("Collection", expanded_collection);
+        intent.putExtra("Recipe_Position", D.getExpandedValueOfCollection(expanded_collection));
         intent.putExtra("Recipe_New", false);
 
         startActivity(intent);
@@ -230,8 +231,8 @@ public class RecipesFragment extends Fragment
     public void copyExpandedRecipe()
     {
         Intent intent = new Intent(getActivity(), EditRecipeActivity.class);
-        intent.putExtra("Collection", expanded_value);
-        intent.putExtra("Recipe_Position", D.getExpandedValueOfCollection(expanded_value));
+        intent.putExtra("Collection", expanded_collection);
+        intent.putExtra("Recipe_Position", D.getExpandedValueOfCollection(expanded_collection));
         intent.putExtra("Recipe_New", true);
 
         startActivity(intent);

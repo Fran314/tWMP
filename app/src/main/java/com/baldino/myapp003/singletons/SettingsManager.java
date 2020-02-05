@@ -5,7 +5,11 @@ import android.content.Context;
 import com.baldino.myapp003.Util;
 
 import java.io.File;
+import java.time.DayOfWeek;
+import java.time.temporal.WeekFields;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class SettingsManager
 {
@@ -33,7 +37,13 @@ public class SettingsManager
         else
         {
             //TODO
-            // ALWAYS have some kind of settings loaded. If you can't load, create standard ones
+            // Add a warn if it couldn't load the settings properly
+            Locale locale = Locale.getDefault();
+            Currency std_currency = Currency.getInstance(locale);
+            DayOfWeek std_first_day_of_week = WeekFields.of(locale).getFirstDayOfWeek();
+
+            currency = std_currency.getSymbol();
+            first_day_of_week = std_first_day_of_week.getValue();
         }
     }
 
