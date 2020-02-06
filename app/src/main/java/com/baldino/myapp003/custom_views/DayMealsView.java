@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ public class DayMealsView extends LinearLayout {
 
         TextView meal_name = new TextView(getContext());
         meal_name.setText(name);
-        meal_name.setTextSize(Util.intToDp(6, getContext()));
+        meal_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         meal_name.setTypeface(Typeface.DEFAULT_BOLD);
         TableRow.LayoutParams name_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         name_params.gravity = Gravity.CENTER_VERTICAL;
@@ -58,6 +59,7 @@ public class DayMealsView extends LinearLayout {
         TextView first_course = new TextView(getContext());
         first_course.setText(meal);
         first_course.setTextColor(color);
+        first_course.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         TableRow.LayoutParams first_course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         first_course_params.gravity = Gravity.CENTER_VERTICAL;
         first_course_params.leftMargin = Util.intToDp(4, getContext());
@@ -80,6 +82,7 @@ public class DayMealsView extends LinearLayout {
         TextView course = new TextView(getContext());
         course.setText(meal);
         course.setTextColor(color);
+        course.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         TableRow.LayoutParams course_params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         course_params.gravity = Gravity.CENTER_VERTICAL;
         course_params.leftMargin = Util.intToDp(4, getContext());

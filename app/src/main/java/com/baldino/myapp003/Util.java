@@ -43,7 +43,7 @@ public class Util
 
     public static final String SETTINGS_PATH = "settings.txt";
 
-    public static final String APP_VERSION = "1.0";
+    public static final String APP_VERSION = "1.0.0";
 
     public static String getStringFromLine(String line)
     {
@@ -291,6 +291,10 @@ public class Util
     public static int intToDp(int arg, Context context)
     {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, arg, context.getResources().getDisplayMetrics());
+    }
+    public static int intToSp(int arg, Context context)
+    {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, arg, context.getResources().getDisplayMetrics());
     }
 
     /*
