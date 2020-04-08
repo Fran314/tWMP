@@ -40,9 +40,6 @@ public class WeekManager
         saved_weeks = new ArrayList<>();
         daily_meals = new ArrayList<>();
         loaded_week = new WeekData();
-
-        LocalDate curr_date = LocalDate.now();
-        setCalendar(curr_date.getYear(), curr_date.getMonthValue(), curr_date.getDayOfMonth());
     }
 
     public void setCalendar(int year, int month, int day_of_month)
@@ -50,6 +47,28 @@ public class WeekManager
         this.year = year;
         this.month = month;
         this.day_of_month = day_of_month;
+    }
+    public void loadLastCalendar(Context context)
+    {
+        List<String> lines = Util.loadFile(new File(context.getFilesDir(), Util.LAST_DATE_PATH));
+        if(lines.size() > 0 && !"ERR".equals(lines.get(0)))
+        {
+            LocalDate last_date = Util.fileNameToDate(lines.get(0));
+            setCalendar(last_date.getYear(), last_date.getMonthValue(), last_date.getDayOfMonth());
+        }
+        else
+        {
+            LocalDate curr_date = LocalDate.now();
+            setCalendar(curr_date.getYear(), curr_date.getMonthValue(), curr_date.getDayOfMonth());
+        }
+    }
+    public void saveLastCalendar(Context context)
+    {
+        StringBuilder output_string = new StringBuilder("");
+        LocalDate date_to_save = LocalDate.of(year, month, day_of_month);
+        output_string.append(Util.dateToFileName(date_to_save));
+
+        Util.saveFile(output_string, new File(context.getFilesDir(), Util.LAST_DATE_PATH));
     }
 
     public void saveDailyMeals(Context context)

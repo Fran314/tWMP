@@ -70,6 +70,7 @@ public class Database
             recipes.loadCollectionList(context);
             recipes.loadCollections(context);
 
+            week_manager.loadLastCalendar(context);
             week_manager.loadWeeks(context);
             week_manager.loadDailyMeals(context);
             week_manager.loadData(context, settings.getFirstDayOfWeek());
@@ -327,6 +328,7 @@ public class Database
     public void setCalendar(int year, int month, int day_of_month)
     {
         week_manager.setCalendar(year, month, day_of_month);
+        week_manager.saveLastCalendar(context);
 
         week_manager.loadData(context, settings.getFirstDayOfWeek());
         updateShoppingList();

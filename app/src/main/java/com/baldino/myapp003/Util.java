@@ -37,6 +37,7 @@ public class Util
     public static final String REC_COLLECTIONS_PATH = "recipe_types.txt";
     public static final String COLLECTIONS_FOLDER = "recipes_data";
 
+    public static final String LAST_DATE_PATH = "last_date.txt";
     public static final String WEEKS_LIST_PATH = "weeks_list.txt";
     public static final String WEEKS_DATA_FOLDER = "weeks_data";
     public static final String DAILY_MEALS_PATH = "daily_meals.txt";
